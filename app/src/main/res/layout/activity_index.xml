@@ -1,0 +1,88 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_activity_index"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".IndexActivity">
+
+    <FrameLayout
+        android:id="@+id/framelayout_activtiy_index"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+    <fragment
+        android:id="@+id/fragment_drawer_activity_index"
+        android:name="org.jiangtao.fragment.DrawerFragment"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        tools:layout="@layout/fragment_drawer" />
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="bottom">
+
+        <LinearLayout
+            android:id="@+id/linearlayout_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:showDividers="beginning"
+            android:divider="@drawable/index_main_menu_color">
+
+            <ImageButton
+                android:id="@+id/homepage"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:src="@drawable/hoempage" />
+
+            <ImageButton
+                android:id="@+id/search"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:src="@drawable/search" />
+
+            <ImageButton
+                android:id="@+id/camera"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:src="@drawable/camera" />
+
+            <ImageButton
+                android:id="@+id/message"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:src="@drawable/message" />
+
+            <ImageButton
+                android:id="@+id/personal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:src="@drawable/personal" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</android.support.v4.widget.DrawerLayout>
