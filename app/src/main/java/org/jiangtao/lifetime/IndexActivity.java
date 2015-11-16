@@ -1,17 +1,21 @@
 package org.jiangtao.lifetime;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-public class IndexActivity extends AppCompatActivity {
+import org.jiangtao.fragment.HomePageFragment;
+
+public class IndexActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DrawerLayout mDrawerLayout;
+    private  Fragment mHomePageFragment;
 
 
     @Override
@@ -20,6 +24,11 @@ public class IndexActivity extends AppCompatActivity {
         setContentView(R.layout.activity_index);
         drawerBindFragment();
         manageActionBar();
+        initFragment();
+        //默认显示的页面
+        getSupportFragmentManager().beginTransaction().replace(
+                R.id.framelayout_activtiy_index,mHomePageFragment
+        ).commit();
     }
 
     /**
@@ -32,15 +41,65 @@ public class IndexActivity extends AppCompatActivity {
                 (R.id.fragment_drawer_activity_index);
     }
 
+    /**
+     * 对actionabr的操作
+     */
     private void manageActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
+    /**
+     * 初始化所有fragment
+     */
+    private void  initFragment(){
+        mHomePageFragment = new HomePageFragment();
+    }
+
+
+    /**
+     * 坚挺menu菜单的动作事件
+     *
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ibtn_activity_index_homepage: {
+                getSupportFragmentManager().beginTransaction().replace(
+                        R.id.framelayout_activtiy_index,mHomePageFragment
+                ).commit();
+                break;
+            }
+            case R.id.ibtn_activity_index_search: {
+                getSupportFragmentManager().beginTransaction().replace(
+                        R.id.framelayout_activtiy_index,mHomePageFragment
+                ).commit();
+                break;
+            }
+            case R.id.ibtn_activity_index_pupopwindow: {
+
+                break;
+            }
+            case R.id.ibtn_activity_index_message: {
+                getSupportFragmentManager().beginTransaction().replace(
+                        R.id.framelayout_activtiy_index,mHomePageFragment
+                ).commit();
+                break;
+            }
+            case R.id.ibtn_activity_index_personal: {
+                getSupportFragmentManager().beginTransaction().replace(
+                        R.id.framelayout_activtiy_index,mHomePageFragment
+                ).commit();
+                break;
+            }
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_index, menu);
         return true;
     }

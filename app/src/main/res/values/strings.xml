@@ -8,5 +8,7 @@
     <string name="btn_come">进入</string>
 
 <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_home_page_newmood">动态</string>
+    <string name="fragment_home_page_recommend">推荐</string>
+    <string name="fragment_home_page_love">喜欢</string>
 </resources>

@@ -18,7 +18,7 @@ import org.jiangtao.utils.ConstantValues;
  * 应用欢迎界面
  */
 public class WelcomeActivity extends AppCompatActivity {
-    private static final int TIME = 4000;
+    private static final int TIME = 2000;
     private static final int GO_HOME = 1000;
     private static final int GO_GUIDE = 1001;
     private ImageView mWelcomeImageView;

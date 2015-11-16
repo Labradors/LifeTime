@@ -36,49 +36,54 @@
             android:divider="@drawable/index_main_menu_color">
 
             <ImageButton
-                android:id="@+id/homepage"
+                android:id="@+id/ibtn_activity_index_homepage"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#ffffff"
-                android:src="@drawable/hoempage" />
+                android:src="@drawable/hoempage"
+                android:onClick="onClick"/>
 
             <ImageButton
-                android:id="@+id/search"
+                android:id="@+id/ibtn_activity_index_search"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#ffffff"
-                android:src="@drawable/search" />
+                android:src="@drawable/search"
+                android:onClick="onClick"/>
 
             <ImageButton
-                android:id="@+id/camera"
+                android:id="@+id/ibtn_activity_index_pupopwindow"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#ffffff"
-                android:src="@drawable/camera" />
+                android:src="@drawable/camera"
+                android:onClick="onClick"/>
 
             <ImageButton
-                android:id="@+id/message"
+                android:id="@+id/ibtn_activity_index_message"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#ffffff"
-                android:src="@drawable/message" />
+                android:src="@drawable/message"
+                android:onClick="onClick"/>
 
             <ImageButton
-                android:id="@+id/personal"
+                android:id="@+id/ibtn_activity_index_personal"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#ffffff"
-                android:src="@drawable/personal" />
+                android:src="@drawable/personal"
+                android:onClick="onClick"/>
         </LinearLayout>
 
 
