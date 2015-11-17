@@ -26,6 +26,7 @@ public class HomePageFragment extends android.support.v4.app.Fragment {
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
     private List<android.support.v4.app.Fragment> mViewList;
+    private List<String> mTitleList;
 
     public HomePageFragment() {
     }
@@ -46,18 +47,16 @@ public class HomePageFragment extends android.support.v4.app.Fragment {
      */
     private void instanceTablayout() {
         mTabLayout = (TabLayout) mView.findViewById(R.id.tablayout_fragment_home_page);
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.fragment_home_page_newmood),0);
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.fragment_home_page_recommend),1);
-        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.fragment_home_page_love),2);
-
     }
 
     /**
      * 为viewpager设置适配器
      */
+
     private void viewPagerFuction() {
         mViewPager = (ViewPager) mView.findViewById(R.id.viewpager_fragment_home_age);
-        mPagerAdapter = new HomePageFragmentAdapter(getChildFragmentManager(), mViewList);
+        mPagerAdapter = new HomePageFragmentAdapter(getChildFragmentManager(),
+                mViewList, mTitleList);
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setTabsFromPagerAdapter(mPagerAdapter);
@@ -71,6 +70,10 @@ public class HomePageFragment extends android.support.v4.app.Fragment {
         mViewList.add(new DynamicFragment());
         mViewList.add(new RecommendFragment());
         mViewList.add(new LoveFragment());
+        mTitleList = new ArrayList<>();
+        mTitleList.add("动态");
+        mTitleList.add("推荐");
+        mTitleList.add("喜欢");
     }
 
 }

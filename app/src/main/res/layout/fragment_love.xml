@@ -4,16 +4,18 @@
     android:layout_height="match_parent"
     tools:context="org.jiangtao.fragment.LoveFragment">
 
-    <ImageView
-        android:id="@+id/imageview_fragment_love"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/welcome" />
+
 
     <ListView
         android:id="@+id/listview_fragment_love"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/imageview_fragment_love"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/not_network" />
 
 </FrameLayout>

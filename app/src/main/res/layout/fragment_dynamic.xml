@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:id="@+id/imageview_fragment_dynamic"
-        android:src="@drawable/welcome"/>
+        android:src="@drawable/not_network"/>
 
 
 </FrameLayout>
