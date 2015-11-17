@@ -9,6 +9,7 @@ import java.net.URL;
 
 /**
  * Created by mr-jiang on 15-11-13.
+ * 加载图片工具类
  */
 public class WelcomeLoadPicture {
     private static WelcomeLoadPicture welcomeLoadPicture;
