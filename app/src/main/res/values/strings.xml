@@ -22,4 +22,7 @@
     <string name="regest_btn_sent_checkemail">发送验证码到邮箱</string>
     <string name="regest_btn_regest">注册</string>
 
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
