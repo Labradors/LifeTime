@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="org.jiangtao.lifetime.RegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/regest_tv_uername"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:hint="@string/regest_et_hint_username" />
+
+        <EditText
+            android:id="@+id/regest_tv_password"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/regest_et_hint_password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/regest_tv_repassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/regest_et_hint_repassword"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/regest_tv_email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/regest_et_hint_email"
+            android:inputType="textEmailAddress" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/email_check"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="@string/regest_et_hint_checkemail" />
+
+            <Button
+                android:id="@+id/regest_btn_sentcheckemil"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/regest_shape"
+                android:text="@string/regest_btn_sent_checkemail" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/regest_shape"
+            android:text="@string/regest_btn_regest" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -7,8 +7,19 @@
     <string name="title_activity_guide">GuideActivity</string>
     <string name="btn_come">进入</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="fragment_home_page_newmood">动态</string>
     <string name="fragment_home_page_recommend">推荐</string>
     <string name="fragment_home_page_love">喜欢</string>
+    <string name="title_activity_regest">RegestActivity</string>
+
+    <!--Text of regest page-->
+    <string name="regest_et_hint_username">用户名</string>
+    <string name="regest_et_hint_password">密码</string>
+    <string name="regest_et_hint_repassword">重复密码</string>
+    <string name="regest_et_hint_email">电子邮箱</string>
+    <string name="regest_et_hint_checkemail">邮箱验证码</string>
+    <string name="regest_btn_sent_checkemail">发送验证码到邮箱</string>
+    <string name="regest_btn_regest">注册</string>
+
 </resources>
