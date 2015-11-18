@@ -14,28 +14,28 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/regest_tv_uername"
+            android:id="@+id/activity_register_tv_uername"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:hint="@string/regest_et_hint_username" />
 
         <EditText
-            android:id="@+id/regest_tv_password"
+            android:id="@+id/activty_register_tv_password"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/regest_et_hint_password"
             android:inputType="textPassword" />
 
         <EditText
-            android:id="@+id/regest_tv_repassword"
+            android:id="@+id/activity_register_tv_repassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/regest_et_hint_repassword"
             android:inputType="textPassword" />
 
         <EditText
-            android:id="@+id/regest_tv_email"
+            android:id="@+id/activity_rigester_tv_email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/regest_et_hint_email"
@@ -47,14 +47,14 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/email_check"
+                android:id="@+id/activity_register_email_check"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:hint="@string/regest_et_hint_checkemail" />
 
             <Button
-                android:id="@+id/regest_btn_sentcheckemil"
+                android:id="@+id/activity_register_btn_sentcheckemil"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
