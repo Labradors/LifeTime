@@ -12,17 +12,19 @@ import org.jiangtao.lifetime.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MessageFragment extends android.support.v4.app.Fragment {
+public class PersonalFragment extends android.support.v4.app.Fragment {
 
 
-    public MessageFragment() {
+    public PersonalFragment() {
+        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_personal, container, false);
     }
 
 

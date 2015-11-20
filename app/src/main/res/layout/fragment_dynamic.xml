@@ -1,24 +1,25 @@
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refresh_fragment_dynamic"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.jiangtao.fragment.DynamicFragment"
-    android:id="@+id/refresh_fragment_dynamic">
+    tools:context="org.jiangtao.fragment.DynamicFragment">
 
-    <FrameLayout
+    <!--<FrameLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+    <ImageView
+        android:id="@+id/imageview_fragment_dynamic"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/not_network" />
 
-        <ListView
-            android:id="@+id/listview_fragment_dynamic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <ListView
+        android:id="@+id/listview_fragment_dynamic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <ImageView
-            android:id="@+id/imageview_fragment_dynamic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/not_network" />
-    </FrameLayout>
+
+    <!--</FrameLayout>-->
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -11,12 +11,19 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.jiangtao.fragment.HomePageFragment;
+import org.jiangtao.fragment.MessageFragment;
+import org.jiangtao.fragment.PersonalFragment;
+import org.jiangtao.fragment.SearchFragment;
 
 
 public class IndexActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DrawerLayout mDrawerLayout;
-    private Fragment mHomePageFragment;
+    private HomePageFragment mHomePageFragment;
+    private MessageFragment mMessageFragment;
+    private SearchFragment mSearchFragment;
+    private PersonalFragment mPersonalFragment;
+    Fragment[] fragments = new Fragment[4];
 
 
     @Override
@@ -26,10 +33,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         drawerBindFragment();
         manageActionBar();
         initFragment();
-        //默认显示的页面
-        getSupportFragmentManager().beginTransaction().replace(
-                R.id.framelayout_activtiy_index, mHomePageFragment
-        ).commit();
     }
 
     /**
@@ -47,8 +50,8 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
      */
     private void manageActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
     }
 
     /**
@@ -56,6 +59,23 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
      */
     private void initFragment() {
         mHomePageFragment = new HomePageFragment();
+        mMessageFragment = new MessageFragment();
+        mSearchFragment = new SearchFragment();
+        mPersonalFragment = new PersonalFragment();
+        fragments[0] = mHomePageFragment;
+        fragments[1] = mSearchFragment;
+        fragments[2] = mMessageFragment;
+        fragments[3] = mPersonalFragment;
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.framelayout_activtiy_index, fragments[0])
+                .add(R.id.framelayout_activtiy_index, fragments[1])
+                .add(R.id.framelayout_activtiy_index, fragments[2])
+                .add(R.id.framelayout_activtiy_index, fragments[3])
+                .show(fragments[0])
+                .hide(fragments[1])
+                .hide(fragments[2])
+                .hide(fragments[3])
+                .commit();
     }
 
 
@@ -68,31 +88,48 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ibtn_activity_index_homepage: {
-                getSupportFragmentManager().beginTransaction().replace(
-                        R.id.framelayout_activtiy_index, mHomePageFragment
-                ).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .show(fragments[0])
+                        .hide(fragments[1])
+                        .hide(fragments[2])
+                        .hide(fragments[3])
+                        .commit();
                 break;
             }
             case R.id.ibtn_activity_index_search: {
-                getSupportFragmentManager().beginTransaction().replace(
-                        R.id.framelayout_activtiy_index, mHomePageFragment
-                ).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .show(fragments[1])
+                        .hide(fragments[0])
+                        .hide(fragments[2])
+                        .hide(fragments[3])
+                        .commit();
                 break;
             }
             case R.id.ibtn_activity_index_pupopwindow: {
-
+                getSupportFragmentManager().beginTransaction()
+                        .show(fragments[0])
+                        .hide(fragments[1])
+                        .hide(fragments[2])
+                        .hide(fragments[3])
+                        .commit();
                 break;
             }
             case R.id.ibtn_activity_index_message: {
-                getSupportFragmentManager().beginTransaction().replace(
-                        R.id.framelayout_activtiy_index, mHomePageFragment
-                ).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .show(fragments[2])
+                        .hide(fragments[0])
+                        .hide(fragments[1])
+                        .hide(fragments[3])
+                        .commit();
                 break;
             }
             case R.id.ibtn_activity_index_personal: {
-                getSupportFragmentManager().beginTransaction().replace(
-                        R.id.framelayout_activtiy_index, mHomePageFragment
-                ).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .show(fragments[3])
+                        .hide(fragments[1])
+                        .hide(fragments[2])
+                        .hide(fragments[0])
+                        .commit();
                 break;
             }
         }

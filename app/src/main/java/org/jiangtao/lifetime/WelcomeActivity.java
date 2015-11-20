@@ -33,7 +33,6 @@ public class WelcomeActivity extends AppCompatActivity {
             updateImageView();
         } else {
             mWelcomeImageView.setImageResource(R.drawable.welcome);
-//            mWelcomeImageView.setBackgroundResource(R.drawable.welcome);
         }
         init();
 
@@ -75,7 +74,7 @@ public class WelcomeActivity extends AppCompatActivity {
      * 从SharedPreferences中获取数据，查看是否是第一次登陆
      */
     private void init() {
-        SharedPreferences perPreferences = getSharedPreferences("MrJiang", MODE_PRIVATE);
+        SharedPreferences perPreferences = getSharedPreferences("Jiangtao", MODE_PRIVATE);
         boolean isFirstIn = perPreferences.getBoolean("isFirstIn", true);
         if (!isFirstIn) {
             handler.sendEmptyMessageDelayed(GO_HOME, TIME);

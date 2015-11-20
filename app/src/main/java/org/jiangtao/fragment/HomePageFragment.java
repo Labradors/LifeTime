@@ -27,6 +27,9 @@ public class HomePageFragment extends android.support.v4.app.Fragment {
     private PagerAdapter mPagerAdapter;
     private List<android.support.v4.app.Fragment> mViewList;
     private List<String> mTitleList;
+    private android.support.v4.app.Fragment mDynamicFragment;
+    private android.support.v4.app.Fragment mRecommendFragment;
+    private android.support.v4.app.Fragment mLoveFragment;
 
     public HomePageFragment() {
     }
@@ -66,10 +69,13 @@ public class HomePageFragment extends android.support.v4.app.Fragment {
      * 初始化mViewList
      */
     private void initmViewList() {
+        mDynamicFragment = new DynamicFragment();
+        mRecommendFragment = new RecommendFragment();
+        mLoveFragment = new LoveFragment();
         mViewList = new ArrayList<>();
-        mViewList.add(new DynamicFragment());
-        mViewList.add(new RecommendFragment());
-        mViewList.add(new LoveFragment());
+        mViewList.add(mDynamicFragment);
+        mViewList.add(mRecommendFragment);
+        mViewList.add(mLoveFragment);
         mTitleList = new ArrayList<>();
         mTitleList.add("动态");
         mTitleList.add("推荐");

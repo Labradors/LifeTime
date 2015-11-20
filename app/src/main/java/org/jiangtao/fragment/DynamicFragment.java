@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import org.jiangtao.lifetime.R;
 
@@ -20,6 +21,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
     private View mView;
     private ImageView mImageView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private ListView mListViewDynamic;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +37,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
      */
     private void initControl() {
         mImageView = (ImageView) mView.findViewById(R.id.imageview_fragment_dynamic);
+        mListViewDynamic = (ListView) mView.findViewById(R.id.listview_fragment_dynamic);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(
                 R.id.refresh_fragment_dynamic);
     }

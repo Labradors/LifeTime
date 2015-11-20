@@ -12,7 +12,7 @@ import org.jiangtao.lifetime.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends android.support.v4.app.Fragment {
 
 
     public SearchFragment() {
