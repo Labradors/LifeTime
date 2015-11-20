@@ -11,7 +11,20 @@
     <string name="fragment_home_page_newmood">动态</string>
     <string name="fragment_home_page_recommend">推荐</string>
     <string name="fragment_home_page_love">喜欢</string>
-    <string name="title_activity_regest">RegestActivity</string>
+    <string name="title_activity_regest">注册</string>
+
+    <!--           persional           -->
+    <string name="personal_login_btn">登录</string>
+    <string name="username_hint">账号/QQ/邮箱</string>
+    <string name="password_hint">密码</string>
+    <string name="personal_login_tv_text">未登录</string>
+    <string name="personal_tv_mymessage">消息</string>
+    <string name="personal_login_tv_recommend">心情</string>
+    <string name="personal_login_tv_note">便签</string>
+    <string name="personal_login_tv_friend">好友</string>
+    <string name="title_activity_login">登陸</string>
+    <string name="personal_login_tv_regest">新用户</string>
+    <string name="personal_login_tv_forget">忘记密码</string>
 
     <!--Text of regest page-->
     <string name="regest_et_hint_username">用户名</string>

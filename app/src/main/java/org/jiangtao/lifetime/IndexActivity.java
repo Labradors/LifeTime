@@ -150,4 +150,14 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void personalOnClick(View v){
+        switch (v.getId()){
+            case R.id.personal_tv_nologin:
+                android.content.Intent intent=new android.content.Intent();
+                intent.setClass(IndexActivity.this, LoginActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }
