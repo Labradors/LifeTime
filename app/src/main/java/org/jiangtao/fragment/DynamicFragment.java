@@ -46,8 +46,8 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
      * 设置刷新界面的颜色
      */
     private void swipeColorListener() {
-//        mSwipeRefreshLayout.setColorSchemeColors(android.R.color.holo_blue_bright, android.R.color
-//                .holo_green_light, android.R.color.holo_red_light);
+        mSwipeRefreshLayout.setColorSchemeColors(android.R.color.holo_blue_bright, android.R.color
+                .holo_green_light, android.R.color.holo_red_light);
         mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
