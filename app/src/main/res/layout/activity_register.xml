@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.jiangtao.lifetime.RegisterActivity">
+    tools:context="org.jiangtao.lifetime.RegisterActivity"
+    android:id="@+id/register_container">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +15,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/activity_register_tv_uername"
+            android:id="@+id/activity_register_et_username"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -35,7 +36,7 @@
             android:inputType="textPassword" />
 
         <EditText
-            android:id="@+id/activity_rigester_tv_email"
+            android:id="@+id/activity_register_tv_email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/regest_et_hint_email"
@@ -51,7 +52,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="@string/regest_et_hint_checkemail" />
+                android:hint="@string/regest_et_hint_checkemail"
+                android:inputType="numberSigned" />
 
             <Button
                 android:id="@+id/activity_register_btn_sentcheckemil"
@@ -61,16 +63,19 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/regest_shape"
+                android:onClick="registerOnClick"
                 android:text="@string/regest_btn_sent_checkemail" />
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_activity_register"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="50dp"
             android:background="@drawable/regest_shape"
+            android:onClick="registerOnClick"
             android:text="@string/regest_btn_regest" />
 
     </LinearLayout>
