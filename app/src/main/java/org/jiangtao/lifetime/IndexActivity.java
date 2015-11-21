@@ -14,6 +14,7 @@ import org.jiangtao.fragment.HomePageFragment;
 import org.jiangtao.fragment.MessageFragment;
 import org.jiangtao.fragment.PersonalFragment;
 import org.jiangtao.fragment.SearchFragment;
+import org.jiangtao.utils.TurnLoginAndRegister;
 
 
 public class IndexActivity extends AppCompatActivity implements View.OnClickListener {
@@ -154,9 +155,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     public void personalOnClick(View v){
         switch (v.getId()){
             case R.id.personal_tv_nologin:
-                android.content.Intent intent=new android.content.Intent();
-                intent.setClass(IndexActivity.this, LoginActivity.class);
-                startActivity(intent);
+                TurnLoginAndRegister.turnLoginActivity(IndexActivity.this);
                 break;
         }
     }

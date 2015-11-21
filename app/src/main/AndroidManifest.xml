@@ -36,6 +36,10 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
+        <activity
+            android:name=".ChooseHeadPictureActivity"
+            android:label="@string/title_activity_choose_head_picture" >
+        </activity>
     </application>
 
 </manifest>
