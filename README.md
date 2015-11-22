@@ -1,3 +1,4 @@
 # LifeTime
 A android client about life record 
-pull test
+## Volley
+init volley in lifeapplication,completed registerActivity

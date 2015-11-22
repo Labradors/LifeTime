@@ -106,7 +106,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 WelcomeLoadPicture welcomeLoadPicture = WelcomeLoadPicture.getInstance();
                 try {
                     final Bitmap bitmap = welcomeLoadPicture.loadImageFromLifeTime(ConstantValues
-                            .url + "welcome.action");
+                            .welcomeUrl);
                     runOnUiThread(new Runnable() {
 
                         @Override

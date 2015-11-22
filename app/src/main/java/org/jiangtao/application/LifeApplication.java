@@ -7,10 +7,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import org.jiangtao.utils.LogUtils;
 
 /**
  * Created by mr-jiang on 15-11-13.
+ * 全局application
  */
 public class LifeApplication extends Application {
     private static final String TAG = LifeApplication.class.getSimpleName();
@@ -20,10 +24,36 @@ public class LifeApplication extends Application {
     public static boolean isPhoneNetWork = false;
     //判断手机是否连接wifi
     public static boolean isWiFiNetWork = false;
+    //Volley网路请求singleton
+    private static RequestQueue mRequestQueue;
+    //全局LifeApplication
+    private static LifeApplication lifeApplication;
+
+    /**
+     * 单例application
+     *
+     * @return
+     */
+    public static LifeApplication getInstance() {
+        return lifeApplication;
+    }
+
+    /**
+     * 单例requestQueue
+     *
+     * @return
+     */
+    public static RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(getInstance());
+        }
+        return mRequestQueue;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        lifeApplication = this;
         hasNetWork = isNetworkAvailable();
         LogUtils.d(TAG, "1.>>>>" + hasNetWork);
         isWiFiNetWork = isWiFiEnabled();
@@ -66,12 +96,8 @@ public class LifeApplication extends Application {
                 getSystemService(CONNECTIVITY_SERVICE);
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService
                 (Context.TELEPHONY_SERVICE);
-//        return ((networkManager != null) && (networkManager.getActiveNetworkInfo()
-//                .getState() == NetworkInfo.State.CONNECTED) || (telephonyManager.
-//                getNetworkType() == TelephonyManager.NETWORK_TYPE_UMTS));
-
         if (networkManager != null) {
-            if ((networkManager.getActiveNetworkInfo()!=null)) {
+            if ((networkManager.getActiveNetworkInfo() != null)) {
                 if (networkManager.getActiveNetworkInfo()
                         .getState() == NetworkInfo.State.CONNECTED) {
                     if (telephonyManager.

@@ -35,8 +35,7 @@ public class ValidateEmailAndNumber {
         String check = "^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$";
         Pattern regex = Pattern.compile(check);
         Matcher matcher = regex.matcher(mEmail);
-        boolean isMatched = matcher.matches();
-        return isMatched;
+        return matcher.matches();
     }
 
     /**
