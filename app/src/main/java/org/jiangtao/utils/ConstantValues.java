@@ -5,4 +5,8 @@ package org.jiangtao.utils;
  */
 public class ConstantValues {
     public static final String url = "http://192.168.1.117:8080/LifeTime/";
+    //欢迎界面的url
+    public static final String welcomeUrl = url + "welcome.action";
+    //请求获得验证码
+    public static final String verificationCodeUrl = url+"sendvalidate.action";
 }

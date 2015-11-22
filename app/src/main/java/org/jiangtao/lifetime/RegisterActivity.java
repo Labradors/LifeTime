@@ -1,6 +1,7 @@
 package org.jiangtao.lifetime;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,13 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import org.jiangtao.NetWorkUtils.VerificationCode;
 import org.jiangtao.utils.ValidateEmailAndNumber;
 
 /**
  * 根据邮箱获得注册信息
  */
 public class RegisterActivity extends AppCompatActivity {
-
+    private final static String TAG = RegisterActivity.class.getSimpleName();
     private EditText mUserNameEditText;
     private EditText mPassWordEditText;
     private EditText mRepeatPassWordEditText;
@@ -28,10 +30,11 @@ public class RegisterActivity extends AppCompatActivity {
     private String mRepeatPassWord;
     private String mEmail;
     private String mValidatValue;
+    //返回的验证码校验
     private String netWorkValidatevalue;
     private RelativeLayout container;
-    private DelayRegisterButtonThread registerThread;
-    private DelaySendValidateButtonThread sendValidateThread;
+    private CountDownTimer mCountDownTimer;
+    private long timeRemain;
 
 
     @Override
@@ -55,12 +58,11 @@ public class RegisterActivity extends AppCompatActivity {
         container = (RelativeLayout) findViewById(R.id.register_container);
         mSendValidateButton = (Button) findViewById(R.id.activity_register_btn_sentcheckemil);
         mRegisterButton = (Button) findViewById(R.id.btn_activity_register);
-        sendValidateThread = new DelaySendValidateButtonThread();
-        registerThread = new DelayRegisterButtonThread();
     }
 
     /**
      * 两个按钮的单击事件
+     * 联网获取图片和json
      *
      * @param view
      */
@@ -68,17 +70,24 @@ public class RegisterActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btn_activity_register: {
                 if (validateValue()) {
-                    //网络请求
+                    /**
+                     * 发送网络请求
+                     */
+
                 }
-                registerThread.start();
+
+
                 break;
             }
             case R.id.activity_register_btn_sentcheckemil: {
                 if (validateValue()) {
+                    flag = 2;
+                    mSendValidateButton.setEnabled(false);
+                    timeRemain(60l);
                     //网络请求
+                    VerificationCode verificationCode = VerificationCode.getInstance();
+                    netWorkValidatevalue = verificationCode.getVerificationCode(mEmail);
                 }
-                flag = 2;
-                sendValidateThread.start();
                 break;
             }
         }
@@ -99,11 +108,12 @@ public class RegisterActivity extends AppCompatActivity {
      * 发送到服务器之前的检查
      */
     private boolean validateValue() {
+        getEditTextValue();
         if (flag == 1) {
             if (mUserName != null && mPassWord != null && mRepeatPassWord != null
                     && mEmail != null) {
-
                 if (ValidateEmailAndNumber.isEmail(mEmail)) {
+
                     if (ValidateEmailAndNumber.isCommonValue(mPassWord, mRepeatPassWord)) {
                         return true;
                     } else {
@@ -135,74 +145,35 @@ public class RegisterActivity extends AppCompatActivity {
         return false;
     }
 
-    /**
-     * 新建一个线程，用于让用户不能一直点击发送验证码按钮
-     * 没有开启线程
-     */
-    private class DelaySendValidateButtonThread extends Thread {
-        @Override
-        public void run() {
-            try {
-
-                if (mSendValidateButton.isEnabled()) {
-                    runOnUiThread(new Thread() {
-                        @Override
-                        public void run() {
-                            mSendValidateButton.setEnabled(false);
-                        }
-                    });
-                } else {
-                    runOnUiThread(new Thread() {
-                        @Override
-                        public void run() {
-                            mSendValidateButton.setEnabled(true);
-                        }
-                    });
-                }
-                Thread.sleep(60000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    /**
-     * 新建一个线程，用于让用户不能一直点击注册按钮、
-     * 没有开启线程
-     */
-    private class DelayRegisterButtonThread extends Thread {
-        @Override
-        public void run() {
-            try {
-
-                if (mSendValidateButton.isEnabled()) {
-                    runOnUiThread(new Thread() {
-                        @Override
-                        public void run() {
-                            mRegisterButton.setEnabled(false);
-                        }
-                    });
-                } else {
-                    runOnUiThread(new Thread() {
-                        @Override
-                        public void run() {
-                            mRegisterButton.setEnabled(true);
-                        }
-                    });
-                }
-                Thread.sleep(60000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        sendValidateThread.interrupt();
-        registerThread.interrupt();
         finish();
     }
+
+    /**
+     * 按钮防止长点击
+     *
+     * @param time
+     */
+    public void timeRemain(long time) {
+        mCountDownTimer = new CountDownTimer(time * 1000, 1000) {
+            @Override
+            public void onTick(long time) {
+                mSendValidateButton.setText(time / 1000 + "秒");
+                timeRemain = time / 1000;
+                if (time <= 0) {
+                    timeRemain = 60l;
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                mSendValidateButton.setText(R.string.regest_btn_sent_checkemail);
+                mSendValidateButton.setEnabled(true);
+            }
+        }.start();
+    }
+
 }
