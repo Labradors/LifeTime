@@ -14,7 +14,7 @@ import org.jiangtao.fragment.HomePageFragment;
 import org.jiangtao.fragment.MessageFragment;
 import org.jiangtao.fragment.PersonalFragment;
 import org.jiangtao.fragment.SearchFragment;
-import org.jiangtao.utils.TurnLoginAndRegister;
+import org.jiangtao.utils.TurnActivity;
 
 
 public class IndexActivity extends AppCompatActivity implements View.OnClickListener {
@@ -155,7 +155,25 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     public void personalOnClick(View v){
         switch (v.getId()){
             case R.id.personal_tv_nologin:
-                TurnLoginAndRegister.turnLoginActivity(IndexActivity.this);
+                TurnActivity.turnLoginActivity(IndexActivity.this);
+                break;
+            case R.id.personal_tv_message:
+                getSupportFragmentManager().beginTransaction()
+                        .show(fragments[2])
+                        .hide(fragments[0])
+                        .hide(fragments[1])
+                        .hide(fragments[3])
+                        .commit();
+                break;
+        }
+    }
+    public void messageOnClik(View v){
+        switch (v.getId()){
+            case R.id.message_tv_mycollection:
+                TurnActivity.turnMyCollectionActivity(IndexActivity.this);
+                break;
+            case R.id.message_tv_mydynamic:
+                TurnActivity.turnMyDynamicActivity(IndexActivity.this);
                 break;
         }
     }
