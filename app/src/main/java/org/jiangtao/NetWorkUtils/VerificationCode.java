@@ -58,7 +58,7 @@ public class VerificationCode {
         });
         jsonRequest.setTag("verificationCode");
         LifeApplication lifeApplication = LifeApplication.getInstance();
-        LifeApplication.getRequestQueue().add(jsonRequest);
+        lifeApplication.getRequestQueue().add(jsonRequest);
         return result;
     }
 

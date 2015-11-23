@@ -72,7 +72,11 @@ public class RegisterActivity extends AppCompatActivity {
                 if (validateValue()) {
                     /**
                      * 发送网络请求
+                     * 需要发送图片，volley必须添加multiparty方法。
+                     * 重写这个方法后，就可以用了
+                     *
                      */
+
 
                 }
 
