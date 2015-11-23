@@ -48,5 +48,20 @@
     <string name="validate_error">验证码不正确，请重新输入</string>
 
     <!-- 提示信息-->
+    
+    <!--Message Page-->
+    <string name="messagepage_mycollection">我的收藏</string>
+    <string name="messagepage_aboutme">与我相关</string>
+    <string name="messagepage_recommended">精品推荐</string>
+    <string name="messagepage_myfriends">我的朋友</string>
+    <string name="messagepage_mydynamic">我的动态</string>
+    <string name="messagepage_likes">喜欢</string>
 
+    
+    <!--Activity 我的动态-->
+    <string name="title_activity_my_dynamic">我的动态</string>
+
+
+    <!--MyCollection Activity 我的收藏-->
+    <string name="title_activity_my_collection">我的收藏</string>
 </resources>

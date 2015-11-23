@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -15,13 +16,13 @@
             android:layout_height="match_parent"
             android:layout_marginTop="40dp"
             android:clickable="true"
-            android:onClick="personalOnClick"
-            android:gravity="center"
             android:drawablePadding="-20dp"
-            android:textSize="14pt"
-            android:textColor="#ffffff"
+            android:drawableTop="@drawable/nologinuserheadpic"
+            android:gravity="center"
+            android:onClick="personalOnClick"
             android:text="@string/personal_login_tv_text"
-            android:drawableTop="@drawable/nologinuserheadpic"/>
+            android:textColor="#ffffff"
+            android:textSize="14pt" />
 
     </LinearLayout>
 
@@ -32,52 +33,62 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/personal_tv_message"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:gravity="center_vertical"
-            android:drawablePadding="20dp"
+            android:clickable="true"
             android:drawableLeft="@drawable/mymessage"
-            android:text="@string/personal_tv_mymessage"/>
+            android:drawablePadding="20dp"
+            android:gravity="center_vertical"
+            android:onClick="personalOnClick"
+            android:text="@string/personal_tv_mymessage" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B8B8B8"/>
+            android:background="#B8B8B8" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:gravity="center_vertical"
-            android:drawablePadding="20dp"
             android:drawableLeft="@drawable/recommend"
-            android:text="@string/personal_login_tv_recommend"/>
+            android:drawablePadding="20dp"
+            android:gravity="center_vertical"
+            android:text="@string/personal_login_tv_recommend" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B8B8B8"/>
+            android:background="#B8B8B8" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:gravity="center_vertical"
-            android:drawablePadding="20dp"
             android:drawableLeft="@drawable/note"
-            android:text="@string/personal_login_tv_note"/>
+            android:drawablePadding="20dp"
+            android:gravity="center_vertical"
+            android:text="@string/personal_login_tv_note" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B8B8B8"/>
+            android:background="#B8B8B8" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:gravity="center_vertical"
-            android:drawablePadding="20dp"
             android:drawableLeft="@drawable/friend"
-            android:text="@string/personal_login_tv_friend"/>
+            android:drawablePadding="20dp"
+            android:gravity="center_vertical"
+            android:text="@string/personal_login_tv_friend" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B8B8B8"/>
+            android:background="#B8B8B8" />
     </LinearLayout>
 </LinearLayout>

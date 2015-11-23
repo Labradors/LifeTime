@@ -40,6 +40,14 @@
             android:name=".ChooseHeadPictureActivity"
             android:label="@string/title_activity_choose_head_picture" >
         </activity>
+        <activity
+            android:name=".DynamicActivity"
+            android:label="@string/title_activity_my_dynamic" >
+        </activity>
+        <activity
+            android:name=".CollectionActivity"
+            android:label="@string/title_activity_my_collection" >
+        </activity>
     </application>
 
 </manifest>
