@@ -1,5 +1,6 @@
 package org.jiangtao.lifetime;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
@@ -9,8 +10,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import org.jiangtao.NetWorkUtils.VerificationCode;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.jiangtao.application.LifeApplication;
+import org.jiangtao.utils.ConstantValues;
+import org.jiangtao.utils.LogUtils;
 import org.jiangtao.utils.ValidateEmailAndNumber;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 根据邮箱获得注册信息
@@ -35,6 +49,8 @@ public class RegisterActivity extends AppCompatActivity {
     private RelativeLayout container;
     private CountDownTimer mCountDownTimer;
     private long timeRemain;
+    private JsonObjectRequest request;
+    private JsonObjectRequest saveUserInformation;
 
 
     @Override
@@ -66,35 +82,118 @@ public class RegisterActivity extends AppCompatActivity {
      *
      * @param view
      */
-    public void registerOnClick(View view) {
+    public void registerOnClick(View view) throws JSONException {
         switch (view.getId()) {
+            /**
+             * 点击注册
+             */
             case R.id.btn_activity_register: {
-                if (validateValue()) {
-                    /**
-                     * 发送网络请求
-                     * 需要发送图片，volley必须添加multiparty方法。
-                     * 重写这个方法后，就可以用了
-                     *
-                     */
+                getEditTextValue();
+                if (ValidateEmailAndNumber.isNumeric(mValidatValue)) {
+                    if (netWorkValidatevalue.equals(mValidatValue)) {
+                        /**
+                         * 保存用户信息到数据库
+                         *
+                         */
+                        saveUserInformation = new JsonObjectRequest(Request.Method
+                                .POST, ConstantValues.registerInformationUrl,
+                                null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject jsonObject) {
+                                        try {
+                                            /**
+                                             * 参数1：flag string类型的变量，表示true或者false
+                                             * 参数2:id string类型的变量，传入下一个activity，根据值插入用户表中，插入的是文件的地址
+                                             */
+                                            if (jsonObject.getString("flag").equals("true")) {
+                                                /**
+                                                 * 开启另外一个activity
+                                                 * 然后让用户选择自己的头像
+                                                 */
+                                                Intent intent = new Intent(RegisterActivity.this, ChooseHeadPictureActivity.class);
+                                                intent.putExtra("id", jsonObject.getString("id"));
+                                                startActivity(intent);
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
 
-
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                Map<String, String> params = new HashMap<String, String>();
+                                params.put("userName", mUserName);
+                                params.put("passWord", mPassWord);
+                                params.put("email", mEmail);
+                                return params;
+                            }
+                        };
+                    } else {
+                        Snackbar.make(container, R.string.validate_error,
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Snackbar.make(container, R.string.validate_error,
+                            Snackbar.LENGTH_SHORT).show();
                 }
-
-
+                request.setTag("saveUserInformation");
+                LifeApplication.getRequestQueue().add(saveUserInformation);
                 break;
             }
+            /**
+             * 点击发送验证码
+             */
             case R.id.activity_register_btn_sentcheckemil: {
+                flag = 1;
                 if (validateValue()) {
-                    flag = 2;
                     mSendValidateButton.setEnabled(false);
                     timeRemain(60l);
-                    //网络请求
-                    VerificationCode verificationCode = VerificationCode.getInstance();
-                    netWorkValidatevalue = verificationCode.getVerificationCode(mEmail);
+                    //网络请求s
+                    request = new JsonObjectRequest(Request.Method.GET,
+                            ConstantValues.verificationCodeUrl + "?email=" + mEmail, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject jsonObject) {
+                                    try {
+                                        netWorkValidatevalue = jsonObject.getString("email");
+                                        LogUtils.d(TAG, ">>>>>>>" + netWorkValidatevalue);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    LogUtils.d(TAG, jsonObject.toString());
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            LogUtils.d(TAG, volleyError.toString());
+                        }
+                    });
+                    request.setTag("verificationCode");
+                    LifeApplication.getRequestQueue().add(request);
                 }
                 break;
             }
         }
+    }
+
+    /**
+     * 根据email获得其json对象
+     *
+     * @param mEmail
+     * @return
+     * @throws JSONException
+     */
+    public JSONObject getJsonObject(String mEmail) throws JSONException {
+        JSONObject email = new JSONObject();
+        email.put("email", mEmail);
+        LogUtils.d(TAG, mEmail);
+        return email;
     }
 
     /**
@@ -112,8 +211,8 @@ public class RegisterActivity extends AppCompatActivity {
      * 发送到服务器之前的检查
      */
     private boolean validateValue() {
-        getEditTextValue();
         if (flag == 1) {
+            getEditTextValue();
             if (mUserName != null && mPassWord != null && mRepeatPassWord != null
                     && mEmail != null) {
                 if (ValidateEmailAndNumber.isEmail(mEmail)) {
@@ -133,27 +232,15 @@ public class RegisterActivity extends AppCompatActivity {
                     flag = 1;
                 }
             }
-        } else if (flag == 2) {
-            if (ValidateEmailAndNumber.isNumeric(mValidatValue)) {
-                if (mValidatValue.equals(netWorkValidatevalue)) {
-                    return true;
-                } else {
-                    Snackbar.make(container, R.string.validate_error,
-                            Snackbar.LENGTH_SHORT).show();
-                }
-            } else {
-                Snackbar.make(container, R.string.validate_error,
-                        Snackbar.LENGTH_SHORT).show();
-            }
         }
         return false;
     }
 
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        finish();
+    protected void onStop() {
+        super.onStop();
+        LifeApplication.getRequestQueue().cancelAll("verificationCode");
     }
 
     /**
