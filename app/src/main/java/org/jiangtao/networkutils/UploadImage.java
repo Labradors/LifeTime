@@ -1,4 +1,4 @@
-package org.jiangtao.NetWorkUtils;
+package org.jiangtao.networkutils;
 
 import com.android.volley.Request;
 import com.android.volley.Response;

@@ -5,19 +5,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import org.jiangtao.fragment.HomePageFragment;
 import org.jiangtao.fragment.MessageFragment;
 import org.jiangtao.fragment.PersonalFragment;
 import org.jiangtao.fragment.SearchFragment;
+import org.jiangtao.utils.Popupwindow;
 import org.jiangtao.utils.TurnActivity;
 
 
 public class IndexActivity extends AppCompatActivity implements View.OnClickListener {
+
+    //自定义弹框类
+    Popupwindow menuWindow;
+    private ImageButton mBtnPopupwindow;
 
     private DrawerLayout mDrawerLayout;
     private HomePageFragment mHomePageFragment;
@@ -34,6 +42,44 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         drawerBindFragment();
         manageActionBar();
         initFragment();
+        controlsInitialize();
+
+        /**
+         * Popupwindow
+         */
+        mBtnPopupwindow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuWindow=new Popupwindow(IndexActivity.this,itemsOnClick);
+                menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+            }
+        });
+
+    }
+    //为弹出popupwindow窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
+
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.pup_btn_first:
+                    break;
+                case R.id.pup_btn_second:
+                    break;
+                case R.id.pup_btn_third:
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+    /**
+     * indexactivity中初始化控件
+     */
+    private void controlsInitialize(){
+
+        mBtnPopupwindow= (ImageButton) findViewById(R.id.ibtn_activity_index_pupopwindow);
+
     }
 
     /**
@@ -106,15 +152,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                         .commit();
                 break;
             }
-            case R.id.ibtn_activity_index_pupopwindow: {
-                getSupportFragmentManager().beginTransaction()
-                        .show(fragments[0])
-                        .hide(fragments[1])
-                        .hide(fragments[2])
-                        .hide(fragments[3])
-                        .commit();
-                break;
-            }
             case R.id.ibtn_activity_index_message: {
                 getSupportFragmentManager().beginTransaction()
                         .show(fragments[2])
@@ -177,4 +214,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+
+
 }

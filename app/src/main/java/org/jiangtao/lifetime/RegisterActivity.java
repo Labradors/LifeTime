@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
     private RelativeLayout container;
     private CountDownTimer mCountDownTimer;
     private long timeRemain;
-    JsonObjectRequest request;
+    private JsonObjectRequest request;
     private JsonObjectRequest saveUserInformation;
 
 
