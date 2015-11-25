@@ -7,11 +7,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
+import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import org.jiangtao.utils.LogUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by mr-jiang on 15-11-13.
@@ -29,6 +34,12 @@ public class LifeApplication extends Application {
     private static LifeApplication lifeApplication;
 
     public static Call call;
+    //判断是否登陆
+    public static boolean isLogin;
+    //设置OkHttpClient
+    public static OkHttpClient mOkHttpClient = new OkHttpClient();
+    //设置response
+    public static Response response;
 
     /**
      * 单例application
@@ -40,15 +51,36 @@ public class LifeApplication extends Application {
     }
 
     /**
+     * 获得响应值
+     *
+     * @param request
+     * @return
+     * @throws IOException
+     */
+    public static Response getResponse(Request request) throws IOException {
+        response = mOkHttpClient.newCall(request).execute();
+        return response;
+    }
+
+
+
+    /**
      * 获取用户回调
      *
      * @param request
      * @return
      */
     public static Call getCall(Request request) {
-        OkHttpClient mOkHttpClient = new OkHttpClient();
+
         call = mOkHttpClient.newCall(request);
         return call;
+    }
+
+    public void CacheResponse(File cacheDirectory) throws Exception {
+        int cacheSize = 10 * 1024 * 1024; // 10 MiB
+        Cache cache = new Cache(cacheDirectory, cacheSize);
+        mOkHttpClient = new OkHttpClient();
+        mOkHttpClient.setCache(cache);
     }
 
 
@@ -56,6 +88,13 @@ public class LifeApplication extends Application {
     public void onCreate() {
         super.onCreate();
         lifeApplication = this;
+        //设置缓存目录
+        File sdcache = getExternalCacheDir();
+        try {
+            CacheResponse(sdcache.getAbsoluteFile());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         hasNetWork = isNetworkAvailable();
         LogUtils.d(TAG, "1.>>>>" + hasNetWork);
         isWiFiNetWork = isWiFiEnabled();
