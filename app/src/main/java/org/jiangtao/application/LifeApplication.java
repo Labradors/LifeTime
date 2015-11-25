@@ -7,8 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
 
 import org.jiangtao.utils.LogUtils;
 
@@ -24,10 +25,10 @@ public class LifeApplication extends Application {
     public static boolean isPhoneNetWork = false;
     //判断手机是否连接wifi
     public static boolean isWiFiNetWork = false;
-    //Volley网路请求singleton
-    private static RequestQueue mRequestQueue;
     //全局LifeApplication
     private static LifeApplication lifeApplication;
+
+    public static Call call;
 
     /**
      * 单例application
@@ -39,16 +40,17 @@ public class LifeApplication extends Application {
     }
 
     /**
-     * 单例requestQueue
+     * 获取用户回调
      *
+     * @param request
      * @return
      */
-    public static RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(getInstance());
-        }
-        return mRequestQueue;
+    public static Call getCall(Request request) {
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        call = mOkHttpClient.newCall(request);
+        return call;
     }
+
 
     @Override
     public void onCreate() {
