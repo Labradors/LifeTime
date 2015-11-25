@@ -15,7 +15,7 @@
 
     <!--           personal           -->
     <string name="personal_login_btn">登录</string>
-    <string name="username_hint">账号/QQ/邮箱</string>
+    <string name="username_hint">邮箱</string>
     <string name="password_hint">密码</string>
     <string name="personal_login_tv_text">未登录</string>
     <string name="personal_tv_mymessage">消息</string>
@@ -46,6 +46,8 @@
     <string name="password_error">密码不相同，请重新输入</string>
     <string name="email_error">邮箱格式不正确，请重新输入</string>
     <string name="validate_error">验证码不正确，请重新输入</string>
+    <string name="runtime_error">运行时错误</string>
+    <string name="please_register">没有该账号，请注册</string>
 
     <!-- 提示信息-->
     
@@ -66,7 +68,9 @@
     <string name="title_activity_my_collection">我的收藏</string>
 
     <!--布局展示内容（写死的，就是给你看布局效果的）-->
+    <!-- 我fuck-->
     <style name="collection_username">王豪</style>
     <style name="collection_publishtime">2015-11-24</style>
     <style name="collection_content">人生在世，高潮时享受成就，低谷时享受人生。机制不对，好人受累；流程不对，努力白费。遇顺境，处之淡然；遇逆境，处之泰然。人生如果走错了方向，止步就是进步。</style>
+    <string name="title_activity_retrieve_password">RetrievePasswordActivity</string>
 </resources>

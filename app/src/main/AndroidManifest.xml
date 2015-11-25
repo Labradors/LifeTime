@@ -48,6 +48,10 @@
             android:name=".CollectionActivity"
             android:label="@string/title_activity_my_collection" >
         </activity>
+        <activity
+            android:name=".RetrievePasswordActivity"
+            android:label="@string/title_activity_retrieve_password" >
+        </activity>
     </application>
 
 </manifest>

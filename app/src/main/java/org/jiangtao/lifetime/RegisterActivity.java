@@ -10,11 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.utils.ConstantValues;
@@ -23,8 +22,7 @@ import org.jiangtao.utils.ValidateEmailAndNumber;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 /**
  * 根据邮箱获得注册信息
@@ -48,9 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String netWorkValidatevalue;
     private RelativeLayout container;
     private CountDownTimer mCountDownTimer;
-    private long timeRemain;
-    private JsonObjectRequest request;
-    private JsonObjectRequest saveUserInformation;
+    public long timeRemain;
 
 
     @Override
@@ -95,56 +91,46 @@ public class RegisterActivity extends AppCompatActivity {
                          * 保存用户信息到数据库
                          *
                          */
-                        saveUserInformation = new JsonObjectRequest(Request.Method
-                                .POST, ConstantValues.registerInformationUrl,
-                                null,
-                                new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject jsonObject) {
-                                        try {
-                                            /**
-                                             * 参数1：flag string类型的变量，表示true或者false
-                                             * 参数2:id string类型的变量，传入下一个activity，根据值插入用户表中，插入的是文件的地址
-                                             */
-                                            if (jsonObject.getString("flag").equals("true")) {
-                                                /**
-                                                 * 开启另外一个activity
-                                                 * 然后让用户选择自己的头像
-                                                 */
-                                                Intent intent = new Intent(RegisterActivity.this, ChooseHeadPictureActivity.class);
-                                                intent.putExtra("id", jsonObject.getString("id"));
-                                                startActivity(intent);
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }, new Response.ErrorListener() {
+                        FormEncodingBuilder builder = new FormEncodingBuilder();
+                        builder.add("userName", mUserName);
+                        builder.add("passWord", mPassWord);
+                        builder.add("email", mEmail);
+                        Request request = new Request.Builder().url(
+                                ConstantValues.registerInformationUrl
+                        ).post(builder.build()).build();
+                        LifeApplication.getCall(request).enqueue(new Callback() {
                             @Override
-                            public void onErrorResponse(VolleyError volleyError) {
+                            public void onFailure(Request request, IOException e) {
+                                LogUtils.d(TAG, request.toString());
+                            }
+
+                            @Override
+                            public void onResponse(Response response) throws IOException {
+                                String emailJson = response.body().string();
+                                LogUtils.d(TAG, emailJson);
+                                try {
+                                    JSONObject object = new JSONObject(emailJson);
+                                    boolean flag = object.getBoolean("flag");
+                                    int id = object.getInt("id");
+                                    if (flag){
+                                        Intent intent = new Intent(RegisterActivity.this,
+                                                LoginActivity.class);
+                                        intent.putExtra("id",id);
+                                        startActivity(intent);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
                             }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("userName", mUserName);
-                                params.put("passWord", mPassWord);
-                                params.put("email", mEmail);
-                                return params;
-                            }
-                        };
-                    } else {
-                        Snackbar.make(container, R.string.validate_error,
-                                Snackbar.LENGTH_SHORT).show();
+                        });
+                        break;
+                    }else {
+                        throw new RuntimeException("获取数据失败");
                     }
-                } else {
-                    Snackbar.make(container, R.string.validate_error,
-                            Snackbar.LENGTH_SHORT).show();
+                }else {
+                    throw new RuntimeException("获取数据失败");
                 }
-                request.setTag("saveUserInformation");
-                LifeApplication.getRequestQueue().add(saveUserInformation);
-                break;
             }
             /**
              * 点击发送验证码
@@ -155,45 +141,35 @@ public class RegisterActivity extends AppCompatActivity {
                     mSendValidateButton.setEnabled(false);
                     timeRemain(60l);
                     //网络请求s
-                    request = new JsonObjectRequest(Request.Method.GET,
-                            ConstantValues.verificationCodeUrl + "?email=" + mEmail, null,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject jsonObject) {
-                                    try {
-                                        netWorkValidatevalue = jsonObject.getString("email");
-                                        LogUtils.d(TAG, ">>>>>>>" + netWorkValidatevalue);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    LogUtils.d(TAG, jsonObject.toString());
-                                }
-                            }, new Response.ErrorListener() {
+                    FormEncodingBuilder builder = new FormEncodingBuilder();
+                    builder.add("email", mEmail);
+                    Request request = new Request.Builder().url(
+                            ConstantValues.verificationCodeUrl
+                    ).post(builder.build()).build();
+                    LifeApplication.getCall(request).enqueue(new Callback() {
                         @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            LogUtils.d(TAG, volleyError.toString());
+                        public void onFailure(Request request, IOException e) {
+                            LogUtils.d(TAG, request.toString());
+                        }
+
+                        @Override
+                        public void onResponse(Response response) throws IOException {
+                            String emailJson = response.body().string();
+                            LogUtils.d(TAG, emailJson);
+                            try {
+                                JSONObject object = new JSONObject(emailJson);
+                                netWorkValidatevalue = object.getString("email");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
                     });
-                    request.setTag("verificationCode");
-                    LifeApplication.getRequestQueue().add(request);
                 }
                 break;
             }
         }
-    }
 
-    /**
-     * 根据email获得其json对象
-     *
-     * @param mEmail
-     * @return
-     * @throws JSONException
-     */
-    public JSONObject getJsonObject(String mEmail) throws JSONException {
-        JSONObject email = new JSONObject();
-        email.put("email", mEmail);
-        LogUtils.d(TAG, mEmail);
-        return email;
     }
 
     /**
@@ -240,7 +216,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        LifeApplication.getRequestQueue().cancelAll("verificationCode");
+
     }
 
     /**

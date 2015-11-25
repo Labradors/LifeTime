@@ -24,7 +24,7 @@ public class ChooseHeadPictureActivity extends AppCompatActivity {
 
     private void initControl() {
         mOkButton = (Button) findViewById(R.id.btn_activity_ok);
-        mZoomImageView = (ZoomImageView) findViewById(R.id.ziv_activity_choose_picture);
+//        mZoomImageView = (ZoomImageView) findViewById(R.id.ziv_activity_choose_picture);
     }
 
     /**
