@@ -41,7 +41,7 @@
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="#ffffff"
+                android:background="@drawable/tvonclickstyle_selector"
                 android:clickable="true"
                 android:onClick="onClick"
                 android:src="@drawable/hoempage" />
@@ -52,7 +52,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="#ffffff"
+                android:background="@drawable/tvonclickstyle_selector"
                 android:clickable="true"
                 android:onClick="onClick"
                 android:src="@drawable/search" />
@@ -74,7 +74,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="#ffffff"
+                android:background="@drawable/tvonclickstyle_selector"
                 android:clickable="true"
                 android:onClick="onClick"
                 android:src="@drawable/message" />
@@ -85,7 +85,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="#ffffff"
+                android:background="@drawable/tvonclickstyle_selector"
                 android:clickable="true"
                 android:onClick="onClick"
                 android:src="@drawable/personal" />
