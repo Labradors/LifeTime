@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.75"
-        android:background="#7071d3ea">
+        android:background="@drawable/personback">
 
         <TextView
             android:id="@+id/personal_tv_nologin"
@@ -42,7 +42,8 @@
             android:drawablePadding="20dp"
             android:gravity="center_vertical"
             android:onClick="personalOnClick"
-            android:text="@string/personal_tv_mymessage" />
+            android:text="@string/personal_tv_mymessage"
+            android:textColor="@drawable/tvonclickstyle_selector" />
 
         <View
             android:layout_width="match_parent"

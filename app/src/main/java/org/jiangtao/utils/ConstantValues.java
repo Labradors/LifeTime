@@ -21,4 +21,6 @@ public class ConstantValues {
     public static final String loginUrl = url + "loginRequest.action";
     //获取用户头像
     public static final String userImageUrl = url + "headImage.action";
+    //找回密码
+    public static final String retrievePasswordUrl = url+"retrievePassword.action";
 }

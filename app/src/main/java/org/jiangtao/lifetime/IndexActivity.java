@@ -1,6 +1,7 @@
 package org.jiangtao.lifetime;
 
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -10,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import org.jiangtao.fragment.HomePageFragment;
@@ -26,7 +26,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     //自定义弹框类
     Popupwindow menuWindow;
     private ImageButton mBtnPopupwindow;
-
+    private NavigationView mNavigationView;
     private DrawerLayout mDrawerLayout;
     private HomePageFragment mHomePageFragment;
     private MessageFragment mMessageFragment;
@@ -50,35 +50,39 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         mBtnPopupwindow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                menuWindow=new Popupwindow(IndexActivity.this,itemsOnClick);
-                menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                menuWindow = new Popupwindow(IndexActivity.this, itemsOnClick);
+                menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
             }
         });
 
     }
+
     //为弹出popupwindow窗口实现监听类
-    private View.OnClickListener itemsOnClick = new View.OnClickListener(){
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 
         public void onClick(View v) {
             menuWindow.dismiss();
             switch (v.getId()) {
-                case R.id.pup_btn_first:
+                case R.id.pup_btn_takephoto:
                     break;
-                case R.id.pup_btn_second:
+                case R.id.pup_btn_richscan:
                     break;
-                case R.id.pup_btn_third:
+                case R.id.pup_btn_writedynamic:
+                    break;
+                case R.id.pup_btn_writenote:
                     break;
                 default:
                     break;
             }
         }
     };
+
     /**
      * indexactivity中初始化控件
      */
-    private void controlsInitialize(){
+    private void controlsInitialize() {
 
-        mBtnPopupwindow= (ImageButton) findViewById(R.id.ibtn_activity_index_pupopwindow);
+        mBtnPopupwindow = (ImageButton) findViewById(R.id.ibtn_activity_index_pupopwindow);
 
     }
 
@@ -88,8 +92,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     private void drawerBindFragment() {
         LayoutInflater inflater = LayoutInflater.from(this);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_activity_index);
-        Fragment fragment = getSupportFragmentManager().findFragmentById
-                (R.id.fragment_drawer_activity_index);
+        mNavigationView = (NavigationView) findViewById(R.id.navigationView);
     }
 
     /**
@@ -189,8 +192,8 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
-    public void personalOnClick(View v){
-        switch (v.getId()){
+    public void personalOnClick(View v) {
+        switch (v.getId()) {
             case R.id.personal_tv_nologin:
                 TurnActivity.turnLoginActivity(IndexActivity.this);
                 break;
@@ -204,8 +207,9 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
-    public void messageOnClik(View v){
-        switch (v.getId()){
+
+    public void messageOnClik(View v) {
+        switch (v.getId()) {
             case R.id.message_tv_mycollection:
                 TurnActivity.turnMyCollectionActivity(IndexActivity.this);
                 break;
@@ -214,7 +218,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
-
 
 
 }

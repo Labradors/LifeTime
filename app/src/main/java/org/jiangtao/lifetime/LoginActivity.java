@@ -20,6 +20,7 @@ import org.jiangtao.utils.Code;
 import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.JSONUtil;
 import org.jiangtao.utils.LogUtils;
+import org.jiangtao.utils.TurnActivity;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -66,9 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             //新用户注册
             case R.id.personal_login_newuser: {
-                android.content.Intent intent = new android.content.Intent();
-                intent.setClass(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
+                TurnActivity.turnRegisterActivity(LoginActivity.this);
                 break;
             }
             //跳转到找回密码界面
@@ -102,8 +101,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void responseLoginInformation() {
         getEditTextValue();
         FormEncodingBuilder builder = new FormEncodingBuilder();
-        LogUtils.d(TAG,">>>>>>"+userName);
-        LogUtils.d(TAG,">>>>>>"+passWord);
+        LogUtils.d(TAG, ">>>>>>" + userName);
+        LogUtils.d(TAG, ">>>>>>" + passWord);
         builder.add("userEmail", userName);
         builder.add("passWord", passWord);
         Request request = new Request.Builder().url(
@@ -125,18 +124,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                      * 用户头像的路径不为null
                      * 开启请求得到其bitmao
                      */
-                    if (user!=null){
-                    if (user.getUser_headpicture()!=null){
-                        String imageAddress = user.getUser_headpicture();
-                    LifeApplication.isLogin = true;
-                    LogUtils.d(TAG, userInformation);
-                    LogUtils.d(TAG, response.toString());
-                    LogUtils.d(TAG, userInformation);
-                    }else{
-                    LifeApplication.isLogin = true;
-                        LogUtils.d(TAG,">>><<<<"+user.toString());
-                    }
-                    }else {
+                    if (user != null) {
+                        if (user.getUser_headpicture() != null) {
+                            String imageAddress = user.getUser_headpicture();
+                            LifeApplication.isLogin = true;
+                            LogUtils.d(TAG, userInformation);
+                            LogUtils.d(TAG, response.toString());
+                            LogUtils.d(TAG, userInformation);
+                        } else {
+                            LifeApplication.isLogin = true;
+                            LogUtils.d(TAG, ">>><<<<" + user.toString());
+                        }
+                    } else {
                         Snackbar.make(mLinearLayout, R.string.please_register,
                                 Snackbar.LENGTH_LONG).show();
                     }
