@@ -62,11 +62,13 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         public void onClick(View v) {
             menuWindow.dismiss();
             switch (v.getId()) {
-                case R.id.pup_btn_first:
+                case R.id.pup_btn_takephoto:
                     break;
-                case R.id.pup_btn_second:
+                case R.id.pup_btn_richscan:
                     break;
-                case R.id.pup_btn_third:
+                case R.id.pup_btn_writedynamic:
+                    break;
+                case R.id.pup_btn_writenote:
                     break;
                 default:
                     break;

@@ -2,6 +2,7 @@ package org.jiangtao.utils;
 
 import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
+import org.jiangtao.lifetime.IndexActivity;
 import org.jiangtao.lifetime.R;
+
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 
 /**
@@ -18,7 +22,7 @@ import org.jiangtao.lifetime.R;
  */
 public class Popupwindow extends PopupWindow {
 
-    private Button pupBtnFirst,pupBtnSecond,pupBtnThird,pupBtnCancel;
+    private Button pupBtnTakePhoto,pupBtnRichScan,pupBtnWriteDynamic,pupBtnWriteNote,pupBtnCancel;
     private View mMenuView;
 
     public Popupwindow(Activity context, View.OnClickListener itemsOnClick) {
@@ -26,22 +30,25 @@ public class Popupwindow extends PopupWindow {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMenuView = inflater.inflate(R.layout.popupwindow, null);
-        pupBtnFirst = (Button) mMenuView.findViewById(R.id.pup_btn_first);
-        pupBtnSecond = (Button) mMenuView.findViewById(R.id.pup_btn_second);
-        pupBtnThird= (Button) mMenuView.findViewById(R.id.pup_btn_third);
-        pupBtnCancel= (Button) mMenuView.findViewById(R.id.pup_btn_cancel);
+        pupBtnTakePhoto = (Button) mMenuView.findViewById(R.id.pup_btn_takephoto);
+        pupBtnRichScan = (Button) mMenuView.findViewById(R.id.pup_btn_richscan);
+        pupBtnWriteDynamic= (Button) mMenuView.findViewById(R.id.pup_btn_writedynamic);
+        pupBtnWriteNote= (Button) mMenuView.findViewById(R.id.pup_btn_writenote);
+//        pupBtnCancel= (Button) mMenuView.findViewById(R.id.pup_btn_cancel);
         //取消按钮
-        pupBtnCancel.setOnClickListener(new View.OnClickListener() {
+//        pupBtnCancel.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View v) {
+//                //销毁弹出框
+//                dismiss();
+//            }
+//        });
 
-            public void onClick(View v) {
-                //销毁弹出框
-                dismiss();
-            }
-        });
         //设置按钮监听
-        pupBtnFirst.setOnClickListener(itemsOnClick);
-        pupBtnSecond.setOnClickListener(itemsOnClick);
-        pupBtnThird.setOnClickListener(itemsOnClick);
+        pupBtnTakePhoto.setOnClickListener(itemsOnClick);
+        pupBtnRichScan.setOnClickListener(itemsOnClick);
+        pupBtnWriteDynamic.setOnClickListener(itemsOnClick);
+        pupBtnWriteNote.setOnClickListener(itemsOnClick);
         //设置PopupWindow的View
         this.setContentView(mMenuView);
         //设置PopupWindow弹出窗体的宽

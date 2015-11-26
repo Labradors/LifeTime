@@ -8,45 +8,83 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <Button
-        android:id="@+id/pup_btn_first"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/holo_red_light"
-        android:text="第一个按钮" />
 
-    <Button
-        android:id="@+id/pup_btn_second"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@android:color/holo_red_light"
-        android:text="第二个按钮" />
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/pup_btn_takephoto"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/iconcamera"
+            android:paddingLeft="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="5dp"
+            android:background="#8EE5EE"
+            android:text="@string/popupwindow_btn_takephoto" />
+
+        <Button
+            android:id="@+id/pup_btn_richscan"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/scan"
+            android:paddingLeft="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="10dp"
+            android:background="#8EE5EE"
+            android:text="@string/popupwindow_btn_richscan" />
+    </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
     <Button
-        android:id="@+id/pup_btn_third"
-        android:layout_width="match_parent"
+        android:id="@+id/pup_btn_writedynamic"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:drawableLeft="@drawable/write"
+        android:paddingLeft="10dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:layout_marginRight="2dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@android:color/holo_red_light"
-        android:text="第三个按钮" />
+        android:background="#8EE5EE"
+        android:text="@string/popupwindow_btn_writedynamic" />
     <Button
-        android:id="@+id/pup_btn_cancel"
-        android:layout_width="match_parent"
+        android:id="@+id/pup_btn_writenote"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:drawableLeft="@drawable/writenote"
+        android:paddingLeft="10dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="2dp"
         android:layout_marginRight="10dp"
-        android:background="@android:color/holo_red_light"
-        android:text="取消" />
+        android:background="#8EE5EE"
+        android:text="@string/popupwindow_btn_writenote" />
+    <!--<Button-->
+        <!--android:id="@+id/pup_btn_cancel"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="2dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:background="@android:color/holo_red_light"-->
+        <!--android:text="取消" />-->
+
+
+</LinearLayout>
+
     
 </LinearLayout>
 
