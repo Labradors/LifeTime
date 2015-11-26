@@ -37,7 +37,7 @@ public class LifeApplication extends Application {
     //判断是否登陆
     public static boolean isLogin;
     //设置OkHttpClient
-    public static OkHttpClient mOkHttpClient = new OkHttpClient();
+    public static OkHttpClient mOkHttpClient;
     //设置response
     public static Response response;
 
@@ -63,7 +63,6 @@ public class LifeApplication extends Application {
     }
 
 
-
     /**
      * 获取用户回调
      *
@@ -76,10 +75,13 @@ public class LifeApplication extends Application {
         return call;
     }
 
-    public void CacheResponse(File cacheDirectory) throws Exception {
+    public void CacheResponse() throws Exception {
         int cacheSize = 10 * 1024 * 1024; // 10 MiB
+        File cacheDirectory = new File("cache");
+        if (!cacheDirectory.exists()) {
+            cacheDirectory.mkdirs();
+        }
         Cache cache = new Cache(cacheDirectory, cacheSize);
-        mOkHttpClient = new OkHttpClient();
         mOkHttpClient.setCache(cache);
     }
 
@@ -88,10 +90,10 @@ public class LifeApplication extends Application {
     public void onCreate() {
         super.onCreate();
         lifeApplication = this;
+        mOkHttpClient = new OkHttpClient();
         //设置缓存目录
-        File sdcache = getExternalCacheDir();
         try {
-            CacheResponse(sdcache.getAbsoluteFile());
+            CacheResponse();
         } catch (Exception e) {
             e.printStackTrace();
         }

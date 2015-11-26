@@ -124,13 +124,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                             }
                         });
-                        break;
                     }else {
                         throw new RuntimeException("获取数据失败");
                     }
                 }else {
                     throw new RuntimeException("获取数据失败");
                 }
+                break;
             }
             /**
              * 点击发送验证码

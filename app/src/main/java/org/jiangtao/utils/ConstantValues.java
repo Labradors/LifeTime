@@ -18,7 +18,7 @@ public class ConstantValues {
     //提交用户头像信息。
     public static final String registerImageUrl = url + "registerImage.action";
     //登陆
-    public static final String loginUrl = url + "login.action";
+    public static final String loginUrl = url + "loginRequest.action";
     //获取用户头像
     public static final String userImageUrl = url + "headImage.action";
 }
