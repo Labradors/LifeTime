@@ -38,6 +38,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:clickable="true"
+            android:textColor="@drawable/tvonclickstyle_selector"
             android:drawableLeft="@drawable/mymessage"
             android:drawablePadding="20dp"
             android:gravity="center_vertical"
