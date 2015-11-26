@@ -1,5 +1,6 @@
 package org.jiangtao.lifetime;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
@@ -8,9 +9,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
-import org.jiangtao.NetWorkUtils.VerificationCode;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import org.jiangtao.application.LifeApplication;
+import org.jiangtao.utils.ConstantValues;
+import org.jiangtao.utils.LogUtils;
 import org.jiangtao.utils.ValidateEmailAndNumber;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 /**
  * 根据邮箱获得注册信息
@@ -32,9 +45,9 @@ public class RegisterActivity extends AppCompatActivity {
     private String mValidatValue;
     //返回的验证码校验
     private String netWorkValidatevalue;
-    private RelativeLayout container;
+    private ScrollView container;
     private CountDownTimer mCountDownTimer;
-    private long timeRemain;
+    public long timeRemain;
 
 
     @Override
@@ -44,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
         flag = 1;
         initEditText();
         getEditTextValue();
+        this.getSupportActionBar().hide();
     }
 
     /**
@@ -55,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
         mRepeatPassWordEditText = (EditText) findViewById(R.id.activity_register_tv_repassword);
         mEmailEditText = (EditText) findViewById(R.id.activity_register_tv_email);
         mEmailValidateEditText = (EditText) findViewById(R.id.activity_register_email_check);
-        container = (RelativeLayout) findViewById(R.id.register_container);
+        container=(ScrollView)findViewById(R.id.register_container);
         mSendValidateButton = (Button) findViewById(R.id.activity_register_btn_sentcheckemil);
         mRegisterButton = (Button) findViewById(R.id.btn_activity_register);
     }
@@ -66,35 +80,98 @@ public class RegisterActivity extends AppCompatActivity {
      *
      * @param view
      */
-    public void registerOnClick(View view) {
+    public void registerOnClick(View view) throws JSONException {
         switch (view.getId()) {
+            /**
+             * 点击注册
+             */
             case R.id.btn_activity_register: {
-                if (validateValue()) {
-                    /**
-                     * 发送网络请求
-                     * 需要发送图片，volley必须添加multiparty方法。
-                     * 重写这个方法后，就可以用了
-                     *
-                     */
+                getEditTextValue();
+                if (ValidateEmailAndNumber.isNumeric(mValidatValue)) {
+                    if (netWorkValidatevalue.equals(mValidatValue)) {
+                        /**
+                         * 保存用户信息到数据库
+                         *
+                         */
+                        FormEncodingBuilder builder = new FormEncodingBuilder();
+                        builder.add("userName", mUserName);
+                        builder.add("passWord", mPassWord);
+                        builder.add("email", mEmail);
+                        Request request = new Request.Builder().url(
+                                ConstantValues.registerInformationUrl
+                        ).post(builder.build()).build();
+                        LifeApplication.getCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Request request, IOException e) {
+                                LogUtils.d(TAG, request.toString());
+                            }
 
+                            @Override
+                            public void onResponse(Response response) throws IOException {
+                                String emailJson = response.body().string();
+                                LogUtils.d(TAG, emailJson);
+                                try {
+                                    JSONObject object = new JSONObject(emailJson);
+                                    boolean flag = object.getBoolean("flag");
+                                    int id = object.getInt("id");
+                                    if (flag){
+                                        Intent intent = new Intent(RegisterActivity.this,
+                                                LoginActivity.class);
+                                        intent.putExtra("id",id);
+                                        startActivity(intent);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
+                            }
+                        });
+                        break;
+                    }else {
+                        throw new RuntimeException("获取数据失败");
+                    }
+                }else {
+                    throw new RuntimeException("获取数据失败");
                 }
-
-
-                break;
             }
+            /**
+             * 点击发送验证码
+             */
             case R.id.activity_register_btn_sentcheckemil: {
+                flag = 1;
                 if (validateValue()) {
-                    flag = 2;
                     mSendValidateButton.setEnabled(false);
                     timeRemain(60l);
-                    //网络请求
-                    VerificationCode verificationCode = VerificationCode.getInstance();
-                    netWorkValidatevalue = verificationCode.getVerificationCode(mEmail);
+                    //网络请求s
+                    FormEncodingBuilder builder = new FormEncodingBuilder();
+                    builder.add("email", mEmail);
+                    Request request = new Request.Builder().url(
+                            ConstantValues.verificationCodeUrl
+                    ).post(builder.build()).build();
+                    LifeApplication.getCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Request request, IOException e) {
+                            LogUtils.d(TAG, request.toString());
+                        }
+
+                        @Override
+                        public void onResponse(Response response) throws IOException {
+                            String emailJson = response.body().string();
+                            LogUtils.d(TAG, emailJson);
+                            try {
+                                JSONObject object = new JSONObject(emailJson);
+                                netWorkValidatevalue = object.getString("email");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
                 }
                 break;
             }
         }
+
     }
 
     /**
@@ -112,8 +189,8 @@ public class RegisterActivity extends AppCompatActivity {
      * 发送到服务器之前的检查
      */
     private boolean validateValue() {
-        getEditTextValue();
         if (flag == 1) {
+            getEditTextValue();
             if (mUserName != null && mPassWord != null && mRepeatPassWord != null
                     && mEmail != null) {
                 if (ValidateEmailAndNumber.isEmail(mEmail)) {
@@ -133,27 +210,15 @@ public class RegisterActivity extends AppCompatActivity {
                     flag = 1;
                 }
             }
-        } else if (flag == 2) {
-            if (ValidateEmailAndNumber.isNumeric(mValidatValue)) {
-                if (mValidatValue.equals(netWorkValidatevalue)) {
-                    return true;
-                } else {
-                    Snackbar.make(container, R.string.validate_error,
-                            Snackbar.LENGTH_SHORT).show();
-                }
-            } else {
-                Snackbar.make(container, R.string.validate_error,
-                        Snackbar.LENGTH_SHORT).show();
-            }
         }
         return false;
     }
 
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        finish();
+    protected void onStop() {
+        super.onStop();
+
     }
 
     /**

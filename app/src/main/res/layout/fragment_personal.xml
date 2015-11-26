@@ -38,12 +38,12 @@
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:clickable="true"
-            android:textColor="@drawable/tvonclickstyle_selector"
             android:drawableLeft="@drawable/mymessage"
             android:drawablePadding="20dp"
             android:gravity="center_vertical"
             android:onClick="personalOnClick"
-            android:text="@string/personal_tv_mymessage" />
+            android:text="@string/personal_tv_mymessage"
+            android:textColor="@drawable/tvonclickstyle_selector" />
 
         <View
             android:layout_width="match_parent"

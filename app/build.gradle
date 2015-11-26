@@ -23,4 +23,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.wrapp.floatlabelededittext:library:0.0.6'
 }

@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -52,6 +53,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/personal_login_btn_shpe"
+            android:onClick="onClick"
             android:text="@string/personal_login_btn" />
 
         <LinearLayout
@@ -72,10 +74,12 @@
                 android:text="@string/personal_login_tv_regest" />
 
             <TextView
+                android:id="@+id/activity_login_forget_password"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="right"
+                android:onClick="onClick"
                 android:text="@string/personal_login_tv_forget" />
         </LinearLayout>
 
