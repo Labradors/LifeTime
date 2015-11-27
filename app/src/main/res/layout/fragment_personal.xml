@@ -15,14 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="40dp"
-            android:clickable="true"
             android:drawablePadding="-20dp"
             android:drawableTop="@drawable/nologinuserheadpic"
             android:gravity="center"
+            android:clickable="true"
             android:onClick="personalOnClick"
             android:text="@string/personal_login_tv_text"
-            android:textColor="#ffffff"
-            android:textSize="14pt" />
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 
@@ -36,14 +35,15 @@
             android:id="@+id/personal_tv_message"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
+            android:paddingLeft="20dp"
             android:clickable="true"
             android:drawableLeft="@drawable/mymessage"
+            android:background="@drawable/tvonclickstyle_selector"
             android:drawablePadding="20dp"
             android:gravity="center_vertical"
             android:onClick="personalOnClick"
             android:text="@string/personal_tv_mymessage"
-            android:textColor="@drawable/tvonclickstyle_selector" />
+           />
 
         <View
             android:layout_width="match_parent"
@@ -53,9 +53,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
+            android:paddingLeft="20dp"
+            android:background="@drawable/tvonclickstyle_selector"
             android:drawableLeft="@drawable/recommend"
             android:drawablePadding="20dp"
+            android:clickable="true"
+            android:onClick="personalOnClick"
             android:gravity="center_vertical"
             android:text="@string/personal_login_tv_recommend" />
 
@@ -67,9 +70,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
+            android:paddingLeft="20dp"
+            android:background="@drawable/tvonclickstyle_selector"
             android:drawableLeft="@drawable/note"
             android:drawablePadding="20dp"
+            android:clickable="true"
+            android:onClick="personalOnClick"
             android:gravity="center_vertical"
             android:text="@string/personal_login_tv_note" />
 
@@ -81,9 +87,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
+            android:paddingLeft="20dp"
+            android:background="@drawable/tvonclickstyle_selector"
             android:drawableLeft="@drawable/friend"
             android:drawablePadding="20dp"
+            android:clickable="true"
+            android:onClick="personalOnClick"
             android:gravity="center_vertical"
             android:text="@string/personal_login_tv_friend" />
 

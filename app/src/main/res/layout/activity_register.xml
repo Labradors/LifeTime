@@ -55,9 +55,10 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
                     android:background="@null"
+                    android:textSize="24px"
                     android:drawableLeft="@drawable/username"
                     android:hint="@string/regest_et_hint_username"
-                    android:textSize="12pt" />
+                     />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
@@ -80,8 +81,8 @@
                     android:background="@null"
                     android:drawableLeft="@drawable/password"
                     android:hint="@string/regest_et_hint_password"
-                    android:inputType="textPassword"
-                    android:textSize="10pt" />
+                    android:textSize="24px"
+                    android:inputType="textPassword" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
@@ -104,8 +105,8 @@
                     android:background="@null"
                     android:drawableLeft="@drawable/password"
                     android:hint="@string/regest_et_hint_repassword"
-                    android:inputType="textPassword"
-                    android:textSize="10pt" />
+                    android:textSize="24px"
+                    android:inputType="textPassword" />
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
@@ -128,8 +129,8 @@
                     android:background="@null"
                     android:drawableLeft="@drawable/registeremil"
                     android:hint="@string/regest_et_hint_email"
-                    android:inputType="textEmailAddress"
-                    android:textSize="10pt" />
+                    android:textSize="24px"
+                    android:inputType="textEmailAddress"/>
             </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
@@ -157,15 +158,15 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:hint="@string/regest_et_hint_checkemail"
-                        android:inputType="numberSigned"
-                        android:textSize="10pt" />
+                        android:textSize="24px"
+                        android:inputType="numberSigned"/>
                 </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
                 <Button
                     android:id="@+id/activity_register_btn_sentcheckemil"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
@@ -181,7 +182,7 @@
             <Button
                 android:id="@+id/btn_activity_register"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="50dp"
@@ -191,7 +192,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12pt"
                 android:layout_marginTop="10dp"
                 android:text="@string/regest_tv_prompt"/>
         </LinearLayout>
