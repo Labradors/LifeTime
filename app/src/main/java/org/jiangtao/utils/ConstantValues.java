@@ -8,7 +8,7 @@ public class ConstantValues {
      * 192.168.1.103旁边寝室
      * 192.168.1.118上课
      */
-    public static final String url = "http://192.168.1.103:8080/LifeTimeBackstage/";
+    public static final String url = "http://192.168.1.118:8080/LifeTimeBackstage/";
     //欢迎界面的url
     public static final String welcomeUrl = url + "welcome.action";
     //请求获得验证码
