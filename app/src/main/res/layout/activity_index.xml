@@ -4,8 +4,8 @@
     android:id="@+id/drawer_activity_index"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IndexActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".IndexActivity">
 
     <FrameLayout
         android:id="@+id/framelayout_activtiy_index"
@@ -14,18 +14,14 @@
         android:clickable="true" />
 
     <android.support.design.widget.NavigationView
-
         android:id="@+id/navigationView"
-        android:layout_width="wrap_content"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/layout_header"
-        app:menu="@layout/layout_menu"
-        >
-
+        app:menu="@layout/layout_menu">
     </android.support.design.widget.NavigationView>
-
 
     <RelativeLayout
         android:id="@+id/relative"

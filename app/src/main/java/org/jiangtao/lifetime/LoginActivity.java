@@ -134,6 +134,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         } else {
                             LifeApplication.isLogin = true;
                             LogUtils.d(TAG, ">>><<<<" + user.toString());
+
                         }
                     } else {
                         Snackbar.make(mLinearLayout, R.string.please_register,

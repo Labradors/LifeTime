@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.internal.http.CacheStrategy;
 
 import org.jiangtao.utils.LogUtils;
 
@@ -40,6 +44,12 @@ public class LifeApplication extends Application {
     public static OkHttpClient mOkHttpClient;
     //设置response
     public static Response response;
+    //缓存
+    public static Cache cache;
+    //缓存策略
+    public static CacheStrategy cacheStrategy;
+    //请求
+    public static Request request;
 
     /**
      * 单例application
@@ -51,15 +61,56 @@ public class LifeApplication extends Application {
     }
 
     /**
-     * 获得响应值
-     *
-     * @param request
-     * @return
-     * @throws IOException
+     * 建立缓存
      */
-    public static Response getResponse(Request request) throws IOException {
-        response = mOkHttpClient.newCall(request).execute();
-        return response;
+    public static void buildCache() {
+        String cachefile = Environment.getExternalStorageDirectory() + "/lifetime/";
+        File cacheDirectory = new File(cachefile);
+        int cacheSize = 10 * 1024 * 1024; // 10 MiB
+        if (!cacheDirectory.exists()) {
+            cacheDirectory.mkdirs();
+        }
+        try {
+            cache = new Cache(cacheDirectory, cacheSize);
+            mOkHttpClient.setCache(cache);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 必须是网络请求
+     * 异步请求
+     *
+     * @param callback
+     * @param body
+     * @param url
+     * @return
+     * @throws Exception
+     */
+    public void getCacheRespnse(Callback callback
+            , RequestBody body, String url) throws Exception {
+        request = new Request.Builder().addHeader("Cache-Control", "no-cache")
+                .url(url).post(body).build();
+        mOkHttpClient.newCall(request).enqueue(callback);
+
+    }
+
+    /**
+     * 执行异步请求
+     * post方式
+     * 并且强制使用缓存
+     *
+     * @param callback
+     * @param body
+     * @param url
+     * @throws Exception
+     */
+    public static void getNetWorkResponse(Callback callback
+            , RequestBody body, String url) throws Exception {
+        request = new Request.Builder().addHeader
+                ("Cache-Control", "only-if-cached").url(url).post(body).build();
+        mOkHttpClient.newCall(request).enqueue(callback);
     }
 
 
@@ -75,17 +126,6 @@ public class LifeApplication extends Application {
         return call;
     }
 
-    public void CacheResponse() throws Exception {
-        int cacheSize = 10 * 1024 * 1024; // 10 MiB
-        File cacheDirectory = new File("cache");
-        if (!cacheDirectory.exists()) {
-            cacheDirectory.mkdirs();
-        }
-        Cache cache = new Cache(cacheDirectory, cacheSize);
-        mOkHttpClient.setCache(cache);
-    }
-
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -93,7 +133,7 @@ public class LifeApplication extends Application {
         mOkHttpClient = new OkHttpClient();
         //设置缓存目录
         try {
-            CacheResponse();
+            buildCache();
         } catch (Exception e) {
             e.printStackTrace();
         }
