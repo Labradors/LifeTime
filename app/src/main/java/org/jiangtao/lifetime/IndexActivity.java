@@ -27,6 +27,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     Popupwindow menuWindow;
     private ImageButton mBtnPopupwindow;
 
+
     private DrawerLayout mDrawerLayout;
     private HomePageFragment mHomePageFragment;
     private MessageFragment mMessageFragment;

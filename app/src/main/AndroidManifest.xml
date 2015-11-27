@@ -52,6 +52,10 @@
             android:name=".RetrievePasswordActivity"
             android:label="@string/title_activity_retrieve_password" >
         </activity>
+        <activity
+            android:name=".WriteDynamicActivity"
+            android:label="@string/title_activity_write_dynamic" >
+        </activity>
     </application>
 
 </manifest>

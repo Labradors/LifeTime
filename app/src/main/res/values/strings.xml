@@ -91,5 +91,6 @@
 
 
     <string name="title_activity_retrieve_password">找回密码</string>
+    <string name="title_activity_write_dynamic">WriteDynamicActivity</string>
 
 </resources>
