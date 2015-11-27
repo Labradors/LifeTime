@@ -34,8 +34,9 @@ public class Popupwindow extends PopupWindow {
         pupBtnRichScan = (Button) mMenuView.findViewById(R.id.pup_btn_richscan);
         pupBtnWriteDynamic= (Button) mMenuView.findViewById(R.id.pup_btn_writedynamic);
         pupBtnWriteNote= (Button) mMenuView.findViewById(R.id.pup_btn_writenote);
+
 //        pupBtnCancel= (Button) mMenuView.findViewById(R.id.pup_btn_cancel);
-        //取消按钮
+////        取消按钮
 //        pupBtnCancel.setOnClickListener(new View.OnClickListener() {
 //
 //            public void onClick(View v) {

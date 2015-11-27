@@ -26,7 +26,9 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     //自定义弹框类
     Popupwindow menuWindow;
     private ImageButton mBtnPopupwindow;
+
     private NavigationView mNavigationView;
+
     private DrawerLayout mDrawerLayout;
     private HomePageFragment mHomePageFragment;
     private MessageFragment mMessageFragment;
@@ -68,6 +70,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 case R.id.pup_btn_richscan:
                     break;
                 case R.id.pup_btn_writedynamic:
+                    TurnActivity.turnWrietDynamicActivity(IndexActivity.this);
                     break;
                 case R.id.pup_btn_writenote:
                     break;

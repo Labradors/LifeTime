@@ -93,9 +93,16 @@
 
 
     <string name="title_activity_retrieve_password">找回密码</string>
+
+    <string name="title_activity_write_dynamic">WriteDynamicActivity</string>
+
     <string name="activity_retrieve_input_email">输入邮箱</string>
     <string name="activity_retrieve_send_email">发送</string>
     <string name="activity_retrieve_empty_input">请输入信息</string>
     <string name="activity_retrieve_password_to_email">发送密码到你的邮箱</string>
+
+    <drawable name="pop_btn_color_normal">#8EE5EE</drawable>
+    <drawable name="pop_btn_color_press">#B8B8B8</drawable>
+
 
 </resources>

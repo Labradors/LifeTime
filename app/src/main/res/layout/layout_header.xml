@@ -11,11 +11,4 @@
         android:scaleType="centerCrop"
         android:src="@drawable/welcome" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="CSDN废墟的树博客"
-        android:textColor="@android:color/black"
-        />
 </LinearLayout>

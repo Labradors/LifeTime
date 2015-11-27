@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+
+
 
     <group
         android:checkableBehavior="single"
@@ -9,18 +14,18 @@
 
         <item
             android:id="@+id/nav_blog"
-            android:icon="@drawable/friend"
-            android:title="博客地址" />
+            android:icon="@drawable/own"
+            android:title="我的主页" />
 
         <item
             android:id="@+id/nav_ver"
-            android:icon="@drawable/friend"
+            android:icon="@drawable/versioninformation"
             android:title="版本信息" />
 
         <item
             android:id="@+id/nav_about"
-            android:icon="@drawable/friend"
-            android:title="关于我" />
+            android:icon="@drawable/about"
+            android:title="关于应用" />
 
     </group>
 
@@ -29,15 +34,21 @@
         <menu>
 
             <item
-                android:id="@+id/sub_exit"
-                android:icon="@drawable/friend"
-                android:title="退出应用" />
-
+                android:id="@+id/sub_setting"
+                android:icon="@drawable/settings"
+                android:title="设置" />
             <item
-                android:id="@+id/sub_switch"
-                android:icon="@drawable/friend"
-                android:title="切换主题" />
+                android:id="@+id/sub_exit"
+                android:icon="@drawable/exit"
+                android:title="退出应用" />
+            <item
+                android:id="@+id/sub_exita"
+                android:icon="@drawable/exit"
+                android:title="退出应用" />
+            <item
+                android:id="@+id/sub_exitb"
+                android:icon="@drawable/exit"
+                android:title="退出应用" />
         </menu>
     </item>
-
 </menu>
