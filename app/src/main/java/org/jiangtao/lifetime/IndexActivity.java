@@ -16,7 +16,7 @@ import android.widget.ImageButton;
 import org.jiangtao.fragment.HomePageFragment;
 import org.jiangtao.fragment.MessageFragment;
 import org.jiangtao.fragment.PersonalFragment;
-import org.jiangtao.fragment.SearchFragment;
+import org.jiangtao.fragment.FriendFragment;
 import org.jiangtao.utils.Popupwindow;
 import org.jiangtao.utils.TurnActivity;
 
@@ -26,11 +26,13 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     //自定义弹框类
     Popupwindow menuWindow;
     private ImageButton mBtnPopupwindow;
+
     private NavigationView mNavigationView;
+
     private DrawerLayout mDrawerLayout;
     private HomePageFragment mHomePageFragment;
     private MessageFragment mMessageFragment;
-    private SearchFragment mSearchFragment;
+    private FriendFragment mFriendFragment;
     private PersonalFragment mPersonalFragment;
     Fragment[] fragments = new Fragment[4];
 
@@ -68,6 +70,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 case R.id.pup_btn_richscan:
                     break;
                 case R.id.pup_btn_writedynamic:
+                    TurnActivity.turnWrietDynamicActivity(IndexActivity.this);
                     break;
                 case R.id.pup_btn_writenote:
                     break;
@@ -110,10 +113,10 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     private void initFragment() {
         mHomePageFragment = new HomePageFragment();
         mMessageFragment = new MessageFragment();
-        mSearchFragment = new SearchFragment();
+        mFriendFragment = new FriendFragment();
         mPersonalFragment = new PersonalFragment();
         fragments[0] = mHomePageFragment;
-        fragments[1] = mSearchFragment;
+        fragments[1] = mFriendFragment;
         fragments[2] = mMessageFragment;
         fragments[3] = mPersonalFragment;
         getSupportFragmentManager().beginTransaction()

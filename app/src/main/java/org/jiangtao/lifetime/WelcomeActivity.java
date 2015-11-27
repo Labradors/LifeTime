@@ -82,7 +82,7 @@ public class WelcomeActivity extends AppCompatActivity {
             handler.sendEmptyMessageDelayed(GO_GUIDE, TIME);
             SharedPreferences.Editor editor = perPreferences.edit();
             editor.putBoolean("isFirstIn", false);
-            editor.commit();
+            editor.apply();
         }
 
     }

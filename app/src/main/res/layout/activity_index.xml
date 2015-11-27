@@ -21,7 +21,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/layout_header"
         app:menu="@layout/layout_menu">
-
     </android.support.design.widget.NavigationView>
 
     <RelativeLayout

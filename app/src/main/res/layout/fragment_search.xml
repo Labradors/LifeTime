@@ -1,13 +1,31 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.jiangtao.fragment.SearchFragment">
+    tools:context="org.jiangtao.fragment.FriendFragment"
+    android:id="@+id/container_fragment_friend">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ImageView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/one" />
+        android:layout_height="match_parent">
 
-</LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageview_fragment_friend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/not_network" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ListView
+                android:id="@+id/listview_fragment_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>
+    </FrameLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>
