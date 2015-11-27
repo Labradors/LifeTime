@@ -53,6 +53,8 @@
     <string name="validate_error">验证码不正确，请重新输入</string>
     <string name="runtime_error">运行时错误</string>
     <string name="please_register">没有该账号，请注册</string>
+    <string name="network_error">没有该账号，请注册</string>
+    <string name="send_password_email">已经发送密码到邮箱，请查收</string>
 
     <!-- 提示信息-->
 
@@ -91,5 +93,9 @@
 
 
     <string name="title_activity_retrieve_password">找回密码</string>
+    <string name="activity_retrieve_input_email">输入邮箱</string>
+    <string name="activity_retrieve_send_email">发送</string>
+    <string name="activity_retrieve_empty_input">请输入信息</string>
+    <string name="activity_retrieve_password_to_email">发送密码到你的邮箱</string>
 
 </resources>

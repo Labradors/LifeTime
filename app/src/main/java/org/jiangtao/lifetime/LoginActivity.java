@@ -3,6 +3,7 @@ package org.jiangtao.lifetime;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -14,9 +15,13 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import org.jiangtao.application.LifeApplication;
+import org.jiangtao.bean.User;
 import org.jiangtao.utils.Code;
 import org.jiangtao.utils.ConstantValues;
+import org.jiangtao.utils.JSONUtil;
 import org.jiangtao.utils.LogUtils;
+import org.jiangtao.utils.TurnActivity;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -62,9 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             //新用户注册
             case R.id.personal_login_newuser: {
-                android.content.Intent intent = new android.content.Intent();
-                intent.setClass(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
+                TurnActivity.turnRegisterActivity(LoginActivity.this);
                 break;
             }
             //跳转到找回密码界面
@@ -96,7 +99,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void responseLoginInformation() {
+        getEditTextValue();
         FormEncodingBuilder builder = new FormEncodingBuilder();
+        LogUtils.d(TAG, ">>>>>>" + userName);
+        LogUtils.d(TAG, ">>>>>>" + passWord);
         builder.add("userEmail", userName);
         builder.add("passWord", passWord);
         Request request = new Request.Builder().url(
@@ -112,28 +118,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onResponse(Response response) throws IOException {
                 String userInformation = response.body().string();
                 try {
-//                    JSONObject object = new JSONObject(userInformation);
-//                    User user = (User) JSONUtil.JSONToObj(userInformation, User.class);
+                    JSONObject object = new JSONObject(userInformation);
+                    User user = (User) JSONUtil.JSONToObj(userInformation, User.class);
                     /**
                      * 用户头像的路径不为null
                      * 开启请求得到其bitmao
                      */
-                    LogUtils.d(TAG, response.cacheResponse().toString());
-//                    if (user!=null){
-//                    if (user.getUser_headpicture()!=null){
-//                        String imageAddress = user.getUser_headpicture();
-                    LifeApplication.isLogin = true;
-                    LogUtils.d(TAG, response.toString());
-                    LogUtils.d(TAG, response.cacheResponse().toString());
-//                    }else{
-                    LifeApplication.isLogin = true;
-                    LogUtils.d(TAG, response.toString());
-                    LogUtils.d(TAG, response.cacheResponse().toString());
-//                    }
-//                    }else {
-//                        Snackbar.make(mLinearLayout, R.string.please_register,
-//                                Snackbar.LENGTH_LONG).show();
-//                    }
+                    if (user != null) {
+                        if (user.getUser_headpicture() != null) {
+                            String imageAddress = user.getUser_headpicture();
+                            LifeApplication.isLogin = true;
+                            LogUtils.d(TAG, userInformation);
+                            LogUtils.d(TAG, response.toString());
+                            LogUtils.d(TAG, userInformation);
+                        } else {
+                            LifeApplication.isLogin = true;
+                            LogUtils.d(TAG, ">>><<<<" + user.toString());
+                        }
+                    } else {
+                        Snackbar.make(mLinearLayout, R.string.please_register,
+                                Snackbar.LENGTH_LONG).show();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
