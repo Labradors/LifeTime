@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.squareup.okhttp.Callback;
@@ -69,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
         mRepeatPassWordEditText = (EditText) findViewById(R.id.activity_register_tv_repassword);
         mEmailEditText = (EditText) findViewById(R.id.activity_register_tv_email);
         mEmailValidateEditText = (EditText) findViewById(R.id.activity_register_email_check);
-        container=(ScrollView)findViewById(R.id.register_container);
+        container = (ScrollView) findViewById(R.id.register_container);
         mSendValidateButton = (Button) findViewById(R.id.activity_register_btn_sentcheckemil);
         mRegisterButton = (Button) findViewById(R.id.btn_activity_register);
     }
@@ -114,10 +113,10 @@ public class RegisterActivity extends AppCompatActivity {
                                     JSONObject object = new JSONObject(emailJson);
                                     boolean flag = object.getBoolean("flag");
                                     int id = object.getInt("id");
-                                    if (flag){
+                                    if (flag) {
                                         Intent intent = new Intent(RegisterActivity.this,
                                                 LoginActivity.class);
-                                        intent.putExtra("id",id);
+                                        intent.putExtra("id", id);
                                         startActivity(intent);
                                     }
                                 } catch (JSONException e) {
@@ -126,13 +125,15 @@ public class RegisterActivity extends AppCompatActivity {
 
                             }
                         });
-                        break;
-                    }else {
-                        throw new RuntimeException("获取数据失败");
+                    } else {
+                        Snackbar.make(container, R.string.password_error, Snackbar.LENGTH_SHORT)
+                                .show();
                     }
-                }else {
-                    throw new RuntimeException("获取数据失败");
+                } else {
+                    Snackbar.make(container, R.string.password_error, Snackbar.LENGTH_SHORT)
+                            .show();
                 }
+                break;
             }
             /**
              * 点击发送验证码

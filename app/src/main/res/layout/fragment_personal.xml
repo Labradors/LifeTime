@@ -42,7 +42,8 @@
             android:drawablePadding="20dp"
             android:gravity="center_vertical"
             android:onClick="personalOnClick"
-            android:text="@string/personal_tv_mymessage" />
+            android:text="@string/personal_tv_mymessage"
+           />
 
         <View
             android:layout_width="match_parent"
