@@ -50,6 +50,12 @@ public class LifeApplication extends Application {
     public static CacheStrategy cacheStrategy;
     //请求
     public static Request request;
+    //用户的id
+    public static int user_id;
+    //用户的email
+    public static String user_email;
+    //用户名
+    public static String user_name;
 
     /**
      * 单例application
@@ -64,7 +70,7 @@ public class LifeApplication extends Application {
      * 建立缓存
      */
     public static void buildCache() {
-        String cachefile = Environment.getExternalStorageDirectory() + "/lifetime/";
+        String cachefile = Environment.getExternalStorageDirectory() + "/lifetime/cache/";
         File cacheDirectory = new File(cachefile);
         int cacheSize = 10 * 1024 * 1024; // 10 MiB
         if (!cacheDirectory.exists()) {
@@ -90,7 +96,7 @@ public class LifeApplication extends Application {
      */
     public void getCacheRespnse(Callback callback
             , RequestBody body, String url) throws Exception {
-        request = new Request.Builder().addHeader("Cache-Control", "no-cache")
+        request = new Request.Builder().addHeader("Cache-Control", "only-if-cached")
                 .url(url).post(body).build();
         mOkHttpClient.newCall(request).enqueue(callback);
 
@@ -109,7 +115,7 @@ public class LifeApplication extends Application {
     public static void getNetWorkResponse(Callback callback
             , RequestBody body, String url) throws Exception {
         request = new Request.Builder().addHeader
-                ("Cache-Control", "only-if-cached").url(url).post(body).build();
+                ("Cache-Control", "no-cache").url(url).post(body).build();
         mOkHttpClient.newCall(request).enqueue(callback);
     }
 

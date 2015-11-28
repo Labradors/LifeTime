@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.jiangtao.lifetime" >
+    package="org.jiangtao.lifetime">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
         android:name="org.jiangtao.application.LifeApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".IndexActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".WelcomeActivity"
-            android:label="@string/title_activity_welcome" >
+            android:label="@string/title_activity_welcome"
+            android:logo="@drawable/ic_drawer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,36 +28,31 @@
         </activity>
         <activity
             android:name=".GuideActivity"
-            android:label="@string/title_activity_guide" >
-        </activity>
+            android:label="@string/title_activity_guide" />
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_regest" >
-        </activity>
+            android:label="@string/title_activity_regest" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".ChooseHeadPictureActivity"
-            android:label="@string/title_activity_choose_head_picture" >
-        </activity>
+            android:label="@string/title_activity_choose_head_picture" />
         <activity
             android:name=".DynamicActivity"
-            android:label="@string/title_activity_my_dynamic" >
-        </activity>
+            android:label="@string/title_activity_my_dynamic" />
         <activity
             android:name=".CollectionActivity"
-            android:label="@string/title_activity_my_collection" >
-        </activity>
+            android:label="@string/title_activity_my_collection" />
         <activity
             android:name=".RetrievePasswordActivity"
-            android:label="@string/title_activity_retrieve_password" >
-        </activity>
+            android:label="@string/title_activity_retrieve_password" />
         <activity
             android:name=".WriteDynamicActivity"
-            android:label="@string/title_activity_write_dynamic" >
-        </activity>
+            android:label="@string/title_activity_write_dynamic" />
+        <activity
+            android:name=".UpdateUserInformationActivity"
+            android:label="@string/title_activity_update_user_information" />
     </application>
 
 </manifest>

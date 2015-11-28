@@ -9,17 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/imageview_fragment_dynamic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/not_network" />
 
-
-            <ImageView
-                android:id="@+id/imageview_fragment_dynamic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/not_network" />
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ListView
                 android:id="@+id/listview_fragment_dynamic"
                 android:layout_width="match_parent"

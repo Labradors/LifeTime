@@ -1,40 +1,54 @@
 package org.jiangtao.lifetime;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import org.jiangtao.application.LifeApplication;
+import org.jiangtao.fragment.FriendFragment;
 import org.jiangtao.fragment.HomePageFragment;
 import org.jiangtao.fragment.MessageFragment;
 import org.jiangtao.fragment.PersonalFragment;
-import org.jiangtao.fragment.FriendFragment;
+import org.jiangtao.utils.Code;
 import org.jiangtao.utils.Popupwindow;
 import org.jiangtao.utils.TurnActivity;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class IndexActivity extends AppCompatActivity implements View.OnClickListener {
 
     //自定义弹框类
-    Popupwindow menuWindow;
+    private Popupwindow menuWindow;
     private ImageButton mBtnPopupwindow;
-
+    private FragmentCallback fragmentCallback;
     private NavigationView mNavigationView;
-
     private DrawerLayout mDrawerLayout;
     private HomePageFragment mHomePageFragment;
     private MessageFragment mMessageFragment;
     private FriendFragment mFriendFragment;
     private PersonalFragment mPersonalFragment;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar mToolBar;
     Fragment[] fragments = new Fragment[4];
+    private static Boolean isQuit = false;
+    Timer timer = new Timer();
 
 
     @Override
@@ -86,7 +100,22 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     private void controlsInitialize() {
 
         mBtnPopupwindow = (ImageButton) findViewById(R.id.ibtn_activity_index_pupopwindow);
+        mToolBar = new Toolbar(this);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.drawable.ic_action_back, R.drawable.ic_drawer) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle(R.string.drawer_open);
+            }
 
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                getSupportActionBar().setTitle(R.string.drawer_close);
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
     /**
@@ -104,7 +133,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     private void manageActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 
     /**
@@ -114,7 +143,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         mHomePageFragment = new HomePageFragment();
         mMessageFragment = new MessageFragment();
         mFriendFragment = new FriendFragment();
-        mPersonalFragment = new PersonalFragment();
+        mPersonalFragment = new PersonalFragment(this);
         fragments[0] = mHomePageFragment;
         fragments[1] = mFriendFragment;
         fragments[2] = mMessageFragment;
@@ -192,13 +221,22 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         if (id == R.id.action_settings) {
             return true;
         }
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     public void personalOnClick(View v) {
         switch (v.getId()) {
             case R.id.personal_tv_nologin:
-                TurnActivity.turnLoginActivity(IndexActivity.this);
+                if (LifeApplication.isLogin) {
+                    //开启activity，更新用户信息
+                    Intent intent = new Intent(IndexActivity.this, UpdateUserInformationActivity.class);
+                    startActivityForResult(intent, Code.REQUESTCODE_UPDATEUSER_INFORMATION);
+                } else {
+                    TurnActivity.turnLoginActivity(IndexActivity.this);
+                }
                 break;
             case R.id.personal_tv_message:
                 getSupportFragmentManager().beginTransaction()
@@ -222,5 +260,93 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * 根据请求码和结果码进行不同的操作
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /**
+         * 当用户登陆成功后，更新数据
+         */
+        if (requestCode == Code.REQUESTCODE_INDEXACTIVITY_TO_LOGINACTIVITY) {
+            switch (resultCode) {
+                case Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE: {
+                    boolean flag = data.getBooleanExtra("flag", false);
+                    if (flag) {
+                        fragmentCallback.onMainAction(flag);
+                        getSupportFragmentManager().beginTransaction()
+                                .show(fragments[3])
+                                .hide(fragments[1])
+                                .hide(fragments[2])
+                                .hide(fragments[0])
+                                .commitAllowingStateLoss();
+                    }
+                }
+            }
+        }
+    }
 
+    /**
+     * 定义activity与fragment之间的通信
+     */
+    public interface FragmentCallback {
+        public void onMainAction(boolean flag);
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        try {
+            fragmentCallback = (FragmentCallback) fragment;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 设置单击返回键的效果
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (!isQuit) {
+                isQuit = true;
+                Snackbar.make(mDrawerLayout, R.string.two_click_exit, Snackbar.LENGTH_SHORT).show();
+                TimerTask task = null;
+                task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        isQuit = false;
+                    }
+                };
+                timer.schedule(task, 2000);
+            } else {
+                finish();
+                System.exit(0);
+            }
+        }
+        return true;
+
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 }

@@ -3,6 +3,7 @@ package org.jiangtao.lifetime;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.squareup.okhttp.Response;
 
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.User;
+import org.jiangtao.networkutils.LoadHeadImage;
+import org.jiangtao.sql.UserBusinessImpl;
+import org.jiangtao.utils.BitmapUtils;
 import org.jiangtao.utils.Code;
 import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.JSONUtil;
@@ -35,7 +39,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText mEditTextPassWord;
     private String userName;
     private String passWord;
-    private Bitmap bitmap;
+    private UserBusinessImpl userBusiness;
+
+    public LoginActivity() {
+        userBusiness = new UserBusinessImpl(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +119,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         LifeApplication.getCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                throw new RuntimeException(String.valueOf(R.string.runtime_error));
+                Snackbar.make(mLinearLayout, R.string.runtime_error,
+                        Snackbar.LENGTH_LONG).show();
             }
 
             @Override
@@ -120,22 +129,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 try {
                     JSONObject object = new JSONObject(userInformation);
                     User user = (User) JSONUtil.JSONToObj(userInformation, User.class);
+                    LogUtils.d(TAG, "*******" + user.getUser_headpicture());
                     /**
-                     * 用户头像的路径不为null
-                     * 开启请求得到其bitmao
+                     * 开启网络请求
+                     * 加载图片
                      */
                     if (user != null) {
-                        if (user.getUser_headpicture() != null) {
-                            String imageAddress = user.getUser_headpicture();
-                            LifeApplication.isLogin = true;
-                            LogUtils.d(TAG, userInformation);
-                            LogUtils.d(TAG, response.toString());
-                            LogUtils.d(TAG, userInformation);
-                        } else {
-                            LifeApplication.isLogin = true;
-                            LogUtils.d(TAG, ">>><<<<" + user.toString());
+                        LifeApplication.isLogin = true;
+                        LifeApplication.user_id = user.getUser_id();
+                        LifeApplication.user_email = user.getUser_email();
+                        LifeApplication.user_name = user.getUser_name();
+                        LogUtils.d(TAG, Environment.getExternalStorageDirectory() + "/lifetime/headImage/user.jpg");
+                        //开启网络请求，请求图片，并且保存到sdcard；
+                        Bitmap bitmap = LoadHeadImage.loadNetWorkHeadImage(
+                                user.getUser_headpicture(), ConstantValues.userImageUrl
+                        );
+                        if (bitmap != null) {
+                            BitmapUtils.savePhotoToSDCard(ConstantValues.saveImageUri,
+                                    user.getUser_name() + ".png", bitmap);
 
+                            userBusiness.insertUser(user);
+                            LogUtils.d(TAG, ">>><<<<" + user.toString());
+                            Intent intent = new Intent(LoginActivity.this, IndexActivity.class);
+                            intent.putExtra("flag", true);
+                            setResult(Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE, intent);
+                            finish();
                         }
+
+
                     } else {
                         Snackbar.make(mLinearLayout, R.string.please_register,
                                 Snackbar.LENGTH_LONG).show();
@@ -144,6 +165,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     e.printStackTrace();
                 }
             }
+
         });
     }
 

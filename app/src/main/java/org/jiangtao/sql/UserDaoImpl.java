@@ -1,6 +1,5 @@
 package org.jiangtao.sql;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,14 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import org.jiangtao.bean.User;
 import org.jiangtao.utils.LogUtils;
 
-import java.text.SimpleDateFormat;
-
 /**
  * Created by mr-jiang on 15-11-27.
  * 用户保存用户数据
  */
 public class UserDaoImpl implements UserDao {
-    private LifeTimeSQLiteOpenHelper lifeTimeSQLiteOpenHelper;
+    public LifeTimeSQLiteOpenHelper lifeTimeSQLiteOpenHelper;
     private static final String TAG = UserDaoImpl.class.getSimpleName();
 
     public UserDaoImpl(Context context) {
@@ -75,29 +72,35 @@ public class UserDaoImpl implements UserDao {
     /**
      * 查询用户的方法
      *
-     * @param id
+     * @param user_email
      * @return
      * @throws Exception
      */
     @Override
-    public User selectUser(int id) throws Exception {
-        User user = null;
+    public User selectUser(String user_email) throws Exception {
+        User user = new User();
+        String sql = "SELECT * FROM " + LifeTimeSQLiteOpenHelper.TAB_USER + " WHERE user_email = ?";
+        LogUtils.d(TAG, "sql表达式是否正确：" + sql);
         SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
-        String sql = "SELECT * FROM " + LifeTimeSQLiteOpenHelper.TAB_USER + " WHERE user_id = ?";
+        lifeTimeSQLiteOpenHelper.onOpen(db);
         Cursor c = null;
         try {
-            c = db.rawQuery(sql, new String[]{String.valueOf(id)});
-            while (c.moveToNext()) {
-                user = new User();
-                user.setUser_id(c.getInt(c.getColumnIndex("user_id")));
-                user.setUser_email(c.getString(c.getColumnIndex("user_email")));
-                user.setUser_name(c.getString(c.getColumnIndex("user_name")));
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                user.setUser_jointime(format.parse(c.getString(c.getColumnIndex("user_jointime"))));
-                user.setUser_sex(c.getString(c.getColumnIndex("user_sex")));
-                user.setUser_headpicture(c.getString(c.getColumnIndex("user_headpicture")));
-                user.setUser_password(c.getString(c.getColumnIndex("user_sex")));
-                user.setUser_phone(c.getString(c.getColumnIndex("user_phone")));
+            c = db.rawQuery(sql, new String[]{user_email});
+            if (c != null) {
+                while (c.moveToNext()) {
+                    user.setUser_id(c.getInt(c.getColumnIndex("user_id")));
+                    user.setUser_email(c.getString(c.getColumnIndex("user_email")));
+                    user.setUser_name(c.getString(c.getColumnIndex("user_name")));
+//                    @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+//                    user.setUser_jointime(format.parse(c.getString(c.getColumnIndex("user_jointime"))));
+                    user.setUser_jointime(null);
+                    user.setUser_sex(c.getString(c.getColumnIndex("user_sex")));
+                    user.setUser_headpicture(c.getString(c.getColumnIndex("user_headpicture")));
+                    user.setUser_password(c.getString(c.getColumnIndex("user_sex")));
+                    user.setUser_phone(c.getString(c.getColumnIndex("user_phone")));
+                }
+            } else {
+                LogUtils.d(TAG, "没有取出数据");
             }
         } finally {
             if (c != null && !c.isClosed()) {

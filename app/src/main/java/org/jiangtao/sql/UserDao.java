@@ -10,5 +10,5 @@ public interface UserDao {
 
     public void updateUser(User user) throws Exception;
 
-    public User selectUser(int id) throws Exception;
+    public User selectUser(String user_email) throws Exception;
 }
