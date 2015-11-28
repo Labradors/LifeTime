@@ -1,4 +1,7 @@
 # LifeTime
 A android client about life record 
-## Volley
-init volley in lifeapplication,completed registerActivity
+## Register And Login
+### init okhttp in lifeapplication,completed registerActivity
+### complete loginactivity.Tomorrow, Complete write articles and upload
+## Write article And Upload
+

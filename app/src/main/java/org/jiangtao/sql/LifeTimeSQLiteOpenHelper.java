@@ -35,7 +35,7 @@ public class LifeTimeSQLiteOpenHelper extends SQLiteOpenHelper {
 
         String sql2 = "create table " + TAB_USER
                 + "("
-                + "user_id INTEGER NOT NULL, "
+                + "user_id INTEGER NOT NULL UNIQUE, "
                 + "user_email VARCHAR(50), "
                 + "user_name VARCHAR(50), "
                 + "user_headpicture VARCHAR(50), "
