@@ -1,43 +1,63 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_write_dynamic"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="org.jiangtao.lifetime.WriteDynamicActivity">
 
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="6">
 
         <EditText
             android:id="@+id/et_write_dynamic"
+            style="@style/Base.V7.Widget.AppCompat.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="6"
+            android:background="@drawable/rounded_edittext"
             android:gravity="top"
-            android:hint="@string/et_write_dynamic" />
+            android:hint="@string/et_write_dynamic"
+            android:textSize="18sp" />
 
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
+        android:background="@drawable/border_linearlayout"
         android:orientation="horizontal">
 
-        <GridView
+        <ImageView
             android:id="@+id/gl_write_dynamic"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="6" />
+            android:layout_gravity="left"
+            android:layout_marginLeft="-160dp"
+            android:layout_weight="3"
+            android:gravity="left" />
 
         <ImageButton
             android:id="@+id/ibtn_write_dynamic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
+            android:onClick="dynamicOnClick"
             android:src="@drawable/ic_action_new" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_send_dynamic"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:onClick="dynamicOnClick"
+        android:text="@string/btn_send_dynamic" />
 
 </LinearLayout>

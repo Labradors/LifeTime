@@ -36,4 +36,6 @@ public class ConstantValues {
     public static final String userImageUrl = url + "headImage.action";
     //找回密码
     public static final String retrievePasswordUrl = url + "retrievePassword.action";
+    //上传图片文章
+    public static final String uploadImageArticleUrl = url + "uploadImageArticleUrl.action";
 }
