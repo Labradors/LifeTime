@@ -57,6 +57,8 @@
     <string name="please_register">没有该账号，请注册</string>
     <string name="network_error">没有该账号，请注册</string>
     <string name="send_password_email">已经发送密码到邮箱，请查收</string>
+    <string name="article_info_error">文章内容为空</string>
+    <string name="article_network_error">没有网络哦！</string>
 
     <!-- 提示信息-->
     <string name="two_click_exit">双击退出</string>
@@ -99,6 +101,7 @@
     <!--title_activity_write_dynamic-->
     <string name="title_activity_write_dynamic">动态</string>
     <string name="et_write_dynamic">心情........</string>
+    <string name="btn_send_dynamic">发送</string>
 
     <string name="activity_retrieve_input_email">输入邮箱</string>
     <string name="activity_retrieve_send_email">发送</string>

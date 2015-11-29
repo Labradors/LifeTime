@@ -12,4 +12,9 @@ public class Code {
     public final static int REQUESTCODE_INDEXACTIVITY_TO_LOGINACTIVITY = 0x124;
     //更新用户信息请求吗
     public final static int REQUESTCODE_UPDATEUSER_INFORMATION = 0x124;
+    /**
+     * WriteDynamicActivity
+     */
+    //打开相册请求码
+    public final static int REQUESTCODE_OPEN_GALLERY = 0x600;
 }
