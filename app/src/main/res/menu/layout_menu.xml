@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <item
         android:id="@+id/nav_index"
@@ -17,17 +16,17 @@
 
 
     <item
-        android:id="@+id/nav_about"
+        android:id="@+id/nav_turn_themes"
         android:icon="@drawable/changestyle"
         android:title="@string/turn_themes" />
 
     <item
-        android:id="@+id/sub_setting"
+        android:id="@+id/nav_setting"
         android:icon="@drawable/settings"
         android:title="@string/drawer_open" />
 
     <item
-        android:id="@+id/sub_exit"
+        android:id="@+id/nav_exit"
         android:icon="@drawable/exit"
         android:title="@string/app_exit" />
 

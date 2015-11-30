@@ -120,4 +120,10 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
 }

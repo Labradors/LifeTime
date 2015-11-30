@@ -5,21 +5,19 @@
     android:background="@drawable/welcome"
     android:orientation="horizontal">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/layout_menu_iv_header"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:scaleType="centerCrop"
-        android:src="@drawable/username0" />
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/username0"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp" />
 
     <TextView
         android:id="@+id/layout_menu_tv_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom"
         android:layout_marginLeft="0dp"
         android:layout_weight="1"
         android:text="@string/indexactivity_user_name"

@@ -4,99 +4,27 @@
     android:id="@+id/drawer_activity_index"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:fitsSystemWindows="true"
     tools:context=".IndexActivity">
 
-    <FrameLayout
-        android:id="@+id/framelayout_activtiy_index"
+
+    <include
+        layout="@layout/layout_index_activity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true" />
+        android:layout_height="match_parent" />
+
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationView"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/layout_header"
-        app:menu="@layout/layout_menu">
-    </android.support.design.widget.NavigationView>
-
-    <RelativeLayout
-        android:id="@+id/relative"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="bottom">
-
-        <LinearLayout
-            android:id="@+id/linearlayout_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@drawable/index_main_menu_color"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            android:showDividers="beginning">
-
-            <ImageButton
-                android:id="@+id/ibtn_activity_index_homepage"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/tvonclickstyle_selector"
-                android:clickable="true"
-                android:onClick="onClick"
-                android:src="@drawable/hoempage" />
-
-            <ImageButton
-                android:id="@+id/ibtn_activity_index_search"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/tvonclickstyle_selector"
-                android:clickable="true"
-                android:onClick="onClick"
-                android:src="@drawable/search" />
-
-            <ImageButton
-                android:id="@+id/ibtn_activity_index_pupopwindow"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="#ffffff"
-                android:clickable="true"
-                android:onClick="onClick"
-                android:src="@drawable/popwindow" />
-
-            <ImageButton
-                android:id="@+id/ibtn_activity_index_message"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/tvonclickstyle_selector"
-                android:clickable="true"
-                android:onClick="onClick"
-                android:src="@drawable/message" />
-
-            <ImageButton
-                android:id="@+id/ibtn_activity_index_personal"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/tvonclickstyle_selector"
-                android:clickable="true"
-                android:onClick="onClick"
-                android:src="@drawable/personal" />
-        </LinearLayout>
-
-
-    </RelativeLayout>
+        app:itemIconTint="@android:color/holo_blue_bright"
+        app:itemTextColor="@android:color/holo_blue_light"
+        app:menu="@menu/layout_menu" />
 
 
 </android.support.v4.widget.DrawerLayout>

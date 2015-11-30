@@ -36,9 +36,6 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".ChooseHeadPictureActivity"
-            android:label="@string/title_activity_choose_head_picture" />
-        <activity
             android:name=".DynamicActivity"
             android:label="@string/title_activity_my_dynamic" />
         <activity
@@ -51,17 +48,14 @@
             android:name=".WriteDynamicActivity"
             android:label="@string/title_activity_write_dynamic" />
         <activity
-            android:name=".UpdateUserInformationActivity"
-            android:label="@string/title_activity_update_user_information" />
-        <activity
             android:name=".WriteNoteActivity"
             android:label="@string/title_activity_write_notectivity" />
         <activity
-            android:name=".SeettingActivity"
-            android:label="@string/title_activity_seetting"></activity>
+            android:name=".SettingActivity"
+            android:label="@string/title_activity_seetting" />
         <activity
             android:name=".DraftsActivity"
-            android:label="@string/title_activity_drafts"></activity>
+            android:label="@string/title_activity_drafts" />
     </application>
 
 </manifest>
