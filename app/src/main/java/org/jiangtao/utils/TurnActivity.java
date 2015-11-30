@@ -8,6 +8,7 @@ import org.jiangtao.lifetime.LoginActivity;
 import org.jiangtao.lifetime.DynamicActivity;
 import org.jiangtao.lifetime.RegisterActivity;
 import org.jiangtao.lifetime.WriteDynamicActivity;
+import org.jiangtao.lifetime.WriteNoteActivity;
 
 /**
  * Created by mr-jiang on 15-11-21.
@@ -43,6 +44,13 @@ public class TurnActivity {
      */
     public static void turnWrietDynamicActivity(AppCompatActivity activity){
         Intent intent = new Intent(activity, WriteDynamicActivity.class);
+        activity.startActivityForResult(intent, 0x123);
+    }
+    /**
+     * 跳转到 WriteNoteActivity
+     */
+    public static void turnWrietNoteActivity(AppCompatActivity activity){
+        Intent intent = new Intent(activity, WriteNoteActivity.class);
         activity.startActivityForResult(intent, 0x123);
     }
 }

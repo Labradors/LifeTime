@@ -12,17 +12,13 @@
 
     <item
         android:id="@+id/nav_attention"
-        android:icon="@drawable/own"
+        android:icon="@drawable/important"
         android:title="@string/nav_collect" />
 
-    <item
-        android:id="@+id/nav_collect"
-        android:icon="@drawable/own"
-        android:title="@string/nav_attention" />
 
     <item
         android:id="@+id/nav_about"
-        android:icon="@drawable/about"
+        android:icon="@drawable/changestyle"
         android:title="@string/turn_themes" />
 
     <item
@@ -30,5 +26,9 @@
         android:icon="@drawable/settings"
         android:title="@string/drawer_open" />
 
+    <item
+        android:id="@+id/sub_exit"
+        android:icon="@drawable/exit"
+        android:title="@string/app_exit" />
 
 </menu>

@@ -21,7 +21,7 @@ public class ConstantValues {
     public static final String saveCacheUri = Environment.getExternalStorageDirectory() + "/lifetime/cache/";
 
 
-    public static final String url = "http://192.168.1.105:8080/LifeTimeBackstage/";
+    public static final String url = "http://192.168.1.106:8080/LifeTimeBackstage/";
     //欢迎界面的url
     public static final String welcomeUrl = url + "welcome.action";
     //请求获得验证码

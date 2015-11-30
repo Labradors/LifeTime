@@ -123,6 +123,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     TurnActivity.turnWrietDynamicActivity(IndexActivity.this);
                     break;
                 case R.id.pup_btn_writenote:
+                    TurnActivity.turnWrietNoteActivity(IndexActivity.this);
                     break;
                 default:
                     break;
