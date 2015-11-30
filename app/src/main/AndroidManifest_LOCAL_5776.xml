@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.jiangtao.lifetime">
+    package="org.jiangtao.lifetime" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,14 +12,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".IndexActivity"
             android:label="@string/app_name" />
         <activity
             android:name=".WelcomeActivity"
             android:label="@string/title_activity_welcome"
-            android:logo="@drawable/ic_drawer">
+            android:logo="@drawable/ic_drawer" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,13 +55,8 @@
             android:label="@string/title_activity_update_user_information" />
         <activity
             android:name=".WriteNoteActivity"
-            android:label="@string/title_activity_write_notectivity" />
-        <activity
-            android:name=".SeettingActivity"
-            android:label="@string/title_activity_seetting"></activity>
-        <activity
-            android:name=".DraftsActivity"
-            android:label="@string/title_activity_drafts"></activity>
+            android:label="@string/title_activity_write_notectivity" >
+        </activity>
     </application>
 
 </manifest>

@@ -53,15 +53,6 @@
         <activity
             android:name=".UpdateUserInformationActivity"
             android:label="@string/title_activity_update_user_information" />
-        <activity
-            android:name=".WriteNoteActivity"
-            android:label="@string/title_activity_write_notectivity" />
-        <activity
-            android:name=".SeettingActivity"
-            android:label="@string/title_activity_seetting"></activity>
-        <activity
-            android:name=".DraftsActivity"
-            android:label="@string/title_activity_drafts"></activity>
     </application>
 
 </manifest>

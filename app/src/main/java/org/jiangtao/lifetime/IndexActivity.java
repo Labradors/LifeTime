@@ -71,16 +71,8 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         decideUserLogin();
         //mNavigationView监听器
         mNavigationViewOnSelectListener();
-        /**
-         * Popupwindow
-         */
-        mBtnPopupwindow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menuWindow = new Popupwindow(IndexActivity.this, itemsOnClick);
-                menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
-            }
-        });
+
+
 
     }
 
@@ -143,6 +135,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     TurnActivity.turnWrietDynamicActivity(IndexActivity.this);
                     break;
                 case R.id.pup_btn_writenote:
+                    TurnActivity.turnWrietNoteActivity(IndexActivity.this);
                     break;
                 default:
                     break;
@@ -244,6 +237,15 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                         .commit();
                 break;
             }
+            /**
+             * Popupwindow
+             */
+            case R.id.ibtn_activity_index_pupopwindow:{
+                menuWindow = new Popupwindow(IndexActivity.this, itemsOnClick);
+                menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow),
+                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+            }
+
             case R.id.ibtn_activity_index_message: {
                 getSupportFragmentManager().beginTransaction()
                         .show(fragments[2])

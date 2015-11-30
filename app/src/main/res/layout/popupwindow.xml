@@ -25,7 +25,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"
             android:layout_marginTop="5dp"
-            android:background="#8EE5EE"
+            android:background="@drawable/popuwindow_button_onclickstyle_selector"
             android:text="@string/popupwindow_btn_takephoto" />
 
         <Button
@@ -39,7 +39,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="10dp"
-            android:background="#8EE5EE"
+            android:background="@drawable/popuwindow_button_onclickstyle_selector"
             android:text="@string/popupwindow_btn_richscan" />
     </LinearLayout>
 
@@ -58,7 +58,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="2dp"
         android:layout_marginLeft="10dp"
-        android:background="#8EE5EE"
+        android:background="@drawable/popuwindow_button_onclickstyle_selector"
         android:text="@string/popupwindow_btn_writedynamic" />
     <Button
         android:id="@+id/pup_btn_writenote"

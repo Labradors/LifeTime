@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import org.jiangtao.application.LifeApplication;
-import org.jiangtao.networkutils.UploadDynamic;
 import org.jiangtao.utils.BitmapUtils;
 import org.jiangtao.utils.Code;
 import org.jiangtao.utils.ConstantValues;
@@ -86,7 +85,7 @@ public class WriteDynamicActivity extends AppCompatActivity {
             LogUtils.d(TAG, "<<<" + mImageAddress);
             if (mArticleContent != "" || mImageAddress != "") {
                 //上传到服务器
-                UploadDynamic.uploadDynamic(ConstantValues.uploadImageArticleUrl
+                org.jiangtao.networkutils.UploadDynamic.uploadDynamic(ConstantValues.uploadImageArticleUrl
                         , mArticleContent, mImageAddress);
             } else {
                 Snackbar.make(mLinearLayout, R.string.article_info_error, Snackbar
