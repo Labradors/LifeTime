@@ -71,7 +71,7 @@ public class PersonalFragment extends android.support.v4.app.Fragment implements
                         LifeApplication.user_name + ".png");
                 Bitmap bitmap1 = BitmapUtils.toRoundBitmap(bitmap);
                 BitmapDrawable bd = new BitmapDrawable(bitmap1);
-                personalNoLoginTv.setBackground(bd);
+//                personalNoLoginTv.setBackground(bd);
             }
         }
     }

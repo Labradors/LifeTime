@@ -28,6 +28,7 @@ import org.jiangtao.fragment.MessageFragment;
 import org.jiangtao.fragment.PersonalFragment;
 import org.jiangtao.sql.UserBusinessImpl;
 import org.jiangtao.utils.Code;
+import org.jiangtao.utils.LogUtils;
 import org.jiangtao.utils.Popupwindow;
 import org.jiangtao.utils.TurnActivity;
 
@@ -38,6 +39,7 @@ import java.util.TimerTask;
 
 public class IndexActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = IndexActivity.class.getSimpleName();
     //自定义弹框类
     private Popupwindow menuWindow;
     private ImageButton mBtnPopupwindow;
@@ -66,19 +68,27 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         initFragment();
         controlsInitialize();
         //判断用户登陆
-//        decideUserLogin();
+        decideUserLogin();
+        //mNavigationView监听器
+        mNavigationViewOnSelectListener();
 
-        /**
-         * Popupwindow
-         */
-        mBtnPopupwindow.setOnClickListener(new View.OnClickListener() {
+
+
+    }
+
+    /**
+     * 设置mNavigationView的选项监听器
+     */
+    private void mNavigationViewOnSelectListener() {
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                menuWindow = new Popupwindow(IndexActivity.this, itemsOnClick);
-                menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+
+                }
+                return false;
             }
         });
-
     }
 
     /**
@@ -92,20 +102,22 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
             if (userArrayList != null) {
                 for (int i = 0; i < userArrayList.size(); i++) {
                     user = userArrayList.get(i);
+                    if (user != null) {
+                        LifeApplication.isLogin = true;
+                        LifeApplication.user_email = user.getUser_email();
+                        LifeApplication.user_name = user.getUser_name();
+                        LogUtils.d(TAG, user.getUser_name());
+                        LifeApplication.user_id = user.getUser_id();
+                        String user_headimage = user.getUser_headpicture();
+                        //读取图像，丢到drawer的图像层
+                        String user_name = user.getUser_name();
+                        LogUtils.d(TAG, user_name);
+                        mHeadTextView.setText(user_name);
+                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        if (user != null) {
-            LifeApplication.isLogin = true;
-            LifeApplication.user_email = user.getUser_email();
-            LifeApplication.user_name = user.getUser_name();
-            LifeApplication.user_id = user.getUser_id();
-            String user_headimage = user.getUser_headpicture();
-            //读取图像，丢到drawer的图像层
-
-            mHeadTextView.setText(user.getUser_name());
         }
     }
 
@@ -225,6 +237,15 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                         .commit();
                 break;
             }
+            /**
+             * Popupwindow
+             */
+            case R.id.ibtn_activity_index_pupopwindow:{
+                menuWindow = new Popupwindow(IndexActivity.this, itemsOnClick);
+                menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow),
+                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+            }
+
             case R.id.ibtn_activity_index_message: {
                 getSupportFragmentManager().beginTransaction()
                         .show(fragments[2])

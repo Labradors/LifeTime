@@ -22,7 +22,7 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
  */
 public class Popupwindow extends PopupWindow {
 
-    private Button pupBtnTakePhoto,pupBtnRichScan,pupBtnWriteDynamic,pupBtnWriteNote,pupBtnCancel;
+    private Button pupBtnTakePhoto,pupBtnRichScan,pupBtnWriteDynamic,pupBtnWriteNote;
     private View mMenuView;
 
     public Popupwindow(Activity context, View.OnClickListener itemsOnClick) {

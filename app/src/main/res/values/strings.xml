@@ -119,6 +119,8 @@
     <drawable name="pop_btn_color_normal">#8EE5EE</drawable>
     <drawable name="pop_btn_color_press">#B8B8B8</drawable>
     <string name="title_activity_update_user_information">设置</string>
+    <string name="title_activity_seetting">SeettingActivity</string>
+    <string name="title_activity_drafts">DraftsActivity</string>
 
 
 </resources>

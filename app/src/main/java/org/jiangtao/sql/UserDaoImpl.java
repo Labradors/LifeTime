@@ -127,13 +127,13 @@ public class UserDaoImpl implements UserDao {
     public List<User> selectAllUser() throws Exception {
         ArrayList<User> userArrayList = new ArrayList<>();
         SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
+        String sql = "select * from " + LifeTimeSQLiteOpenHelper.TAB_USER;
         lifeTimeSQLiteOpenHelper.onOpen(db);
         Cursor c = null;
         try {
-            c = db.query(LifeTimeSQLiteOpenHelper.TAB_USER, null, null, null, null, null, null);
+            c = db.rawQuery(sql, null);
             if (c != null) {
-                for (int i = 0; i < c.getCount(); i++) {
-                    c.move(i);
+                while (c.moveToNext()) {
                     User user = new User();
                     user.setUser_id(c.getInt(c.getColumnIndex("user_id")));
                     user.setUser_email(c.getString(c.getColumnIndex("user_email")));
@@ -145,6 +145,7 @@ public class UserDaoImpl implements UserDao {
                     user.setUser_headpicture(c.getString(c.getColumnIndex("user_headpicture")));
                     user.setUser_password(c.getString(c.getColumnIndex("user_sex")));
                     user.setUser_phone(c.getString(c.getColumnIndex("user_phone")));
+                    LogUtils.d(TAG, user.toString());
                     userArrayList.add(user);
                 }
             } else {
