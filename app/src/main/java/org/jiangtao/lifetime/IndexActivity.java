@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,16 +17,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.jiangtao.application.LifeApplication;
+import org.jiangtao.bean.User;
 import org.jiangtao.fragment.FriendFragment;
 import org.jiangtao.fragment.HomePageFragment;
 import org.jiangtao.fragment.MessageFragment;
 import org.jiangtao.fragment.PersonalFragment;
+import org.jiangtao.sql.UserBusinessImpl;
 import org.jiangtao.utils.Code;
 import org.jiangtao.utils.Popupwindow;
 import org.jiangtao.utils.TurnActivity;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -45,7 +49,9 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     private FriendFragment mFriendFragment;
     private PersonalFragment mPersonalFragment;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Toolbar mToolBar;
+    private ImageView mHeadImageView;
+    private TextView mHeadTextView;
+    private UserBusinessImpl business;
     Fragment[] fragments = new Fragment[4];
     private static Boolean isQuit = false;
     Timer timer = new Timer();
@@ -59,6 +65,8 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         manageActionBar();
         initFragment();
         controlsInitialize();
+        //判断用户登陆
+//        decideUserLogin();
 
         /**
          * Popupwindow
@@ -71,6 +79,34 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
+    }
+
+    /**
+     * 判断用户登陆
+     */
+    private void decideUserLogin() {
+        business = new UserBusinessImpl(this);
+        User user = new User();
+        try {
+            ArrayList<User> userArrayList = (ArrayList<User>) business.selectAllUser();
+            if (userArrayList != null) {
+                for (int i = 0; i < userArrayList.size(); i++) {
+                    user = userArrayList.get(i);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (user != null) {
+            LifeApplication.isLogin = true;
+            LifeApplication.user_email = user.getUser_email();
+            LifeApplication.user_name = user.getUser_name();
+            LifeApplication.user_id = user.getUser_id();
+            String user_headimage = user.getUser_headpicture();
+            //读取图像，丢到drawer的图像层
+
+            mHeadTextView.setText(user.getUser_name());
+        }
     }
 
     //为弹出popupwindow窗口实现监听类
@@ -100,7 +136,8 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     private void controlsInitialize() {
 
         mBtnPopupwindow = (ImageButton) findViewById(R.id.ibtn_activity_index_pupopwindow);
-        mToolBar = new Toolbar(this);
+        mHeadImageView = (ImageView) findViewById(R.id.layout_menu_iv_header);
+        mHeadTextView = (TextView) findViewById(R.id.layout_menu_tv_header);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_action_back, R.drawable.ic_drawer) {
             @Override
@@ -218,12 +255,10 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

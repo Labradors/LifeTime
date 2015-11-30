@@ -3,52 +3,32 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
+    <item
+        android:id="@+id/nav_index"
+        android:icon="@drawable/own"
+        android:title="@string/drawer_close" />
+
+    <item
+        android:id="@+id/nav_attention"
+        android:icon="@drawable/own"
+        android:title="@string/nav_collect" />
+
+    <item
+        android:id="@+id/nav_collect"
+        android:icon="@drawable/own"
+        android:title="@string/nav_attention" />
+
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@drawable/about"
+        android:title="@string/turn_themes" />
+
+    <item
+        android:id="@+id/sub_setting"
+        android:icon="@drawable/settings"
+        android:title="@string/drawer_open" />
 
 
-
-    <group
-        android:checkableBehavior="single"
-        android:title="Home items">
-
-        <item
-            android:id="@+id/nav_blog"
-            android:icon="@drawable/own"
-            android:title="我的主页" />
-
-        <item
-            android:id="@+id/nav_ver"
-            android:icon="@drawable/versioninformation"
-            android:title="版本信息" />
-
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/about"
-            android:title="关于应用" />
-
-    </group>
-
-    <item android:title="Sub items">
-
-        <menu>
-
-            <item
-                android:id="@+id/sub_setting"
-                android:icon="@drawable/settings"
-                android:title="设置" />
-            <item
-                android:id="@+id/sub_exit"
-                android:icon="@drawable/exit"
-                android:title="退出应用" />
-            <item
-                android:id="@+id/sub_exita"
-                android:icon="@drawable/exit"
-                android:title="退出应用" />
-            <item
-                android:id="@+id/sub_exitb"
-                android:icon="@drawable/exit"
-                android:title="退出应用" />
-        </menu>
-    </item>
 </menu>
