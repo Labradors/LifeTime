@@ -5,6 +5,8 @@ import android.content.Context;
 import org.jiangtao.bean.User;
 import org.jiangtao.utils.LogUtils;
 
+import java.util.List;
+
 /**
  * Created by mr-jiang on 15-11-28.
  * 服务类
@@ -33,11 +35,16 @@ public class UserBusinessImpl implements UserBusiness {
 
     @Override
     public void updateUser(User user) throws Exception {
-
+        userDao.updateUser(user);
     }
 
     @Override
     public User selectUser(String user_email) throws Exception {
         return userDao.selectUser(user_email);
+    }
+
+    @Override
+    public List<User> selectAllUser() throws Exception {
+        return userDao.selectAllUser();
     }
 }

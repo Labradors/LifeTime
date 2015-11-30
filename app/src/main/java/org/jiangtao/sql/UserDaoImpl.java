@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import org.jiangtao.bean.User;
 import org.jiangtao.utils.LogUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by mr-jiang on 15-11-27.
  * 用户保存用户数据
@@ -113,4 +116,50 @@ public class UserDaoImpl implements UserDao {
         }
         return user;
     }
+
+    /**
+     * 查询除所有的用户信息
+     *
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<User> selectAllUser() throws Exception {
+        ArrayList<User> userArrayList = new ArrayList<>();
+        SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
+        lifeTimeSQLiteOpenHelper.onOpen(db);
+        Cursor c = null;
+        try {
+            c = db.query(LifeTimeSQLiteOpenHelper.TAB_USER, null, null, null, null, null, null);
+            if (c != null) {
+                for (int i = 0; i < c.getCount(); i++) {
+                    c.move(i);
+                    User user = new User();
+                    user.setUser_id(c.getInt(c.getColumnIndex("user_id")));
+                    user.setUser_email(c.getString(c.getColumnIndex("user_email")));
+                    user.setUser_name(c.getString(c.getColumnIndex("user_name")));
+//                    @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+//                    user.setUser_jointime(format.parse(c.getString(c.getColumnIndex("user_jointime"))));
+                    user.setUser_jointime(null);
+                    user.setUser_sex(c.getString(c.getColumnIndex("user_sex")));
+                    user.setUser_headpicture(c.getString(c.getColumnIndex("user_headpicture")));
+                    user.setUser_password(c.getString(c.getColumnIndex("user_sex")));
+                    user.setUser_phone(c.getString(c.getColumnIndex("user_phone")));
+                    userArrayList.add(user);
+                }
+            } else {
+                LogUtils.d(TAG, "没有取出数据");
+            }
+        } finally {
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+        }
+        return userArrayList;
+    }
+
 }
