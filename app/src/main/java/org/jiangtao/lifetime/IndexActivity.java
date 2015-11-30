@@ -244,6 +244,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 menuWindow = new Popupwindow(IndexActivity.this, itemsOnClick);
                 menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow),
                         Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                break;
             }
 
             case R.id.ibtn_activity_index_message: {

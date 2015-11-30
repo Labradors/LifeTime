@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#dacccccc"
     tools:context="org.jiangtao.lifetime.WriteNoteActivity">
 
     <android.support.design.widget.TabLayout
@@ -10,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:tabSelectedTextColor="@android:color/holo_blue_light" />
+        android:background="#ff00ddff"
+        app:tabTextColor="#ffffffff"
+        app:tabSelectedTextColor="#ff000000" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager_fragment_viewpager_writenote"
