@@ -1,9 +1,47 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="org.jiangtao.fragment.WriteNoteFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    tools:context="org.jiangtao.fragment.WriteNoteFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+   <LinearLayout
+       android:id="@+id/layout_writenote_timetextview"
+       android:layout_width="match_parent"
+       android:layout_height="30dp"
+       android:layout_marginTop="5dp"
+       android:background="#ffffff">
+       <TextView
+           android:layout_gravity="center_vertical"
+           android:id="@+id/tv_writenote_time"
+           android:layout_marginLeft="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" />
+   </LinearLayout>
+    <ScrollView
+        android:layout_below="@+id/layout_writenote_timetextview"
+        android:layout_above="@+id/button_writenote_add"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff">
+        <EditText
+            android:id="@+id/scrollview_writenote_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/scrollview_writenote_edittext"/>
+    </ScrollView>
+    <Button
+        android:id="@+id/button_writenote_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ff00ddff"
+        android:text="@string/button_writenote_add"/>
+</RelativeLayout>

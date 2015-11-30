@@ -8,11 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
 
 import org.jiangtao.adapter.FriendFragmentAdapter;
-import org.jiangtao.fragment.DynamicFriendFragment;
-import org.jiangtao.fragment.DynamicInfoFragment;
 import org.jiangtao.fragment.NoteFragment;
 import org.jiangtao.fragment.WriteNoteFragment;
 
@@ -32,6 +30,8 @@ public class WriteNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_notectivity);
+
+        this.getSupportActionBar().hide();
 
         instanceTabLayout();
         initViewList();
