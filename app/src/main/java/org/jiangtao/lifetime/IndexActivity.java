@@ -1,12 +1,11 @@
 package org.jiangtao.lifetime;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -33,13 +31,13 @@ import org.jiangtao.utils.LogUtils;
 import org.jiangtao.utils.Popupwindow;
 import org.jiangtao.utils.TurnActivity;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class IndexActivity extends AppCompatActivity implements View.OnClickListener {
+public class IndexActivity extends AppCompatActivity implements View.OnClickListener
+        , NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = IndexActivity.class.getSimpleName();
     //自定义弹框类
@@ -71,24 +69,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         controlsInitialize();
         //判断用户登陆
         decideUserLogin();
-        //mNavigationView监听器
-        mNavigationViewOnSelectListener();
-
-    }
-
-    /**
-     * 设置mNavigationView的选项监听器
-     */
-    private void mNavigationViewOnSelectListener() {
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                switch (item.getItemId()) {
-
-                }
-                return false;
-            }
-        });
     }
 
     /**
@@ -166,6 +146,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 
     /**
@@ -240,7 +221,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
             /**
              * Popupwindow
              */
-            case R.id.ibtn_activity_index_pupopwindow:{
+            case R.id.ibtn_activity_index_pupopwindow: {
                 menuWindow = new Popupwindow(IndexActivity.this, itemsOnClick);
                 menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow),
                         Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
@@ -268,29 +249,12 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        getMenuInflater().inflate(R.menu.menu_index, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void personalOnClick(View v) {
         switch (v.getId()) {
-            case R.id.personal_tv_nologin:
+            case R.id.tv_fragment_username:
                 if (LifeApplication.isLogin) {
                     //开启activity，更新用户信息
-                    Intent intent = new Intent(IndexActivity.this, UpdateUserInformationActivity.class);
+                    Intent intent = new Intent(IndexActivity.this, SettingActivity.class);
                     startActivityForResult(intent, Code.REQUESTCODE_UPDATEUSER_INFORMATION);
                 } else {
                     TurnActivity.turnLoginActivity(IndexActivity.this);
@@ -349,6 +313,43 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
+     * 菜单选项监听器
+     *
+     * @param menuItem
+     * @return
+     */
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.nav_index: {
+                Intent intent = new Intent(IndexActivity.this, DynamicActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.nav_attention: {
+                Intent intent = new Intent(IndexActivity.this, CollectionActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.nav_turn_themes: {
+                //切换主题
+                break;
+            }
+            case R.id.nav_setting:
+                Intent intent = new Intent(IndexActivity.this, SettingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_exit: {
+                finish();
+                break;
+            }
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return false;
+    }
+
+
+    /**
      * 定义activity与fragment之间的通信
      */
     public interface FragmentCallback {
@@ -394,17 +395,5 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         }
         return true;
 
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 }

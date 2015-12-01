@@ -39,6 +39,8 @@ public class WriteDynamicActivity extends AppCompatActivity {
     //用户所写文章的内容
     public String mArticleContent = "";
 
+    Uri imageUri = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,8 +87,15 @@ public class WriteDynamicActivity extends AppCompatActivity {
             LogUtils.d(TAG, "<<<" + mImageAddress);
             if (mArticleContent != "" || mImageAddress != "") {
                 //上传到服务器
-                org.jiangtao.networkutils.UploadDynamic.uploadDynamic(ConstantValues.uploadImageArticleUrl
+                LogUtils.d(TAG, ">>>" + mArticleContent);
+                boolean isTrue = org.jiangtao.networkutils.UploadDynamic.uploadDynamic(ConstantValues.uploadImageArticleUrl
                         , mArticleContent, mImageAddress);
+                if (isTrue) {
+                    finish();
+                } else {
+                    Snackbar.make(mLinearLayout, R.string.article_info_error, Snackbar
+                            .LENGTH_SHORT).show();
+                }
             } else {
                 Snackbar.make(mLinearLayout, R.string.article_info_error, Snackbar
                         .LENGTH_SHORT).show();
@@ -118,7 +127,9 @@ public class WriteDynamicActivity extends AppCompatActivity {
         if (requestCode == Code.REQUESTCODE_OPEN_GALLERY) {
             if (resultCode == RESULT_OK) {
                 ContentResolver resolver = getContentResolver();
-                Uri imageUri = data.getData();
+                imageUri = data.getData();
+                String imageName = imageUri.getPath();
+                LogUtils.d(TAG, imageName);
                 try {
                     Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(resolver, imageUri);
                     DisplayMetrics metrics = getResources().getDisplayMetrics();

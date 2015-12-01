@@ -19,6 +19,13 @@
     <string name="fragment_home_page_love">喜欢</string>
     <string name="title_activity_regest">注册</string>
     <string name="indexactivity_user_name">用户名</string>
+    <!--动态fragment-->
+    <string name="dynamic_textview">用户名</string>
+    <string name="dynamic_button">关注</string>
+    <string name="dynamic_textview_listview">热度</string>
+    <string name="dynamic_comment_listview">评论</string>
+    <string name="dynamic_collection_listview">收藏</string>
+    <string name="dynamic_love_listview">喜欢</string>
 
     <!--           personal           -->
     <string name="personal_login_btn">登录</string>
@@ -119,8 +126,8 @@
     <drawable name="pop_btn_color_normal">#8EE5EE</drawable>
     <drawable name="pop_btn_color_press">#B8B8B8</drawable>
     <string name="title_activity_update_user_information">设置</string>
-    <string name="title_activity_seetting">SeettingActivity</string>
-    <string name="title_activity_drafts">DraftsActivity</string>
+    <string name="title_activity_seetting">设置</string>
+    <string name="title_activity_drafts">草稿箱</string>
 
     <string name="scrollview_writenote_edittext_title">标题</string>
     <string name="scrollview_writenote_edittext">点击此处编写内容……</string>

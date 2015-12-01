@@ -19,6 +19,7 @@ import org.jiangtao.lifetime.IndexActivity;
 import org.jiangtao.lifetime.R;
 import org.jiangtao.sql.UserBusinessImpl;
 import org.jiangtao.utils.BitmapUtils;
+import org.jiangtao.utils.CircleImageView;
 import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.LogUtils;
 
@@ -30,6 +31,7 @@ public class PersonalFragment extends android.support.v4.app.Fragment implements
     private TextView personalNoLoginTv;
     private View view;
     private UserBusinessImpl business;
+    private de.hdodenhof.circleimageview.CircleImageView mCircleImageView;
 
     public PersonalFragment() {
     }
@@ -44,13 +46,19 @@ public class PersonalFragment extends android.support.v4.app.Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_personal, container, false);
-        personalNoLoginTv = (TextView) view.findViewById(R.id.personal_tv_nologin);
+        controlsInit();
+        mCircleImageView.setScaleType(CircleImageView.ScaleType.CENTER_CROP);
         try {
             setUi();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return view;
+    }
+
+    private void controlsInit() {
+        personalNoLoginTv = (TextView) view.findViewById(R.id.tv_fragment_username);
+        mCircleImageView = (de.hdodenhof.circleimageview.CircleImageView) view.findViewById(R.id.profile_image);
     }
 
     /**
@@ -69,9 +77,10 @@ public class PersonalFragment extends android.support.v4.app.Fragment implements
                 LogUtils.d(TAG, user.getUser_headpicture());
                 Bitmap bitmap = BitmapUtils.getBitmap(ConstantValues.saveImageUri +
                         LifeApplication.user_name + ".png");
-                Bitmap bitmap1 = BitmapUtils.toRoundBitmap(bitmap);
-                BitmapDrawable bd = new BitmapDrawable(bitmap1);
-//                personalNoLoginTv.setBackground(bd);
+
+                BitmapDrawable bd = new BitmapDrawable(bitmap);
+                personalNoLoginTv.setText(user.getUser_name());
+                mCircleImageView.setImageBitmap(bitmap);
             }
         }
     }

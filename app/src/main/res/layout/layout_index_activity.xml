@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/framelayout_activtiy_index"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
+
+        <LinearLayout
+            android:id="@+id/linearlayout_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/index_main_menu_color"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:showDividers="beginning">
+
+            <ImageButton
+                android:id="@+id/ibtn_activity_index_homepage"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/tvonclickstyle_selector"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:src="@drawable/hoempage" />
+
+            <ImageButton
+                android:id="@+id/ibtn_activity_index_search"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/tvonclickstyle_selector"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:src="@drawable/search" />
+
+            <ImageButton
+                android:id="@+id/ibtn_activity_index_pupopwindow"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:src="@drawable/popwindow" />
+
+            <ImageButton
+                android:id="@+id/ibtn_activity_index_message"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/tvonclickstyle_selector"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:src="@drawable/message" />
+
+            <ImageButton
+                android:id="@+id/ibtn_activity_index_personal"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/tvonclickstyle_selector"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:src="@drawable/personal" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

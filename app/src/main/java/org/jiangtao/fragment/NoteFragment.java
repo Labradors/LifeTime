@@ -25,12 +25,12 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NoteFragment extends android.support.v4.app.Fragment{
+public class NoteFragment extends android.support.v4.app.Fragment {
 
     private View mView;
     private ListView mNoteListView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private static final String NOTE_PATH= ConstantValues.saveNoteUri;
+    private static final String NOTE_PATH = ConstantValues.saveNoteUri;
 
     ArrayList name;
 
@@ -42,17 +42,17 @@ public class NoteFragment extends android.support.v4.app.Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView= inflater.inflate(R.layout.fragment_note, container, false);
+        mView = inflater.inflate(R.layout.fragment_note, container, false);
 
         controlsInitialize();
 
-        name=new ArrayList();
-        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-            File path=new File(ConstantValues.saveNoteUri);
-            File[] files=path.listFiles();
+        name = new ArrayList();
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File path = new File(ConstantValues.saveNoteUri);
+            File[] files = path.listFiles();
             getFileName(files);
         }
-        SimpleAdapter adapter=new SimpleAdapter(
+        SimpleAdapter adapter = new SimpleAdapter(
                 getActivity(),
                 name,
                 R.layout.listview_note_item,
@@ -90,7 +90,7 @@ public class NoteFragment extends android.support.v4.app.Fragment{
 //        return list;
 //    }
 
-    private void getFileName(File[] files){
+    private void getFileName(File[] files) {
         if (files != null) {// 先判断目录是否为空，否则会报空指针
             for (File file : files) {
                 if (file.isDirectory()) {
@@ -115,11 +115,12 @@ public class NoteFragment extends android.support.v4.app.Fragment{
             }
         }
     }
+
     /**
      * 初始化控件
      */
-    private void controlsInitialize(){
-        mNoteListView= (ListView) mView.findViewById(R.id.note_listview);
+    private void controlsInitialize() {
+        mNoteListView = (ListView) mView.findViewById(R.id.note_listview);
 //        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(
 //                R.id.refresh_fragment_note);
     }

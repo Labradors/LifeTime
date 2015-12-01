@@ -32,7 +32,7 @@ public class WriteNoteFragment extends android.support.v4.app.Fragment {
     private EditText mTitleEd;
     private EditText mContentEd;
 
-    private String notePath="/storage/sdcard0/lifetime/note/";
+    private String notePath = "/storage/sdcard0/lifetime/note/";
 
     private Button mBtnFinash;
 
@@ -50,8 +50,8 @@ public class WriteNoteFragment extends android.support.v4.app.Fragment {
 
         mTimeTv = (TextView) mView.findViewById(R.id.tv_writenote_time);
         mBtnFinash = (Button) mView.findViewById(R.id.button_writenote_add);
-        mTitleEd= (EditText) mView.findViewById(R.id.ed_writenote_title);
-        mContentEd= (EditText) mView.findViewById(R.id.scrollview_writenote_edittext);
+        mTitleEd = (EditText) mView.findViewById(R.id.ed_writenote_title);
+        mContentEd = (EditText) mView.findViewById(R.id.scrollview_writenote_edittext);
 
 
         SetTime();
@@ -60,7 +60,7 @@ public class WriteNoteFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 Save();
-                Toast.makeText(getActivity(), "存储成功"+ConstantValues.saveNoteUri, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "存储成功" + ConstantValues.saveNoteUri, Toast.LENGTH_SHORT).show();
             }
         });
         return mView;
@@ -89,13 +89,13 @@ public class WriteNoteFragment extends android.support.v4.app.Fragment {
      */
     public void Save() {
         try {
-            String mTitle=mTitleEd.getText().toString();
-            String mContent= mContentEd.getText().toString();
+            String mTitle = mTitleEd.getText().toString();
+            String mContent = mContentEd.getText().toString();
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 //                File sdCardDir = Environment.getExternalStorageDirectory();
-                File sdCardDir=new File(ConstantValues.saveNoteUri);
+                File sdCardDir = new File(ConstantValues.saveNoteUri);
                 File saveFile = new File(
-                        sdCardDir,mTitle+".txt");
+                        sdCardDir, mTitle + ".txt");
                 FileOutputStream outStream = new FileOutputStream(saveFile);
                 outStream.write(mContent.getBytes());
                 outStream.close();
