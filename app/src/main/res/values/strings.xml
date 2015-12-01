@@ -129,5 +129,8 @@
     <string name="title_activity_seetting">设置</string>
     <string name="title_activity_drafts">草稿箱</string>
 
+    <string name="scrollview_writenote_edittext_title">标题</string>
+    <string name="scrollview_writenote_edittext">点击此处编写内容……</string>
+    <string name="button_writenote_add">完成</string>
 
 </resources>

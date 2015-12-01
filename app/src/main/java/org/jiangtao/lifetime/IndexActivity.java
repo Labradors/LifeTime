@@ -67,6 +67,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         manageActionBar();
         initFragment();
         controlsInitialize();
+        //判断用户登陆
         decideUserLogin();
     }
 
@@ -130,8 +131,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         mBtnPopupwindow = (ImageButton) findViewById(R.id.ibtn_activity_index_pupopwindow);
         mHeadImageView = (ImageView) findViewById(R.id.layout_menu_iv_header);
         mHeadTextView = (TextView) findViewById(R.id.layout_menu_tv_header);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_activity_index);
-        mNavigationView = (NavigationView) findViewById(R.id.navigationView);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_action_back, R.drawable.ic_drawer) {
             @Override
@@ -147,7 +146,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -156,6 +154,8 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
      */
     private void drawerBindFragment() {
         LayoutInflater inflater = LayoutInflater.from(this);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_activity_index);
+        mNavigationView = (NavigationView) findViewById(R.id.navigationView);
     }
 
     /**
@@ -165,7 +165,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
     }
 
     /**
@@ -226,6 +225,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 menuWindow = new Popupwindow(IndexActivity.this, itemsOnClick);
                 menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow),
                         Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                break;
             }
 
             case R.id.ibtn_activity_index_message: {

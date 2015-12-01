@@ -52,7 +52,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
         mView = inflater.inflate(R.layout.fragment_dynamic, container, false);
         initControl();
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        declareOnclikListener();
+//        declareOnclikListener();
         return mView;
     }
 
