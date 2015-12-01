@@ -3,6 +3,7 @@ package org.jiangtao.lifetime;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ import org.jiangtao.utils.LogUtils;
 import org.jiangtao.utils.Popupwindow;
 import org.jiangtao.utils.TurnActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -71,8 +73,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         decideUserLogin();
         //mNavigationView监听器
         mNavigationViewOnSelectListener();
-
-
 
     }
 

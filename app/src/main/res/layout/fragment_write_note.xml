@@ -7,34 +7,56 @@
     tools:context="org.jiangtao.fragment.WriteNoteFragment">
 
     <!-- TODO: Update blank fragment layout -->
-   <LinearLayout
-       android:id="@+id/layout_writenote_timetextview"
-       android:layout_width="match_parent"
-       android:layout_height="30dp"
-       android:layout_marginTop="5dp"
-       android:background="#ffffff">
-       <TextView
-           android:layout_gravity="center_vertical"
-           android:id="@+id/tv_writenote_time"
-           android:layout_marginLeft="10dp"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content" />
-   </LinearLayout>
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/layout_writenote_timetextview"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/tv_writenote_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_writenote_titletextview"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
         android:layout_below="@+id/layout_writenote_timetextview"
-        android:layout_above="@+id/button_writenote_add"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff">
+
+        <EditText
+            android:id="@+id/ed_writenote_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:hint="@string/scrollview_writenote_edittext_title"
+            android:layout_marginLeft="10dp" />
+    </LinearLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/button_writenote_add"
+        android:layout_below="@+id/layout_writenote_titletextview"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:background="#ffffff">
+
         <EditText
             android:id="@+id/scrollview_writenote_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="@string/scrollview_writenote_edittext"/>
+            android:hint="@string/scrollview_writenote_edittext" />
     </ScrollView>
+
     <Button
         android:id="@+id/button_writenote_add"
         android:layout_width="match_parent"
@@ -43,5 +65,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="#ff00ddff"
-        android:text="@string/button_writenote_add"/>
+        android:text="@string/button_writenote_add" />
 </RelativeLayout>

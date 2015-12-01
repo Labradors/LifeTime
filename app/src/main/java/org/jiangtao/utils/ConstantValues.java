@@ -2,6 +2,8 @@ package org.jiangtao.utils;
 
 import android.os.Environment;
 
+import java.io.File;
+
 /**
  * Created by mr-jiang on 15-11-13.
  */
@@ -18,7 +20,7 @@ public class ConstantValues {
     /**
      * 保存便签的内容
      */
-    public static final String saveNoteUri=Environment.getExternalStorageDirectory()+"/lifetime/notes/";
+    public static final String saveNoteUri=Environment.getExternalStorageDirectory()+"/lifetime/";
     /**
      * 保存缓存的目录
      */
