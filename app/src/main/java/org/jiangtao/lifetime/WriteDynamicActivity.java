@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.utils.BitmapUtils;
@@ -38,6 +39,7 @@ public class WriteDynamicActivity extends AppCompatActivity {
     public String mImageAddress = "";
     //用户所写文章的内容
     public String mArticleContent = "";
+    private ProgressBar mProgressBar;
 
     Uri imageUri = null;
 
@@ -54,6 +56,7 @@ public class WriteDynamicActivity extends AppCompatActivity {
         ImageButton mImageButton = (ImageButton) findViewById(R.id.ibtn_write_dynamic);
         Button mButton = (Button) findViewById(R.id.btn_send_dynamic);
         mLinearLayout = (LinearLayout) findViewById(R.id.ll_write_dynamic);
+        mProgressBar = new ProgressBar(this);
     }
 
     /**
@@ -82,6 +85,7 @@ public class WriteDynamicActivity extends AppCompatActivity {
      */
     private void uploadServers() {
         if (LifeApplication.hasNetWork) {
+            setSupportProgressBarVisibility(true);
             getArticleContent();
             LogUtils.d(TAG, ">>>" + mArticleContent);
             LogUtils.d(TAG, "<<<" + mImageAddress);
@@ -91,9 +95,10 @@ public class WriteDynamicActivity extends AppCompatActivity {
                 boolean isTrue = org.jiangtao.networkutils.UploadDynamic.uploadDynamic(ConstantValues.uploadImageArticleUrl
                         , mArticleContent, mImageAddress);
                 if (isTrue) {
+                    setSupportProgressBarVisibility(false);
                     finish();
                 } else {
-                    Snackbar.make(mLinearLayout, R.string.article_info_error, Snackbar
+                    Snackbar.make(mLinearLayout, R.string.article_data_error, Snackbar
                             .LENGTH_SHORT).show();
                 }
             } else {

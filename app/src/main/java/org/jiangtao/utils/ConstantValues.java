@@ -24,7 +24,7 @@ public class ConstantValues {
      */
     public static final String saveCacheUri = Environment.getExternalStorageDirectory() + "/lifetime/cache/";
 
-    public static final String url = "http://192.168.1.118:8080/LifeTimeBackstage/";
+    public static final String url = "http://192.168.1.106:8080/LifeTimeBackstage/";
     //欢迎界面的url
     public static final String welcomeUrl = url + "welcome.action";
     //请求获得验证码
@@ -41,4 +41,6 @@ public class ConstantValues {
     public static final String retrievePasswordUrl = url + "retrievePassword.action";
     //上传图片文章
     public static final String uploadImageArticleUrl = url + "uploadImageArticleUrl.action";
+    //获取所有文章的list列表
+    public static final String getAllArticleUrl = url + "/getAllArticle.action";
 }
