@@ -85,7 +85,7 @@ public class LifeApplication extends Application {
     }
 
     /**
-     * 必须是网络请求
+     * 必须是缓存
      * 异步请求
      *
      * @param callback
@@ -116,6 +116,20 @@ public class LifeApplication extends Application {
             , RequestBody body, String url) throws Exception {
         request = new Request.Builder().addHeader
                 ("Cache-Control", "no-cache").url(url).post(body).build();
+        mOkHttpClient.newCall(request).enqueue(callback);
+    }
+
+    /**
+     * 直接请求
+     * 有缓存
+     *
+     * @param callback
+     * @param body
+     * @param url
+     */
+    public static void getResponse(Callback callback, RequestBody body,
+                                   String url) {
+        request = new Request.Builder().url(url).post(body).build();
         mOkHttpClient.newCall(request).enqueue(callback);
     }
 

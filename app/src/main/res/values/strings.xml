@@ -70,6 +70,7 @@
     <string name="network_error">没有该账号，请注册</string>
     <string name="send_password_email">已经发送密码到邮箱，请查收</string>
     <string name="article_info_error">文章内容为空</string>
+    <string name="article_data_error">上传错误</string>
     <string name="article_network_error">没有网络哦！</string>
 
     <!-- 提示信息-->

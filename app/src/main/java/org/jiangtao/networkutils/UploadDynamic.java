@@ -68,7 +68,6 @@ public class UploadDynamic {
             @Override
             public void onResponse(Response response) throws IOException {
                 String responseFlag = response.body().string();
-                responseFlag.startsWith("\ufeff");
                 LogUtils.d(TAG, responseFlag);
                 try {
                     JSONObject object = new JSONObject(responseFlag);

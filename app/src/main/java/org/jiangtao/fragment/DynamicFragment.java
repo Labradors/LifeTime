@@ -5,17 +5,20 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
+import org.jiangtao.adapter.DynamicAdapter;
+import org.jiangtao.bean.ArticleAllDynamic;
 import org.jiangtao.lifetime.R;
+import org.jiangtao.networkutils.RequestArticleData;
+import org.jiangtao.utils.ConstantValues;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,24 +29,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * ---------------------------------------
  * 返回规则。
  */
-public class DynamicFragment extends android.support.v4.app.Fragment implements OnRefreshListener, View.OnClickListener {
+public class DynamicFragment extends android.support.v4.app.Fragment implements OnRefreshListener {
 
     private View mView;
     private ImageView mImageView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ListView mListViewDynamic;
-    /**
-     * listview中的布局
-     */
-    private CircleImageView mCircleImageView;
-    private TextView mUserNameTextView;
-    private Button mAttentionButton;
-    private ImageView mArticleImageView;
-    private TextView mArticleTextView;
-    private TextView mHotTextView;
-    private TextView mCommentTextView;
-    private TextView mCollectionTextView;
-    private TextView mLoveTextView;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLinearLayout;
+    private ArrayList<ArticleAllDynamic> mList;
+    private DynamicAdapter mDynamicAdapter;
 
 
     @Override
@@ -52,39 +46,37 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
         mView = inflater.inflate(R.layout.fragment_dynamic, container, false);
         initControl();
         mSwipeRefreshLayout.setOnRefreshListener(this);
-//        declareOnclikListener();
+        mRecyclerViewDataFilling();
+        requestData();
         return mView;
     }
 
-    /**
-     * 声明各个控件的监听实现
-     */
-    private void declareOnclikListener() {
-        mAttentionButton.setOnClickListener(this);
-        mHotTextView.setOnClickListener(this);
-        mCommentTextView.setOnClickListener(this);
-        mCollectionTextView.setOnClickListener(this);
-        mLoveTextView.setOnClickListener(this);
+    private void requestData() {
+        mSwipeRefreshLayout.setEnabled(true);
+        mList = RequestArticleData.getInstance().
+                getArticleData(ConstantValues.getAllArticleUrl);
+        if (mList != null) {
+            mSwipeRefreshLayout.setEnabled(false);
+        }
     }
+
+    private void mRecyclerViewDataFilling() {
+        mRecyclerView.setLayoutManager(mLinearLayout);
+        mDynamicAdapter = new DynamicAdapter(mList);
+        mRecyclerView.setAdapter(mDynamicAdapter);
+    }
+
 
     /**
      * 初始化控件
      */
     private void initControl() {
         mImageView = (ImageView) mView.findViewById(R.id.imageview_fragment_dynamic);
-        mListViewDynamic = (ListView) mView.findViewById(R.id.listview_fragment_dynamic);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(
                 R.id.refresh_fragment_dynamic);
-        //listview
-        mCircleImageView = (CircleImageView) mView.findViewById(R.id.profile_image_listview);
-        mUserNameTextView = (TextView) mView.findViewById(R.id.dynamic_textview_userName);
-        mAttentionButton = (Button) mView.findViewById(R.id.dynamic_button);
-        mArticleImageView = (ImageView) mView.findViewById(R.id.dynamic_imageview);
-        mArticleTextView = (TextView) mView.findViewById(R.id.dynamic_article_content);
-        mHotTextView = (TextView) mView.findViewById(R.id.dynamic_textview_listview);
-        mCommentTextView = (TextView) mView.findViewById(R.id.dynamic_comment_listview);
-        mCollectionTextView = (TextView) mView.findViewById(R.id.dynamic_collection_listview);
-        mLoveTextView = (TextView) mView.findViewById(R.id.dynamic_love_listview);
+        mRecyclerView = (RecyclerView) mView.findViewById(R.id.dynamic_recycleview);
+        mLinearLayout = new LinearLayoutManager(getActivity());
+        mList = new ArrayList<>();
     }
 
     /**
@@ -118,32 +110,5 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
     @Override
     public void onRefresh() {
         swipeColorListener();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.dynamic_button: {
-
-                break;
-            }
-            case R.id.dynamic_textview_listview: {
-
-                break;
-            }
-            case R.id.dynamic_comment_listview: {
-
-                break;
-            }
-            case R.id.dynamic_collection_listview: {
-
-                break;
-            }
-            case R.id.dynamic_love_listview: {
-
-                break;
-            }
-        }
-
     }
 }
