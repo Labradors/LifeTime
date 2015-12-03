@@ -163,4 +163,17 @@ public class UserDaoImpl implements UserDao {
         return userArrayList;
     }
 
+    /**
+     * 清空表中数据
+     *
+     * @throws Exception delete from TableName;
+     */
+    @Override
+    public void deleteTable() throws Exception {
+        SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
+        String sql = "delete from " + LifeTimeSQLiteOpenHelper.TAB_USER;
+        db.execSQL(sql);
+        db.close();
+    }
+
 }

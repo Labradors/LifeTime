@@ -21,7 +21,7 @@ public class TurnActivity {
     }
     public static void turnRegisterActivity(AppCompatActivity activity) {
         Intent intent = new Intent(activity, RegisterActivity.class);
-        activity.startActivityForResult(intent, 0x123);
+        activity.startActivityForResult(intent, Code.REQUESTCODE_INDEXACTIVITY_TO_LOGINACTIVITY);
     }
 
     /**

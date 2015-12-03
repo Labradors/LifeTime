@@ -1,6 +1,7 @@
 package org.jiangtao.lifetime;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jiangtao.application.LifeApplication;
@@ -26,7 +28,9 @@ import org.jiangtao.fragment.HomePageFragment;
 import org.jiangtao.fragment.MessageFragment;
 import org.jiangtao.fragment.PersonalFragment;
 import org.jiangtao.sql.UserBusinessImpl;
+import org.jiangtao.utils.BitmapUtils;
 import org.jiangtao.utils.Code;
+import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.LogUtils;
 import org.jiangtao.utils.Popupwindow;
 import org.jiangtao.utils.TurnActivity;
@@ -35,7 +39,9 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * 主页
+ */
 public class IndexActivity extends AppCompatActivity implements View.OnClickListener
         , NavigationView.OnNavigationItemSelectedListener {
 
@@ -72,30 +78,52 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
+     * 更新侧滑栏
+     *
+     * @throws Exception
+     */
+    private void updateNavigationView() throws Exception {
+        business = new UserBusinessImpl(this);
+        ArrayList<User> userArrayList = (ArrayList<User>) business.selectAllUser();
+        LogUtils.d(TAG, userArrayList.size() + "---------");
+        if (userArrayList != null && userArrayList.size() != 0) {
+            for (int i = 0; i < userArrayList.size(); i++) {
+                User user = userArrayList.get(i);
+                if (user != null) {
+                    LifeApplication.isLogin = true;
+                    LifeApplication.user_email = user.getUser_email();
+                    LifeApplication.user_name = user.getUser_name();
+                    LifeApplication.user_id = user.getUser_id();
+                    String user_name = user.getUser_name();
+                    LogUtils.d(TAG, user_name);
+                    mHeadTextView.setText(user_name);
+                    LogUtils.d(TAG, ConstantValues.saveImageUri + LifeApplication.user_name +
+                            ".png");
+                    Bitmap bitmap = BitmapUtils.getBitmap(ConstantValues.saveImageUri +
+                            LifeApplication.user_name + ".png");
+                    if (bitmap != null) {
+                        mHeadImageView.setImageBitmap(bitmap);
+                    }
+                    mNavigationView.invalidate();
+                } else {
+                    mHeadImageView.setImageBitmap(null);
+                    mHeadTextView.setText(null);
+                    mNavigationView.invalidate();
+                }
+            }
+        } else {
+            mHeadImageView.setImageBitmap(null);
+            mHeadTextView.setText(null);
+            mNavigationView.invalidate();
+        }
+    }
+
+    /**
      * 判断用户登陆
      */
     private void decideUserLogin() {
-        business = new UserBusinessImpl(this);
-        User user = new User();
         try {
-            ArrayList<User> userArrayList = (ArrayList<User>) business.selectAllUser();
-            if (userArrayList != null) {
-                for (int i = 0; i < userArrayList.size(); i++) {
-                    user = userArrayList.get(i);
-                    if (user != null) {
-                        LifeApplication.isLogin = true;
-                        LifeApplication.user_email = user.getUser_email();
-                        LifeApplication.user_name = user.getUser_name();
-                        LogUtils.d(TAG, user.getUser_name());
-                        LifeApplication.user_id = user.getUser_id();
-                        String user_headimage = user.getUser_headpicture();
-                        //读取图像，丢到drawer的图像层
-                        String user_name = user.getUser_name();
-                        LogUtils.d(TAG, user_name);
-                        mHeadTextView.setText(user_name);
-                    }
-                }
-            }
+            updateNavigationView();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -112,7 +140,12 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 case R.id.pup_btn_richscan:
                     break;
                 case R.id.pup_btn_writedynamic:
-                    TurnActivity.turnWrietDynamicActivity(IndexActivity.this);
+                    if (LifeApplication.isLogin) {
+                        TurnActivity.turnWrietDynamicActivity(IndexActivity.this);
+                    } else {
+                        Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
                     break;
                 case R.id.pup_btn_writenote:
                     TurnActivity.turnWrietNoteActivity(IndexActivity.this);
@@ -127,10 +160,13 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
      * indexactivity中初始化控件
      */
     private void controlsInitialize() {
-
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.layout_header, null, false);
         mBtnPopupwindow = (ImageButton) findViewById(R.id.ibtn_activity_index_pupopwindow);
-        mHeadImageView = (ImageView) findViewById(R.id.layout_menu_iv_header);
-        mHeadTextView = (TextView) findViewById(R.id.layout_menu_tv_header);
+        mHeadImageView = (ImageView) view.findViewById(R.id.layout_menu_iv_header);
+        mHeadTextView = (TextView) view.findViewById(R.id.layout_menu_tv_header);
+        mNavigationView.addView(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_action_back, R.drawable.ic_drawer) {
             @Override
@@ -190,7 +226,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 .hide(fragments[3])
                 .commit();
     }
-
 
     /**
      * 监听menu菜单的动作事件
@@ -260,7 +295,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     TurnActivity.turnLoginActivity(IndexActivity.this);
                 }
                 break;
-            case R.id.personal_tv_message:
+            case R.id.personal_tv_message: {
                 getSupportFragmentManager().beginTransaction()
                         .show(fragments[2])
                         .hide(fragments[0])
@@ -268,6 +303,26 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                         .hide(fragments[3])
                         .commit();
                 break;
+            }
+            case R.id.btn_cancel_login: {
+                LogUtils.d(TAG, "run------");
+                //lifetime设置为空
+                LifeApplication.isLogin = false;
+                LifeApplication.user_id = 0;
+                LifeApplication.user_email = null;
+                LifeApplication.user_name = null;
+                //清理数据库
+                try {
+                    business.deleteTable();
+                    fragmentCallback.onMainAction(false);
+                    updateNavigationView();
+                    Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
+                    startActivityForResult(intent, Code.REQUESTCODE_INDEXACTIVITY_TO_LOGINACTIVITY);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
     }
 
@@ -298,16 +353,44 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
             switch (resultCode) {
                 case Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE: {
                     boolean flag = data.getBooleanExtra("flag", false);
-                    if (flag) {
-                        fragmentCallback.onMainAction(flag);
-                        getSupportFragmentManager().beginTransaction()
-                                .show(fragments[3])
-                                .hide(fragments[1])
-                                .hide(fragments[2])
-                                .hide(fragments[0])
-                                .commitAllowingStateLoss();
+                    LogUtils.d(TAG, "<<________------" + flag);
+                    try {
+                        business = new UserBusinessImpl(this);
+                        if (flag) {
+                            /**
+                             * 发送信号给personalfragment
+                             * 把图片和用户名名换掉
+                             */
+                            User user = null;
+                            user = business.selectUser(LifeApplication.user_email);
+                            LogUtils.d(TAG, "查看是否取出文件" + user.toString());
+                            if (user != null) {
+                                LogUtils.d(TAG, "---------" + user.toString());
+                                mHeadTextView.setText(user.getUser_name());
+                                if (user.getUser_headpicture() != null) {
+                                    /**
+                                     * 将地址转化为bitmap
+                                     */
+                                    Bitmap bitmap = BitmapUtils.getBitmap(ConstantValues.saveImageUri +
+                                            LifeApplication.user_name + ".png");
+                                    mHeadImageView.setImageBitmap(bitmap);
+                                    updateNavigationView();
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    fragmentCallback.onMainAction(flag);
+                    getSupportFragmentManager().beginTransaction()
+                            .show(fragments[3])
+                            .hide(fragments[1])
+                            .hide(fragments[2])
+                            .hide(fragments[0])
+                            .commitAllowingStateLoss();
+                    break;
                 }
+
             }
         }
     }
@@ -354,6 +437,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
      */
     public interface FragmentCallback {
         public void onMainAction(boolean flag);
+
     }
 
     @Override

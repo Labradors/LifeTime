@@ -17,6 +17,7 @@ import org.jiangtao.bean.ArticleAllDynamic;
 import org.jiangtao.lifetime.R;
 import org.jiangtao.networkutils.RequestArticleData;
 import org.jiangtao.utils.ConstantValues;
+import org.jiangtao.utils.LogUtils;
 
 import java.util.ArrayList;
 
@@ -31,13 +32,14 @@ import java.util.ArrayList;
  */
 public class DynamicFragment extends android.support.v4.app.Fragment implements OnRefreshListener {
 
+    private static final String TAG = DynamicFragment.class.getSimpleName();
     private View mView;
     private ImageView mImageView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLinearLayout;
     private ArrayList<ArticleAllDynamic> mList;
-    private DynamicAdapter mDynamicAdapter;
+    private RecyclerView.Adapter<DynamicAdapter.ViewHolder> mDynamicAdapter;
+    private RecyclerView.LayoutManager manager;
 
 
     @Override
@@ -45,24 +47,29 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_dynamic, container, false);
         initControl();
+        hideImageView();
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mRecyclerViewDataFilling();
         requestData();
+        mRecyclerViewDataFilling();
         return mView;
     }
 
     private void requestData() {
         mSwipeRefreshLayout.setEnabled(true);
+        mSwipeRefreshLayout.setRefreshing(true);
         mList = RequestArticleData.getInstance().
                 getArticleData(ConstantValues.getAllArticleUrl);
         if (mList != null) {
-            mSwipeRefreshLayout.setEnabled(false);
+            mSwipeRefreshLayout.setRefreshing(false);
+            mRecyclerViewDataFilling();
+        } else {
+            LogUtils.d(TAG, "返回为空");
         }
     }
 
     private void mRecyclerViewDataFilling() {
-        mRecyclerView.setLayoutManager(mLinearLayout);
-        mDynamicAdapter = new DynamicAdapter(mList);
+        mRecyclerView.setLayoutManager(manager);
+        mDynamicAdapter = new DynamicAdapter(mList, getActivity());
         mRecyclerView.setAdapter(mDynamicAdapter);
     }
 
@@ -75,7 +82,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(
                 R.id.refresh_fragment_dynamic);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.dynamic_recycleview);
-        mLinearLayout = new LinearLayoutManager(getActivity());
+        manager = new LinearLayoutManager(getActivity());
         mList = new ArrayList<>();
     }
 

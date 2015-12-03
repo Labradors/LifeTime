@@ -1,5 +1,6 @@
 package org.jiangtao.bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -7,7 +8,7 @@ import java.sql.Timestamp;
  * on 15-12-2.
  * 动态fragment基类
  */
-public class ArticleAllDynamic {
+public class ArticleAllDynamic implements Serializable {
     private String user_name;
     private String user_headpicture;
     private int article_id;

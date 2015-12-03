@@ -7,3 +7,8 @@ A android client about life record .
 ## Write Article And upload Image
   upload article.
 
+## update drawerlayout
+  login success update
+  cancel login update
+
+
