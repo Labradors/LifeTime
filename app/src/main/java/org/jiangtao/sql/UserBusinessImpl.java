@@ -47,4 +47,9 @@ public class UserBusinessImpl implements UserBusiness {
     public List<User> selectAllUser() throws Exception {
         return userDao.selectAllUser();
     }
+
+    @Override
+    public void deleteTable() throws Exception {
+        userDao.deleteTable();
+    }
 }

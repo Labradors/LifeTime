@@ -19,6 +19,7 @@
     <string name="fragment_home_page_love">喜欢</string>
     <string name="title_activity_regest">注册</string>
     <string name="indexactivity_user_name">用户名</string>
+    <string name="btn_cancel_login">注销</string>
     <!--动态fragment-->
     <string name="dynamic_textview">用户名</string>
     <string name="dynamic_button">关注</string>

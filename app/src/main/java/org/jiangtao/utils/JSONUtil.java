@@ -16,7 +16,7 @@ public class JSONUtil {
      * @param obj
      * @return
      */
-    public static<T> Object JSONToObj(String jsonStr,Class<T> obj) {
+    public static<T> Object JSONToObj(String jsonStr, Class<T> obj) {
         T t = null;
         try {
             ObjectMapper objectMapper = new ObjectMapper();

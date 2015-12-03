@@ -15,4 +15,6 @@ public interface UserDao {
     public User selectUser(String user_email) throws Exception;
 
     public List<User> selectAllUser() throws Exception;
+
+    public void deleteTable() throws Exception;
 }

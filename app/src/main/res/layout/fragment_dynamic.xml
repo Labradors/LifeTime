@@ -16,16 +16,11 @@
             android:scaleType="fitXY"
             android:src="@drawable/not_network" />
 
-        <ScrollView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dynamic_recycleview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/dynamic_recycleview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical" />
-
-        </ScrollView>
     </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

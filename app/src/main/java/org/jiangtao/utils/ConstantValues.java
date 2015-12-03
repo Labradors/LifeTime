@@ -42,5 +42,8 @@ public class ConstantValues {
     //上传图片文章
     public static final String uploadImageArticleUrl = url + "uploadImageArticleUrl.action";
     //获取所有文章的list列表
-    public static final String getAllArticleUrl = url + "/getAllArticle.action";
+    public static final String getAllArticleUrl = url + "getAllArticle.action";
+    //获取文章的图片
+    public static final String getArticleImageUrl = url+"getArticleImage.action";
+
 }

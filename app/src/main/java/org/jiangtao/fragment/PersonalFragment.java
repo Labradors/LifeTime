@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.jiangtao.application.LifeApplication;
@@ -32,6 +33,7 @@ public class PersonalFragment extends android.support.v4.app.Fragment implements
     private View view;
     private UserBusinessImpl business;
     private de.hdodenhof.circleimageview.CircleImageView mCircleImageView;
+    private Button mCancelButton;
 
     public PersonalFragment() {
     }
@@ -53,12 +55,22 @@ public class PersonalFragment extends android.support.v4.app.Fragment implements
         } catch (Exception e) {
             e.printStackTrace();
         }
+        showButton();
         return view;
+    }
+
+    private void showButton() {
+        if (LifeApplication.isLogin) {
+            mCancelButton.setVisibility(Button.VISIBLE);
+        } else {
+            mCancelButton.setVisibility(Button.GONE);
+        }
     }
 
     private void controlsInit() {
         personalNoLoginTv = (TextView) view.findViewById(R.id.tv_fragment_username);
         mCircleImageView = (de.hdodenhof.circleimageview.CircleImageView) view.findViewById(R.id.profile_image);
+        mCancelButton = (Button) view.findViewById(R.id.btn_cancel_login);
     }
 
     /**
@@ -81,6 +93,7 @@ public class PersonalFragment extends android.support.v4.app.Fragment implements
                 BitmapDrawable bd = new BitmapDrawable(bitmap);
                 personalNoLoginTv.setText(user.getUser_name());
                 mCircleImageView.setImageBitmap(bitmap);
+                showButton();
             }
         }
     }
@@ -108,14 +121,18 @@ public class PersonalFragment extends android.support.v4.app.Fragment implements
                          */
                         Bitmap bitmap = BitmapUtils.getBitmap(ConstantValues.saveImageUri +
                                 LifeApplication.user_name + ".png");
-                        Bitmap bitmap1 = BitmapUtils.toRoundBitmap(bitmap);
-                        BitmapDrawable bd = new BitmapDrawable(bitmap1);
-                        personalNoLoginTv.setBackgroundDrawable(bd);
+                        mCircleImageView.setImageBitmap(bitmap);
+                        showButton();
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else {
+            LifeApplication.isLogin = false;
+            personalNoLoginTv.setText("未登录");
+            mCircleImageView.setImageResource(R.drawable.welcome);
+            showButton();
         }
     }
 }

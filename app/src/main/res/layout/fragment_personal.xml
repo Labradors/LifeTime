@@ -113,5 +113,20 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#B8B8B8" />
+
+        <Button
+            android:id="@+id/btn_cancel_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/personal_login_btn_shpe"
+            android:onClick="personalOnClick"
+            android:text="@string/btn_cancel_login" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#B8B8B8" />
     </LinearLayout>
 </LinearLayout>
