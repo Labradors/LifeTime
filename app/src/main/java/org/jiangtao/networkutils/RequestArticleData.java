@@ -1,5 +1,6 @@
 package org.jiangtao.networkutils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -11,6 +12,7 @@ import com.squareup.okhttp.Response;
 
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.ArticleAllDynamic;
+import org.jiangtao.sql.DynamicArticleBusinessImpl;
 import org.jiangtao.utils.LogUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +30,7 @@ public class RequestArticleData {
     private ArrayList<ArticleAllDynamic> mList;
     private static RequestArticleData data;
     public static Bitmap bitmap = null;
+    private DynamicArticleBusinessImpl business;
 
     private RequestArticleData() {
     }
@@ -46,12 +49,12 @@ public class RequestArticleData {
      * @param url
      * @return
      */
-    public ArrayList<ArticleAllDynamic> getArticleData(String url) {
+    public ArrayList<ArticleAllDynamic> getArticleData(String url, final Context context) {
         mList = new ArrayList<>();
         Callback callback = new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-
+                LogUtils.d(TAG, "响应失败");
             }
 
             @Override
@@ -77,31 +80,21 @@ public class RequestArticleData {
                                 mList.add(dynamic);
                                 LogUtils.d(TAG, dynamic.toString());
                             }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    String articleData = response.cacheResponse().body().toString();
-                    try {
-                        JSONArray array = new JSONArray(articleData);
-                        if (array != null) {
-                            for (int i = 0; i < array.length(); i++) {
-
-                                JSONObject data = array.getJSONObject(i);
-                                ArticleAllDynamic dynamic = new ArticleAllDynamic();
-                                dynamic.setUser_name(data.getString("user_name"));
-                                dynamic.setUser_headpicture(data.getString("user_headpicture"));
-                                dynamic.setArticle_id(data.getInt("article_id"));
-                                dynamic.setArticle_user_id(data.getInt("article_user_id"));
-                                dynamic.setArticle_time(null);
-                                dynamic.setArticle_content(data.getString("article_content"));
-                                dynamic.setArticle_image(data.getString("article_image"));
-                                dynamic.setArticle_love_number(data.getInt("article_love_number"));
-                                dynamic.setArticle_comment_number(data.getInt("article_comment_number"));
-                                mList.add(dynamic);
-                                LogUtils.d(TAG, dynamic.toString());
-                            }
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    business = new DynamicArticleBusinessImpl(context);
+                                    //将mlist写入数据库
+                                    int insert = 0;
+                                    try {
+                                        insert = business.insertDynamicArticles(mList);
+                                        LogUtils.d(TAG, "====" + mList.size() + "------");
+                                        LogUtils.d(TAG, "----写入数据库---" + insert);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).start();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
