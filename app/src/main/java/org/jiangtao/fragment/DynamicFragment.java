@@ -1,7 +1,6 @@
 package org.jiangtao.fragment;
 
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,13 +27,12 @@ import org.jiangtao.utils.LogUtils;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * 请求服务器。做适配器，返回数据的定式：
- * author信息
- * 文章内容
- * 附带信息，评论等，多表查询
- * ---------------------------------------
- * 返回规则。
+ * @Date: 15-12-5
+ * @Time: 上午1:56
+ * @Author:
+ * @Description:
+ * @Method:
+ * @Version:   
  */
 public class DynamicFragment extends android.support.v4.app.Fragment implements OnRefreshListener {
 
