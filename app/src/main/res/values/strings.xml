@@ -73,6 +73,7 @@
     <string name="article_info_error">文章内容为空</string>
     <string name="article_data_error">上传错误</string>
     <string name="article_network_error">没有网络哦！</string>
+    <string name="input_not_null">输入信息不能为空哦</string>
 
     <!-- 提示信息-->
     <string name="two_click_exit">双击退出</string>

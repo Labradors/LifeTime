@@ -13,7 +13,7 @@ import org.jiangtao.lifetime.R;
  * A simple {@link Fragment} subclass.
  * 用户信息设置面板
  */
-public class UserInfoSettingFragment extends Fragment {
+public class UserInfoSettingFragment extends android.support.v4.app.Fragment {
 
 
     public UserInfoSettingFragment() {

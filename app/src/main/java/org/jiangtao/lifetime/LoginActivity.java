@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -40,6 +43,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String userName;
     private String passWord;
     private UserBusinessImpl userBusiness;
+    private ProgressBar mProgressBar;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            mProgressBar.setVisibility(ProgressBar.GONE);
+        }
+    };
 
     public LoginActivity() {
         userBusiness = new UserBusinessImpl(this);
@@ -68,6 +79,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLinearLayout = (LinearLayout) findViewById(R.id.activity_login_container);
         mEditTextUserEmal = (EditText) findViewById(R.id.personal_login_username);
         mEditTextPassWord = (EditText) findViewById(R.id.personal_login_password);
+        mProgressBar = (ProgressBar) findViewById(R.id.login_progressbar);
     }
 
     @Override
@@ -95,7 +107,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
              */
             case R.id.personal_login_FrameLayout_buttom_btn_login: {
                 LogUtils.d(TAG, "提示。。。。。");
-                responseLoginInformation();
+                LogUtils.d(TAG, userName);
+                LogUtils.d(TAG, passWord);
+                getEditTextValue();
+                if (userName.equals("")||passWord.equals("")||userName.equals(null)||passWord.equals(null)) {
+                    Snackbar.make(mLinearLayout, R.string.input_not_null,
+                            Snackbar.LENGTH_SHORT).show();
+                } else {
+                    mProgressBar.setVisibility(ProgressBar.VISIBLE);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            responseLoginInformation();
+                        }
+                    }).start();
+                }
                 break;
             }
         }
@@ -109,8 +135,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void responseLoginInformation() {
         getEditTextValue();
         FormEncodingBuilder builder = new FormEncodingBuilder();
-        LogUtils.d(TAG, ">>>>>>" + userName);
-        LogUtils.d(TAG, ">>>>>>" + passWord);
         builder.add("userEmail", userName);
         builder.add("passWord", passWord);
         Request request = new Request.Builder().url(
@@ -152,6 +176,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             LogUtils.d(TAG, ">>><<<<" + user.toString());
                             Intent intent = new Intent(LoginActivity.this, IndexActivity.class);
                             intent.putExtra("flag", true);
+                            Message msg = new Message();
+                            msg.what = 111;
+                            msg.obj = "true";
+                            handler.sendMessage(msg);
                             setResult(Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE, intent);
                             finish();
                         }
@@ -167,6 +195,60 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
         });
-    }
 
+//        try {
+//            Response response = LifeApplication.getCall(request).execute();
+//            if (response.body().string() != null) {
+//                String userInformation = response.body().string();
+//                try {
+//                    JSONObject object = new JSONObject(userInformation);
+//                    User user = (User) JSONUtil.JSONToObj(userInformation, User.class);
+//                    LogUtils.d(TAG, "*******" + user.getUser_headpicture());
+//                    /**
+//                     * 开启网络请求
+//                     * 加载图片
+//                     */
+//                    if (user != null) {
+//                        LifeApplication.isLogin = true;
+//                        LifeApplication.user_id = user.getUser_id();
+//                        LifeApplication.user_email = user.getUser_email();
+//                        LifeApplication.user_name = user.getUser_name();
+//                        LogUtils.d(TAG, Environment.getExternalStorageDirectory() + "/lifetime/headImage/user.jpg");
+//                        //开启网络请求，请求图片，并且保存到sdcard；
+//                        Bitmap bitmap = LoadHeadImage.loadNetWorkHeadImage(
+//                                user.getUser_headpicture(), ConstantValues.userImageUrl
+//                        );
+//                        if (bitmap != null) {
+//                            BitmapUtils.savePhotoToSDCard(ConstantValues.saveImageUri,
+//                                    user.getUser_name() + ".png", bitmap);
+//
+//                            userBusiness.insertUser(user);
+//                            LogUtils.d(TAG, ">>><<<<" + user.toString());
+//                            Intent intent = new Intent(LoginActivity.this, IndexActivity.class);
+//                            intent.putExtra("flag", true);
+//                            Message msg = new Message();
+//                            msg.what = 111;
+//                            msg.obj = "true";
+//                            handler.sendMessage(msg);
+//                            setResult(Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE, intent);
+//                            finish();
+//                        }
+//
+//                    } else {
+//                        Snackbar.make(mLinearLayout, R.string.please_register,
+//                                Snackbar.LENGTH_LONG).show();
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                Snackbar.make(mLinearLayout, R.string.runtime_error,
+//                        Snackbar.LENGTH_LONG).show();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    }
 }

@@ -56,29 +56,56 @@ public class RequestArticleData {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                String articleData = response.body().string();
-                try {
-                    JSONArray array = new JSONArray(articleData);
-                    if (array != null) {
-                        for (int i = 0; i < array.length(); i++) {
+                if (LifeApplication.hasNetWork) {
+                    String articleData = response.body().string();
+                    try {
+                        JSONArray array = new JSONArray(articleData);
+                        if (array != null) {
+                            for (int i = 0; i < array.length(); i++) {
 
-                            JSONObject data = array.getJSONObject(i);
-                            ArticleAllDynamic dynamic = new ArticleAllDynamic();
-                            dynamic.setUser_name(data.getString("user_name"));
-                            dynamic.setUser_headpicture(data.getString("user_headpicture"));
-                            dynamic.setArticle_id(data.getInt("article_id"));
-                            dynamic.setArticle_user_id(data.getInt("article_user_id"));
-                            dynamic.setArticle_time(null);
-                            dynamic.setArticle_content(data.getString("article_content"));
-                            dynamic.setArticle_image(data.getString("article_image"));
-                            dynamic.setArticle_love_number(data.getInt("article_love_number"));
-                            dynamic.setArticle_comment_number(data.getInt("article_comment_number"));
-                            mList.add(dynamic);
-                            LogUtils.d(TAG, dynamic.toString());
+                                JSONObject data = array.getJSONObject(i);
+                                ArticleAllDynamic dynamic = new ArticleAllDynamic();
+                                dynamic.setUser_name(data.getString("user_name"));
+                                dynamic.setUser_headpicture(data.getString("user_headpicture"));
+                                dynamic.setArticle_id(data.getInt("article_id"));
+                                dynamic.setArticle_user_id(data.getInt("article_user_id"));
+                                dynamic.setArticle_time(null);
+                                dynamic.setArticle_content(data.getString("article_content"));
+                                dynamic.setArticle_image(data.getString("article_image"));
+                                dynamic.setArticle_love_number(data.getInt("article_love_number"));
+                                dynamic.setArticle_comment_number(data.getInt("article_comment_number"));
+                                mList.add(dynamic);
+                                LogUtils.d(TAG, dynamic.toString());
+                            }
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    String articleData = response.cacheResponse().body().toString();
+                    try {
+                        JSONArray array = new JSONArray(articleData);
+                        if (array != null) {
+                            for (int i = 0; i < array.length(); i++) {
+
+                                JSONObject data = array.getJSONObject(i);
+                                ArticleAllDynamic dynamic = new ArticleAllDynamic();
+                                dynamic.setUser_name(data.getString("user_name"));
+                                dynamic.setUser_headpicture(data.getString("user_headpicture"));
+                                dynamic.setArticle_id(data.getInt("article_id"));
+                                dynamic.setArticle_user_id(data.getInt("article_user_id"));
+                                dynamic.setArticle_time(null);
+                                dynamic.setArticle_content(data.getString("article_content"));
+                                dynamic.setArticle_image(data.getString("article_image"));
+                                dynamic.setArticle_love_number(data.getInt("article_love_number"));
+                                dynamic.setArticle_comment_number(data.getInt("article_comment_number"));
+                                mList.add(dynamic);
+                                LogUtils.d(TAG, dynamic.toString());
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
@@ -106,8 +133,13 @@ public class RequestArticleData {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                InputStream stream = response.body().byteStream();
-                bitmap = BitmapFactory.decodeStream(stream);
+                if (LifeApplication.hasNetWork) {
+                    InputStream stream = response.body().byteStream();
+                    bitmap = BitmapFactory.decodeStream(stream);
+                } else {
+                    InputStream stream = response.cacheResponse().body().byteStream();
+                    bitmap = BitmapFactory.decodeStream(stream);
+                }
             }
         };
         LifeApplication.getResponse(callback, body, url);
