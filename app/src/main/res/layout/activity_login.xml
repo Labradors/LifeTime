@@ -6,83 +6,96 @@
     android:orientation="vertical"
     tools:context="com.example.Rony.login.LoginActivity">
 
-
-    <RelativeLayout
-        android:id="@+id/personal_login_FrameLayout_buttom"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/login_progressbar"
+            style="@style/Base.Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="100dp"
+            android:visibility="gone" />
 
-        <LinearLayout
-            android:id="@+id/peronal_loginfraelayout_user"
+        <RelativeLayout
+            android:id="@+id/personal_login_FrameLayout_buttom"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="156dp"
-            android:background="@drawable/login_user_ly_shape"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
 
-            <EditText
-                android:id="@+id/personal_login_username"
+
+            <LinearLayout
+                android:id="@+id/peronal_loginfraelayout_user"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.1"
-                android:hint="@string/username_hint" />
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="156dp"
+                android:background="@drawable/login_user_ly_shape"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/personal_login_password"
+                <EditText
+                    android:id="@+id/personal_login_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.1"
+                    android:hint="@string/username_hint" />
+
+                <EditText
+                    android:id="@+id/personal_login_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.9"
+                    android:hint="@string/password_hint" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/personal_login_FrameLayout_buttom_btn_login"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.9"
-                android:hint="@string/password_hint" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/personal_login_FrameLayout_buttom_btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@id/peronal_loginfraelayout_user"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/personal_login_btn_shpe"
-            android:onClick="onClick"
-            android:text="@string/personal_login_btn" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/personal_login_newuser"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
+                android:layout_height="50dp"
+                android:layout_below="@id/peronal_loginfraelayout_user"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/personal_login_btn_shpe"
                 android:onClick="onClick"
-                android:text="@string/personal_login_tv_regest" />
+                android:text="@string/personal_login_btn" />
 
-            <TextView
-                android:id="@+id/activity_login_forget_password"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:onClick="onClick"
-                android:text="@string/personal_login_tv_forget" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/personal_login_newuser"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:text="@string/personal_login_tv_regest" />
+
+                <TextView
+                    android:id="@+id/activity_login_forget_password"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:onClick="onClick"
+                    android:text="@string/personal_login_tv_forget" />
+            </LinearLayout>
 
 
-    </RelativeLayout>
+        </RelativeLayout>
+    </FrameLayout>
 </LinearLayout>

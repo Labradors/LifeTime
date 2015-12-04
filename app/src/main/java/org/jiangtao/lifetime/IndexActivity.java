@@ -143,8 +143,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     if (LifeApplication.isLogin) {
                         TurnActivity.turnWrietDynamicActivity(IndexActivity.this);
                     } else {
-                        Intent intent = new Intent(IndexActivity.this, LoginActivity.class);
-                        startActivity(intent);
+                        TurnActivity.turnLoginActivity(IndexActivity.this);
                     }
                     break;
                 case R.id.pup_btn_writenote:
