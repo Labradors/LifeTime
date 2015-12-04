@@ -136,4 +136,23 @@
     <string name="scrollview_writenote_edittext">点击此处编写内容……</string>
     <string name="button_writenote_add">完成</string>
 
+    <!-- 设置界面-->
+    <string name="setting_app_voice">声音提示</string>
+    <string name="setting_app_vibration">震动提示</string>
+    <string name="setting_app_exitNoRmind">退出后不提醒</string>
+    <string name="setting_app_clearCache">清理缓存</string>
+    <string name="setting_app_checkUp">检查新版本</string>
+    <string name="setting_app_opinion">意见反馈</string>
+    <string name="setting_app_about">关于应用</string>
+    <string name="setting_app_exit">退出</string>
+
+    <string name="setting_userinfo_headImg">头像</string>
+    <string name="setting_userinfo_name">昵称</string>
+    <string name="setting_userinfo_email">电子邮箱</string>
+    <string name="setting_userinfo_phonenumber">电话号码</string>
+    <string name="setting_userinfo_modifypassword">修改密码</string>
+    <string name="setting_userinfo_joindate">加入时间</string>
+    <string name="setting_userinfo_sex">性别</string>
+    <string name="setting_userinfo_city">城市</string>
+
 </resources>
