@@ -1,6 +1,7 @@
 package org.jiangtao.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.ArticleAllDynamic;
 import org.jiangtao.lifetime.R;
-import org.jiangtao.networkutils.RequestArticleData;
 import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.LogUtils;
 
@@ -31,6 +32,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     public Context mContext;
     private LayoutInflater mLayoutInflater;
     public static final String TAG = DynamicAdapter.class.getSimpleName();
+    public static DynamicAdapter.ViewHolder holder;
 
     /**
      * 构造函数
@@ -41,6 +43,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
+
     @Override
     public DynamicAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(
@@ -50,18 +53,30 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(DynamicAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(DynamicAdapter.ViewHolder holder, final int position) {
         LogUtils.d(TAG, "是否进入这个界面");
         holder.mArticleTextView.setText(mList.get(position).getArticle_content());
         holder.mHotTextView.setText("热度" +
                 String.valueOf(mList.get(position).getArticle_love_number()));
         holder.mUserNameTextView.setText(mList.get(position).getUser_name());
-        holder.mArticleImageView.setImageBitmap(
-                RequestArticleData.getInstance().getBitmap(ConstantValues
-                        .getArticleImageUrl, mList.get(position).getArticle_image())
-        );
-        holder.mHeadImageCircleImageView.setImageBitmap(RequestArticleData.getInstance().
-                getBitmap(ConstantValues.getArticleImageUrl, mList.get(position).getUser_headpicture()));
+        if (LifeApplication.hasNetWork) {
+
+            LifeApplication.picasso.load(ConstantValues.getArticleImageUrl +
+                    mList.get(position).getArticle_image()).into(holder.mArticleImageView);
+            LifeApplication.picasso
+                    .load(ConstantValues.getArticleImageUrl + mList.get(position).getUser_headpicture())
+                    .into(holder.mHeadImageCircleImageView);
+        } else {
+            Bitmap bitmap = LifeApplication.lruCache.get(ConstantValues.getArticleImageUrl +
+                    mList.get(position).getArticle_image());
+            holder.mArticleImageView.setImageBitmap(bitmap);
+            Bitmap bitmap1 = LifeApplication.lruCache.get(ConstantValues.getArticleImageUrl +
+                    mList.get(position).getUser_headpicture());
+            holder.mHeadImageCircleImageView.setImageBitmap(bitmap1);
+            LogUtils.d(TAG, "没有网络的加载");
+        }
+
+
     }
 
     @Override

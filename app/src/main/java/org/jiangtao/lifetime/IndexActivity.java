@@ -206,7 +206,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
      * 初始化所有fragment
      */
     private void initFragment() {
-        mHomePageFragment = new HomePageFragment();
+        mHomePageFragment = new HomePageFragment(this);
         mMessageFragment = new MessageFragment();
         mFriendFragment = new FriendFragment();
         mPersonalFragment = new PersonalFragment(this);

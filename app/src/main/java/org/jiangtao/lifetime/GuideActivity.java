@@ -87,4 +87,10 @@ public class GuideActivity extends AppCompatActivity implements ViewPager.OnPage
     public void onPageScrollStateChanged(int state) {
 
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
 }

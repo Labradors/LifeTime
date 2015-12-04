@@ -5,22 +5,22 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Environment;
 import android.telephony.TelephonyManager;
 
-import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
-import com.squareup.okhttp.internal.http.CacheStrategy;
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 
+import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.LogUtils;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by mr-jiang on 15-11-13.
@@ -44,10 +44,6 @@ public class LifeApplication extends Application {
     public static OkHttpClient mOkHttpClient;
     //设置response
     public static Response response;
-    //缓存
-    public static Cache cache;
-    //缓存策略
-    public static CacheStrategy cacheStrategy;
     //请求
     public static Request request;
     //用户的id
@@ -56,6 +52,19 @@ public class LifeApplication extends Application {
     public static String user_email;
     //用户名
     public static String user_name;
+    //初始化Picasso
+    public static Picasso picasso;
+    //缓存
+    public static LruCache lruCache;
+
+    public Picasso getPicasso() {
+        lruCache = new LruCache(getApplicationContext());
+        picasso = new Picasso.Builder(getApplicationContext())
+                .downloader(new OkHttpDownloader(new File(ConstantValues.saveCacheUri)))
+                .memoryCache(lruCache).build();
+        picasso.setIndicatorsEnabled(true);
+        return picasso;
+    }
 
     /**
      * 单例application
@@ -64,24 +73,6 @@ public class LifeApplication extends Application {
      */
     public static LifeApplication getInstance() {
         return lifeApplication;
-    }
-
-    /**
-     * 建立缓存
-     */
-    public static void buildCache() {
-        String cachefile = Environment.getExternalStorageDirectory() + "/lifetime/cache/";
-        File cacheDirectory = new File(cachefile);
-        int cacheSize = 10 * 1024 * 1024; // 10 MiB
-        if (!cacheDirectory.exists()) {
-            cacheDirectory.mkdirs();
-        }
-        try {
-            cache = new Cache(cacheDirectory, cacheSize);
-            mOkHttpClient.setCache(cache);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -151,12 +142,7 @@ public class LifeApplication extends Application {
         super.onCreate();
         lifeApplication = this;
         mOkHttpClient = new OkHttpClient();
-        //设置缓存目录
-        try {
-            buildCache();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        picasso = getPicasso();
         hasNetWork = isNetworkAvailable();
         LogUtils.d(TAG, "1.>>>>" + hasNetWork);
         isWiFiNetWork = isWiFiEnabled();

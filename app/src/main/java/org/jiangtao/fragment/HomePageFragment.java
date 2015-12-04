@@ -1,6 +1,7 @@
 package org.jiangtao.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.TabLayout;
@@ -30,8 +31,10 @@ public class HomePageFragment extends android.support.v4.app.Fragment {
     private android.support.v4.app.Fragment mDynamicFragment;
     private android.support.v4.app.Fragment mRecommendFragment;
     private android.support.v4.app.Fragment mLoveFragment;
+    private Context context;
 
-    public HomePageFragment() {
+    public HomePageFragment(Context context) {
+        this.context = context;
     }
 
 
@@ -69,7 +72,7 @@ public class HomePageFragment extends android.support.v4.app.Fragment {
      * 初始化mViewList
      */
     private void initmViewList() {
-        mDynamicFragment = new DynamicFragment();
+        mDynamicFragment = new DynamicFragment(context);
         mRecommendFragment = new RecommendFragment();
         mLoveFragment = new LoveFragment();
         mViewList = new ArrayList<>();
