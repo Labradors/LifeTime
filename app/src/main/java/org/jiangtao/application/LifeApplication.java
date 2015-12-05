@@ -159,7 +159,7 @@ public class LifeApplication extends Application {
     /**
      * 手机是否联网
      */
-    private boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable() {
         ConnectivityManager networkManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         if (networkManager != null) {

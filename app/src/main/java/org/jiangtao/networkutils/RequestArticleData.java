@@ -103,7 +103,10 @@ public class RequestArticleData {
             }
         };
         LifeApplication.getResponse(callback, null, url);
-        return mList;
+        if (mList != null) {
+            return mList;
+        }
+        return null;
     }
 
     /**

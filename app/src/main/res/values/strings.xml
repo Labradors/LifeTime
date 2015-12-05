@@ -145,6 +145,7 @@
     <string name="setting_app_opinion">意见反馈</string>
     <string name="setting_app_about">关于应用</string>
     <string name="setting_app_exit">退出</string>
+    <string name="setting_app_cache_size">退出</string>
 
     <string name="setting_userinfo_headImg">头像</string>
     <string name="setting_userinfo_name">昵称</string>

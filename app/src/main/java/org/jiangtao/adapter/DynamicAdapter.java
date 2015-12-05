@@ -16,6 +16,7 @@ import org.jiangtao.lifetime.R;
 import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.LogUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -32,7 +33,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     public Context mContext;
     private LayoutInflater mLayoutInflater;
     public static final String TAG = DynamicAdapter.class.getSimpleName();
-    public static DynamicAdapter.ViewHolder holder;
+    public static Bitmap bitmap = null;
 
     /**
      * 构造函数
@@ -53,8 +54,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(DynamicAdapter.ViewHolder holder, final int position) {
-        LogUtils.d(TAG, "是否进入这个界面");
+    public void onBindViewHolder(final DynamicAdapter.ViewHolder holder, final int position) {
         holder.mArticleTextView.setText(mList.get(position).getArticle_content());
         holder.mHotTextView.setText("热度" +
                 String.valueOf(mList.get(position).getArticle_love_number()));
@@ -62,17 +62,19 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         if (LifeApplication.hasNetWork) {
 
             LifeApplication.picasso.load(ConstantValues.getArticleImageUrl +
-                    mList.get(position).getArticle_image()).into(holder.mArticleImageView);
+                    mList.get(position).getArticle_image()).
+                    into(holder.mArticleImageView);
             LifeApplication.picasso
-                    .load(ConstantValues.getArticleImageUrl + mList.get(position).getUser_headpicture())
+                    .load(ConstantValues.getArticleImageUrl +
+                            mList.get(position).getUser_headpicture())
                     .into(holder.mHeadImageCircleImageView);
         } else {
-            Bitmap bitmap = LifeApplication.lruCache.get(ConstantValues.getArticleImageUrl +
+            Bitmap articleBitmap = getCacheBitmap(ConstantValues.getArticleImageUrl +
                     mList.get(position).getArticle_image());
-            holder.mArticleImageView.setImageBitmap(bitmap);
-            Bitmap bitmap1 = LifeApplication.lruCache.get(ConstantValues.getArticleImageUrl +
+            applyImageView(articleBitmap, holder);
+            Bitmap headImageBitmap = getCacheBitmap(ConstantValues.getArticleImageUrl +
                     mList.get(position).getUser_headpicture());
-            holder.mHeadImageCircleImageView.setImageBitmap(bitmap1);
+            alpplyHeadImage(headImageBitmap, holder);
             LogUtils.d(TAG, "没有网络的加载");
         }
 
@@ -108,5 +110,54 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             mCollectionTextView = (TextView) itemView.findViewById(R.id.dynamic_collection_listview);
             mLoveTextView = (TextView) itemView.findViewById(R.id.dynamic_love_listview);
         }
+    }
+
+    /**
+     * 根据地址获取缓存图片
+     *
+     * @param url
+     * @return
+     */
+    public Bitmap getCacheBitmap(final String url) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    bitmap = LifeApplication.picasso.load(url).get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        if (bitmap != null) {
+            return bitmap;
+        }
+        return null;
+    }
+
+    /**
+     * 显示文章的图片
+     *
+     * @param bitmap
+     * @param holder
+     */
+    public void applyImageView(Bitmap bitmap, DynamicAdapter.ViewHolder holder) {
+        holder.mArticleImageView.setImageBitmap(bitmap);
+    }
+
+    /**
+     * 显示头像
+     *
+     * @param bitmap
+     * @param holder
+     */
+    public void alpplyHeadImage(Bitmap bitmap, DynamicAdapter.ViewHolder holder) {
+        holder.mHeadImageCircleImageView.setImageBitmap(bitmap);
+    }
+
+    public void refresh(ArrayList<ArticleAllDynamic> list) {
+        mList = list;
+        notifyDataSetChanged();
     }
 }
