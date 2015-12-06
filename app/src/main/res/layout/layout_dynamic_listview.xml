@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/relative1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image_listview"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:clickable="true"
             app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp" />
+            app:civ_border_width="2dp"/>
 
 
         <TextView
@@ -24,8 +26,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/profile_image_listview"
+            android:clickable="true"
             android:gravity="center_vertical"
-            android:text="@string/dynamic_textview" />
+            android:text="@string/dynamic_textview"/>
+
+        <TextView
+            android:id="@+id/dynamic_time_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dynamic_button"
+            android:layout_toLeftOf="@+id/dynamic_button"
+            android:text="@string/action_settings"/>
 
         <Button
             android:id="@+id/dynamic_button"
@@ -34,26 +45,31 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:clickable="true"
-            android:text="@string/dynamic_button" />
+            android:text="@string/dynamic_button"
+            />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/dynamic_imageview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:clickable="true"/>
 
         <TextView
             android:id="@+id/dynamic_article_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp" />
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:clickable="true"
+            android:textSize="20sp"/>
 
     </LinearLayout>
 
@@ -62,7 +78,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/LightSteelBlue"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:background="@color/Lavender"
         android:gravity="bottom"
         android:showDividers="end"
         android:weightSum="4">
@@ -71,42 +88,45 @@
             android:id="@+id/dynamic_textview_listview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:clickable="true"
-            android:text="@string/dynamic_textview_listview"
-            android:textSize="20sp" />
+            android:drawableLeft="@drawable/love_red_max"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
-        <TextView
+        <ImageView
             android:id="@+id/dynamic_comment_listview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:text="@string/dynamic_comment_listview"
-            android:textSize="20sp" />
+            android:src="@drawable/ic_action_edit"
+            />
 
-        <TextView
+        <ImageView
             android:id="@+id/dynamic_collection_listview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:clickable="true"
-            android:text="@string/dynamic_collection_listview"
-            android:textSize="20sp" />
+            android:src="@drawable/collection_xxmax_light"
+            />
 
-        <TextView
+        <ImageView
             android:id="@+id/dynamic_love_listview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:clickable="true"
-            android:drawableLeft="@drawable/love"
-            android:gravity="right"
-            android:text="@string/dynamic_love_listview"
-            android:textSize="20sp" />
+            android:gravity="center"
+            android:src="@drawable/ic_action_important"
+            />
 
 
     </LinearLayout>
-
 
 </LinearLayout>
