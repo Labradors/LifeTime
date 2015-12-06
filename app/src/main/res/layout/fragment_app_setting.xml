@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
-    android:orientation="vertical"
-    tools:context="org.jiangtao.fragment.AppSettingFragment">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="16dp"
+              android:orientation="vertical"
+              tools:context="org.jiangtao.fragment.AppSettingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B8B8B8" />
+            android:background="#B8B8B8"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,11 +30,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
-                android:text="@string/setting_app_voice" />
+                android:text="@string/setting_app_voice"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
@@ -50,11 +50,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
-                android:text="@string/setting_app_vibration" />
+                android:text="@string/setting_app_vibration"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
@@ -70,17 +70,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
-                android:text="@string/setting_app_exitNoRmind" />
+                android:text="@string/setting_app_exitNoRmind"/>
 
             <CheckBox
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B8B8B8" />
+            android:background="#B8B8B8"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -89,26 +89,46 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
-            android:text="@string/setting_app_checkUp" />
+            android:text="@string/setting_app_checkUp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B8B8B8" />
+            android:background="#B8B8B8"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/tvonclickstyle_selector"
             android:clickable="true"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:text="@string/setting_app_clearCache" />
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/ll_clear_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_weight="3"
+                android:background="@drawable/tvonclickstyle_selector"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="appSettingOnClick"
+                android:paddingLeft="16dp"
+                android:text="@string/setting_app_clearCache"/>
+
+            <TextView
+                android:id="@+id/setting_app_cache_size"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:background="@drawable/tvonclickstyle_selector"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B8B8B8" />
+            android:background="#B8B8B8"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -117,12 +137,12 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
-            android:text="@string/setting_app_opinion" />
+            android:text="@string/setting_app_opinion"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B8B8B8" />
+            android:background="#B8B8B8"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -131,12 +151,12 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
-            android:text="@string/setting_app_about" />
+            android:text="@string/setting_app_about"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B8B8B8" />
+            android:background="#B8B8B8"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -145,7 +165,7 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
-            android:text="@string/setting_app_exit" />
+            android:text="@string/setting_app_exit"/>
 
     </LinearLayout>
 

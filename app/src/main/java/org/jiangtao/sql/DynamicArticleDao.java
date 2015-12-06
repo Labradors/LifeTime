@@ -11,4 +11,6 @@ public interface DynamicArticleDao {
     public int insertDynamic(ArrayList<ArticleAllDynamic> articleAllDynamics) throws Exception;
 
     public ArrayList<ArticleAllDynamic> getDynamicArticle() throws Exception;
+
+    public int getMaxDynamicArticleID() throws Exception;
 }

@@ -1,15 +1,17 @@
 package org.jiangtao.lifetime;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.jiangtao.adapter.HomePageFragmentAdapter;
+import org.jiangtao.application.LifeApplication;
 import org.jiangtao.fragment.AppSettingFragment;
 import org.jiangtao.fragment.UserInfoSettingFragment;
 
@@ -28,6 +30,7 @@ public class SettingActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private List<Fragment> fragmentsList;
     private List<String> mTitles;
+    private UserCallBack userCallBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,5 +80,43 @@ public class SettingActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * app设置单击事件
+     *
+     * @param view
+     */
+    public void appSettingOnClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_clear_cache: {
+                clearCache();
+            }
+        }
+    }
+
+    /**
+     * 清理缓存
+     */
+    public void clearCache() {
+        LifeApplication.lruCache.evictAll();
+        userCallBack.sendMessage(true);
+    }
+
+    /**
+     * 通信接口
+     */
+    public interface UserCallBack {
+        public void sendMessage(boolean flag);
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        try {
+            userCallBack = (UserCallBack) fragment;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

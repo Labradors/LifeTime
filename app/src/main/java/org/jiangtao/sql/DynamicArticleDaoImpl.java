@@ -31,8 +31,9 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
     @Override
     public int insertDynamic(ArrayList<ArticleAllDynamic> articleAllDynamics) throws Exception {
         SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
-        String sql = "INSERT INTO " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE
-                + "  VALUES (?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE + "(user_name,user_headpicture,article_id,article_user_id," +
+                " article_time,article_content,article_image,article_love_number," +
+                " article_comment_number) VALUES (?,?,?,?,?,?,?,?,?)";
         LogUtils.d(TAG, "插入sql语句");
         LogUtils.d(TAG, sql);
         for (int i = 0; i < articleAllDynamics.size(); i++) {
@@ -62,7 +63,7 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
     public ArrayList<ArticleAllDynamic> getDynamicArticle() throws Exception {
         ArrayList<ArticleAllDynamic> articleAllDynamics = new ArrayList<>();
         SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
-        String sql = "select * from " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE;
+        String sql = "select * from " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE + " ORDER BY article_id DESC";
         LogUtils.d(TAG, sql);
         Cursor c = null;
         c = db.rawQuery(sql, null);
@@ -93,5 +94,17 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
             db.close();
         }
         return articleAllDynamics;
+    }
+
+    @Override
+    public int getMaxDynamicArticleID() throws Exception {
+        SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getReadableDatabase();
+        String sql = "select MAX(article_id) AS article_id FROM "
+                + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE;
+        Cursor c = db.rawQuery(sql, null);
+        c.moveToFirst();
+        int id = c.getInt(c.getColumnIndex("article_id"));
+        LogUtils.d(TAG, id + "********");
+        return id;
     }
 }
