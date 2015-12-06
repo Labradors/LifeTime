@@ -3,4 +3,12 @@
     <color name="DeepPink">#FF1493</color>
     <color name="LightSteelBlue">#B0C4DE</color>
     <color name="BlueViolet">#8A2BE2</color>
+    <color name="Lavender">#E6E6FA</color>
+    <color name="DimGray">#696969</color>
+    <color name="Gray">#808080</color>
+    <color name="DarkGray">#A9A9A9</color>
+    <color name="Silver">#C0C0C0</color>
+    <color name="LightGrey">#D3D3D3</color>
+    <color name="Gainsboro">#DCDCDC</color>
+    <color name="WhiteSmoke">#F5F5F5</color>
 </resources>

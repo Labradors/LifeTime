@@ -28,7 +28,7 @@ import static org.jiangtao.lifetime.R.id.dynamic_textview_userName;
  * on 15-12-2.
  * DynamicFragment recylerView适配
  */
-public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHolder> {
+public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHolder> implements View.OnClickListener {
     public ArrayList<ArticleAllDynamic> mList;
     public Context mContext;
     private LayoutInflater mLayoutInflater;
@@ -50,7 +50,17 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         View view = mLayoutInflater.inflate(
                 R.layout.layout_dynamic_listview, parent, false);
         ViewHolder holder = new ViewHolder(view);
+        controlsClickListener(holder);
         return holder;
+    }
+
+    private void controlsClickListener(ViewHolder holder) {
+        holder.mHeadImageCircleImageView.setOnClickListener(this);
+        holder.mAttentionButton.setOnClickListener(this);
+        holder.mArticleImageView.setOnClickListener(this);
+        holder.mCommentTextView.setOnClickListener(this);
+        holder.mCollectionTextView.setOnClickListener(this);
+        holder.mLoveTextView.setOnClickListener(this);
     }
 
     @Override
@@ -84,6 +94,36 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     @Override
     public int getItemCount() {
         return mList.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.profile_image_listview: {
+
+                break;
+            }
+            case R.id.dynamic_button: {
+
+                break;
+            }
+            case R.id.dynamic_imageview: {
+
+                break;
+            }
+            case R.id.dynamic_comment_listview: {
+
+                break;
+            }
+            case R.id.dynamic_collection_listview: {
+
+                break;
+            }
+            case R.id.dynamic_love_listview: {
+
+                break;
+            }
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

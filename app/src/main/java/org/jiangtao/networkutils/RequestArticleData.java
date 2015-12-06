@@ -3,6 +3,7 @@ package org.jiangtao.networkutils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -15,7 +16,6 @@ import org.jiangtao.bean.ArticleAllDynamic;
 import org.jiangtao.sql.DynamicArticleBusinessImpl;
 import org.jiangtao.utils.LogUtils;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -31,6 +31,7 @@ public class RequestArticleData {
     private static RequestArticleData data;
     public static Bitmap bitmap = null;
     private DynamicArticleBusinessImpl business;
+    private int MAX_ID;
 
     private RequestArticleData() {
     }
@@ -44,69 +45,83 @@ public class RequestArticleData {
 
 
     /**
-     * 取得所有文章的内容
+     * 开启异步线程
+     * 查看网络数据与本地数据之间的不同
+     * 更新本地数据库
      *
      * @param url
      * @return
      */
-    public ArrayList<ArticleAllDynamic> getArticleData(String url, final Context context) {
+    public void getArticleData(final String url, final Context context) {
         mList = new ArrayList<>();
-        Callback callback = new Callback() {
+        business = new DynamicArticleBusinessImpl(context);
+        //开启一个线程，将sqlite最大值取出
+        new AsyncTask<Void, Void, Integer>() {
+
             @Override
-            public void onFailure(Request request, IOException e) {
-                LogUtils.d(TAG, "响应失败");
+            protected Integer doInBackground(Void... params) {
+                try {
+                    MAX_ID = business.getDynamicMaxID();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return MAX_ID;
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
-                if (LifeApplication.hasNetWork) {
-                    String articleData = response.body().string();
-                    try {
-                        JSONArray array = new JSONArray(articleData);
-                        if (array != null) {
-                            for (int i = 0; i < array.length(); i++) {
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                MAX_ID = integer;
+                LogUtils.d(TAG, "oooooooo" + integer.toString());
+                new AsyncTask<Void, Void, Void>() {
 
-                                JSONObject data = array.getJSONObject(i);
-                                ArticleAllDynamic dynamic = new ArticleAllDynamic();
-                                dynamic.setUser_name(data.getString("user_name"));
-                                dynamic.setUser_headpicture(data.getString("user_headpicture"));
-                                dynamic.setArticle_id(data.getInt("article_id"));
-                                dynamic.setArticle_user_id(data.getInt("article_user_id"));
-                                dynamic.setArticle_time(null);
-                                dynamic.setArticle_content(data.getString("article_content"));
-                                dynamic.setArticle_image(data.getString("article_image"));
-                                dynamic.setArticle_love_number(data.getInt("article_love_number"));
-                                dynamic.setArticle_comment_number(data.getInt("article_comment_number"));
-                                mList.add(dynamic);
-                                LogUtils.d(TAG, dynamic.toString());
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        Callback callback = new Callback() {
+                            @Override
+                            public void onFailure(Request request, IOException e) {
+                                LogUtils.d(TAG, "响应失败");
                             }
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    business = new DynamicArticleBusinessImpl(context);
-                                    //将mlist写入数据库
-                                    int insert = 0;
+
+                            @Override
+                            public void onResponse(Response response) throws IOException {
+                                if (LifeApplication.hasNetWork) {
+                                    String articleData = response.body().string();
                                     try {
-                                        insert = business.insertDynamicArticles(mList);
-                                        LogUtils.d(TAG, "====" + mList.size() + "------");
-                                        LogUtils.d(TAG, "----写入数据库---" + insert);
+                                        JSONArray array = new JSONArray(articleData);
+                                        if (array != null) {
+                                            for (int i = MAX_ID; i < array.length(); i++) {
+
+                                                JSONObject data = array.getJSONObject(i);
+                                                ArticleAllDynamic dynamic = new ArticleAllDynamic();
+                                                dynamic.setUser_name(data.getString("user_name"));
+                                                dynamic.setUser_headpicture(data.getString("user_headpicture"));
+                                                dynamic.setArticle_id(data.getInt("article_id"));
+                                                dynamic.setArticle_user_id(data.getInt("article_user_id"));
+                                                dynamic.setArticle_time(null);
+                                                dynamic.setArticle_content(data.getString("article_content"));
+                                                dynamic.setArticle_image(data.getString("article_image"));
+                                                dynamic.setArticle_love_number(data.getInt("article_love_number"));
+                                                dynamic.setArticle_comment_number(data.getInt("article_comment_number"));
+                                                mList.add(dynamic);
+                                                LogUtils.d(TAG, dynamic.toString());
+                                            }
+                                        }
+                                        business.insertDynamicArticles(mList);
+                                        LogUtils.d(TAG, mList.size() + "&&&&&&&");
+                                        LogUtils.d(TAG, "====写入数据库" + ((mList.size()) - MAX_ID) + "------");
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
-                            }).start();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                            }
+                        };
+                        LifeApplication.getResponse(callback, null, url);
+                        return null;
                     }
-                }
+                }.execute();
             }
-        };
-        LifeApplication.getResponse(callback, null, url);
-        if (mList != null) {
-            return mList;
-        }
-        return null;
+        }.execute();
     }
 
     /**

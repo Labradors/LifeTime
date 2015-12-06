@@ -60,6 +60,7 @@ public class LifeTimeSQLiteOpenHelper extends SQLiteOpenHelper {
                 + ")";
         String dynamic_article = "create table " + DYNAMIC_ARTICLE
                 + "("
+                + "dynamic_article_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "user_name VARCHAR(50) NOT NULL, "
                 + "user_headpicture VARCHAR(100), "
                 + "article_id INTEGER, "

@@ -2,6 +2,7 @@ package org.jiangtao.fragment;
 
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -47,8 +48,6 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
     public DynamicArticleBusiness dynamicArticleBusiness;
     public DynamicAdapter mDynamicAdapter;
     public Handler handler;
-    public boolean isFirstIn = true;
-
     public DynamicFragment(Context context) {
         this.context = context;
     }
@@ -60,8 +59,8 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
         initControl();
         hideImageView();
         requestData();
-        showUI();
         mRecyclerViewDataFilling();
+        showUI();
         return mView;
     }
 
@@ -75,18 +74,15 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
                 super.handleMessage(msg);
                 switch (msg.what) {
                     case 0x345: {
-                        if (msg.obj != null && mList != null) {
-                            mRecyclerViewDataFilling();
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            break;
-                        }
+                        new CacheMListAsyncThread().execute();
+                        mRecyclerViewDataFilling();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        break;
                     }
                     case 0x456: {
-                        if (msg.obj != null && mList != null) {
-                            mRecyclerViewDataFilling();
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            break;
-                        }
+                        mRecyclerViewDataFilling();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        break;
                     }
                     case 0x567: {
                         showImageView();
@@ -101,15 +97,13 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
 
     private void requestData() {
         mSwipeRefreshLayout.setRefreshing(true);
+        new CacheMListAsyncThread().execute();
         //判断有无网络
         if (LifeApplication.getInstance().isNetworkAvailable()) {
-            getNetMListThread netMListThread = new getNetMListThread();
-            netMListThread.start();
-        } else {
-
-            getCacheMListThread cacheMListThread = new getCacheMListThread();
-            cacheMListThread.start();
+            new NetMListAsyncThread().execute();
+            hideImageView();
         }
+        new CacheMListAsyncThread().execute();
     }
 
     /**
@@ -119,7 +113,6 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
         mRecyclerView.setLayoutManager(manager);
         mDynamicAdapter = new DynamicAdapter(mList, getActivity());
         mRecyclerView.setAdapter(mDynamicAdapter);
-        isFirstIn = false;
     }
 
 
@@ -134,6 +127,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
         manager = new LinearLayoutManager(getActivity());
         mList = new ArrayList<>();
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        dynamicArticleBusiness = new DynamicArticleBusinessImpl(context);
     }
 
     /**
@@ -143,12 +137,9 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
         mSwipeRefreshLayout.setRefreshing(true);
         mSwipeRefreshLayout.setColorScheme(android.R.color.holo_blue_light);
         LogUtils.d(TAG, "下拉刷新");
-        if (LifeApplication.getInstance().isNetworkAvailable()) {
-            new getNetMListThread().start();
-            LogUtils.d(TAG, "更新界面");
-        } else {
-            mSwipeRefreshLayout.setRefreshing(false);
-        }
+        requestData();
+        LogUtils.d(TAG, "更新界面");
+
 
     }
 
@@ -175,87 +166,50 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
         swipeColorListener();
     }
 
-    /**
-     * 有网条件下加载数据
-     */
-    public class getNetMListThread extends Thread {
-        @Override
-        public void run() {
-            super.run();
-            if (isFirstIn) {
-                mList = RequestArticleData.getInstance().
-                        getArticleData(ConstantValues.getAllArticleUrl, context);
-                if (mList != null) {
-                    Message message = new Message();
-                    message.what = 0x345;
-                    message.obj = mList;
-                    handler.sendMessage(message);
-                }
-            } else {
-                //问题出在这儿
-                mList = RequestArticleData.getInstance().
-                        getArticleData(ConstantValues.getAllArticleUrl, context);
+    public class CacheMListAsyncThread extends AsyncTask<Void, Void, ArrayList<ArticleAllDynamic>> {
 
-                if (mList.size() != 0 && mList != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            LogUtils.d(TAG, mList.size() + "=====");
-                            mDynamicAdapter.refresh(mList);
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            LogUtils.d(TAG, "进入这儿");
-                        }
-                    });
-                } else {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            LogUtils.d(TAG, "进入mlist为空的地方");
-                        }
-                    });
-                }
+        @Override
+        protected ArrayList<ArticleAllDynamic> doInBackground(Void... params) {
+            try {
+                mList = dynamicArticleBusiness.getDynamicArticles();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return mList;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<ArticleAllDynamic> articleAllDynamics) {
+            super.onPostExecute(articleAllDynamics);
+            if (mList != null && mList.size() != 0) {
+                Message message = new Message();
+                message.what = 0x456;
+                message.obj = mList;
+                handler.sendMessage(message);
+            } else {
+                Message message = new Message();
+                message.what = 0x567;
+                message.obj = mList.size();
+                handler.sendMessage(message);
             }
         }
     }
 
-    /**
-     * 查询数据库的条件下
-     */
-    public class getCacheMListThread extends Thread {
+    public class NetMListAsyncThread extends AsyncTask<Void, Void, Void> {
+
         @Override
-        public void run() {
-            super.run();
-            if (isFirstIn) {
-                dynamicArticleBusiness = new DynamicArticleBusinessImpl(context);
-                try {
-                    mList = dynamicArticleBusiness.getDynamicArticles();
-                    if (mList != null && mList.size() != 0) {
-                        Message message = new Message();
-                        message.what = 0x456;
-                        message.obj = mList;
-                        handler.sendMessage(message);
-                    } else {
-                        Message message = new Message();
-                        message.what = 0x567;
-                        message.obj = mList.size();
-                        handler.sendMessage(message);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                try {
-                    mList = dynamicArticleBusiness.getDynamicArticles();
-                    if (mList.size() != 0) {
-                        mDynamicAdapter.refresh(mList);
-                    } else {
-                        showImageView();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        protected Void doInBackground(Void... params) {
+            RequestArticleData.getInstance().
+                    getArticleData(ConstantValues.getAllArticleUrl, context);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Message message = new Message();
+            message.what = 0x345;
+            handler.sendMessage(message);
         }
     }
 
