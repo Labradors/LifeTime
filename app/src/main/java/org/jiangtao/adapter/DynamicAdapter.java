@@ -133,9 +133,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         public ImageView mArticleImageView;
         public TextView mArticleTextView;
         public TextView mHotTextView;
-        public TextView mCommentTextView;
-        public TextView mCollectionTextView;
-        public TextView mLoveTextView;
+        public ImageView mCommentTextView;
+        public ImageView mCollectionTextView;
+        public ImageView mLoveTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -146,9 +146,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             mArticleImageView = (ImageView) itemView.findViewById(R.id.dynamic_imageview);
             mArticleTextView = (TextView) itemView.findViewById(R.id.dynamic_article_content);
             mHotTextView = (TextView) itemView.findViewById(R.id.dynamic_textview_listview);
-            mCommentTextView = (TextView) itemView.findViewById(R.id.dynamic_comment_listview);
-            mCollectionTextView = (TextView) itemView.findViewById(R.id.dynamic_collection_listview);
-            mLoveTextView = (TextView) itemView.findViewById(R.id.dynamic_love_listview);
+            mCommentTextView = (ImageView) itemView.findViewById(R.id.dynamic_comment_listview);
+            mCollectionTextView = (ImageView) itemView.findViewById(R.id.dynamic_collection_listview);
+            mLoveTextView = (ImageView) itemView.findViewById(R.id.dynamic_love_listview);
         }
     }
 
