@@ -1,8 +1,10 @@
 package org.jiangtao.lifetime;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -136,6 +138,8 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
             menuWindow.dismiss();
             switch (v.getId()) {
                 case R.id.pup_btn_takephoto:
+                    Intent camera=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(camera, Activity.DEFAULT_KEYS_DIALER);
                     break;
                 case R.id.pup_btn_richscan:
                     break;

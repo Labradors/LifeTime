@@ -4,20 +4,32 @@ package org.jiangtao.fragment;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jiangtao.lifetime.R;
 import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.NoteFilter;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,13 +41,13 @@ public class NoteFragment extends android.support.v4.app.Fragment {
 
     private View mView;
     private ListView mNoteListView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private TextView mNoteContext;
     private static final String NOTE_PATH = ConstantValues.saveNoteUri;
 
     ArrayList name;
 
     public NoteFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -43,9 +55,12 @@ public class NoteFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_note, container, false);
-
         controlsInitialize();
+        setAdapter();
+        return mView;
+    }
 
+    private void setAdapter() {
         name = new ArrayList();
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File path = new File(ConstantValues.saveNoteUri);
@@ -56,41 +71,25 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                 getActivity(),
                 name,
                 R.layout.listview_note_item,
-                new String[]{"name"},
-                new int[]{R.id.item_notelistview_title});
+                new String[]{"name", "context"},
+                new int[]{R.id.item_notelistview_title, R.id.item_notelistview_context});
         mNoteListView.setAdapter(adapter);
 
-        return mView;
+        mNoteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//        SimpleAdapter myNoteAdapter=new SimpleAdapter(
-//                getActivity(),
-//                getData(),
-//                R.layout.listview_note_item,
-//                new String[]{"time","content"},
-//                new int[]{R.id.item_notelistview_time,R.id.item_notelistview_content}
-//        );
-//        mNoteListView.setAdapter(myNoteAdapter);
+                String content = (String) parent.getItemAtPosition(position).toString();
+                Toast toast = Toast.makeText(getActivity(), "你点击了" + content, Toast.LENGTH_SHORT);
+                toast.show();
 
+            }
+        });
     }
 
-//    private List<Map<String,Object>> getData() {
-//        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-//        Map<String, Object> map = new HashMap<String, Object>();
-
-//        map=new HashMap<String,Object>();
-//        map.put("time","2015-11-30 22:10");
-//        map.put("content","This is a test context ,and the style haven't finashed!");
-//        list.add(map);
-//
-//        map=new HashMap<String,Object>();
-//        map.put("time","2015-11-30 22:00");
-//        map.put("content","今天晚上去中海吃了火锅，新开了一家名为“聚满楼”的火锅店，招牌菜是“翘角子牛肉”，非常辣！");
-//        list.add(map);
-
-//        return list;
-//    }
 
     private void getFileName(File[] files) {
+        //获取文件名cheng
         if (files != null) {// 先判断目录是否为空，否则会报空指针
             for (File file : files) {
                 if (file.isDirectory()) {
@@ -106,10 +105,46 @@ public class NoteFragment extends android.support.v4.app.Fragment {
                         HashMap map = new HashMap();
                         String s = fileName.substring(0,
                                 fileName.lastIndexOf(".")).toString();
-                        Log.i("Rong", "文件名txt：：   " + s);
-                        map.put("name", fileName.substring(0,
-                                fileName.lastIndexOf(".")));
-                        name.add(map);
+                        if (s.length()>0){
+                            Log.i("Rong", "文件名txt：：   " + s);
+
+                            String fileContext = "";//文件内容字符串
+                            //打开文件
+                            File fileReader = new File(ConstantValues.saveNoteUri + s + ".txt");
+                            if (fileReader.isDirectory()) {
+                                Log.d("TextFile", "This file doesn't not exist");
+                            } else {
+                                try {
+                                    InputStream instream = new FileInputStream(fileReader);
+                                    if (instream != null) {
+                                        InputStreamReader inputreader = new InputStreamReader(instream);
+                                        BufferedReader buffreader = new BufferedReader(inputreader);
+                                        String line;
+                                        //分行读取
+                                        while ((line = buffreader.readLine()) != null) {
+                                            fileContext += line + "\n";
+                                        }
+                                        instream.close();
+                                    }
+                                } catch (FileNotFoundException e) {
+                                    Log.d("TestFile", "The File doesn't not exist.");
+                                } catch (IOException e) {
+                                    Log.d("TestFile", e.getMessage());
+                                }
+                            }
+                            File fileTime = new File(ConstantValues.saveNoteUri + s + ".txt");
+                            long time = fileTime.lastModified();
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTimeInMillis(time);
+                            //填充数据
+                            map.put("name", fileName.substring(0,
+                                    fileName.lastIndexOf(".")));
+//                        map.put("context", cal.getTime(), toLocaleString());
+                            map.put("context", fileContext.toString());
+                            name.add(map);
+                            Log.d("===================", ConstantValues.saveNoteUri + s + ".txt");
+                        }
+
                     }
                 }
             }
@@ -121,26 +156,9 @@ public class NoteFragment extends android.support.v4.app.Fragment {
      */
     private void controlsInitialize() {
         mNoteListView = (ListView) mView.findViewById(R.id.note_listview);
-//        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(
-//                R.id.refresh_fragment_note);
+        mNoteContext = (TextView) mView.findViewById(R.id.item_notelistview_context);
+
     }
-//    /**
-//     * 设置刷新界面的颜色
-//     */
-//    private void swipeColorListener() {
-//        mSwipeRefreshLayout.setEnabled(true);
-//        mSwipeRefreshLayout.setColorScheme(android.R.color.holo_red_light,
-//                android.R.color.holo_green_light,
-//                android.R.color.holo_blue_light,
-//                android.R.color.holo_red_light);
-//
-//    }
-//    /**
-//     * 实现刷新操作
-//     */
-//    @Override
-//    public void onRefresh() {
-//        swipeColorListener();
-//    }
+
 
 }

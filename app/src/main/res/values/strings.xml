@@ -155,6 +155,7 @@
     <string name="setting_userinfo_joindate">加入时间</string>
     <string name="setting_userinfo_sex">性别</string>
     <string name="setting_userinfo_city">城市</string>
+    <string name="title_activity_Capture">扫描二维码</string>
 
 
     <string name="write_dynamic_title">上传</string>

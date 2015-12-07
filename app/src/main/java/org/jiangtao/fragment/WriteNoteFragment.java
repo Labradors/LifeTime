@@ -4,6 +4,7 @@ package org.jiangtao.fragment;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Environment;
+import android.os.Handler;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jiangtao.lifetime.R;
+import org.jiangtao.utils.ClockThread;
 import org.jiangtao.utils.ConstantValues;
 
 import java.io.File;
@@ -32,6 +34,8 @@ public class WriteNoteFragment extends android.support.v4.app.Fragment {
     private EditText mTitleEd;
     private EditText mContentEd;
 
+    private int DELYED=1000;
+
     private String notePath = "/storage/sdcard0/lifetime/note/";
 
     private Button mBtnFinash;
@@ -45,7 +49,7 @@ public class WriteNoteFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         mView = inflater.inflate(R.layout.fragment_write_note, container, false);
 
         mTimeTv = (TextView) mView.findViewById(R.id.tv_writenote_time);
@@ -54,20 +58,34 @@ public class WriteNoteFragment extends android.support.v4.app.Fragment {
         mContentEd = (EditText) mView.findViewById(R.id.scrollview_writenote_edittext);
 
 
-        SetTime();
-
+        handler.postDelayed(runnable,DELYED);
         mBtnFinash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Save();
-                Toast.makeText(getActivity(), "存储成功" + ConstantValues.saveNoteUri, Toast.LENGTH_SHORT).show();
+                if(mTitleEd.getText().toString()!=null&&mTitleEd.getText().toString().length()>0&&mContentEd.getText().toString()!=null&&mContentEd.getText().toString().length()>0){
+                    Save();
+                    Toast.makeText(getActivity(), "存储成功！" + ConstantValues.saveNoteUri, Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getActivity(),"存储失败！标题或内容为空",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return mView;
     }
 
+    /**
+     * 定时器
+     */
+    Handler handler=new Handler();
+    Runnable runnable=new Runnable() {
+        @Override
+        public void run() {
+            handler.postDelayed(this,DELYED);
+            SetTime();
+        }
+    };
     public void SetTime() {
-        Time time = new Time("GMT+8");
+        Time time = new Time();
         time.setToNow();
         int year = time.year;
         int month = time.month;
@@ -92,7 +110,6 @@ public class WriteNoteFragment extends android.support.v4.app.Fragment {
             String mTitle = mTitleEd.getText().toString();
             String mContent = mContentEd.getText().toString();
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-//                File sdCardDir = Environment.getExternalStorageDirectory();
                 File sdCardDir = new File(ConstantValues.saveNoteUri);
                 File saveFile = new File(
                         sdCardDir, mTitle + ".txt");
