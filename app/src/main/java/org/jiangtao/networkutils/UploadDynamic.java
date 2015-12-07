@@ -1,5 +1,7 @@
 package org.jiangtao.networkutils;
 
+import android.os.AsyncTask;
+
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.MediaType;
@@ -38,53 +40,65 @@ public class UploadDynamic {
      * @param article_content
      * @param uri
      */
-    public static boolean uploadDynamic(String url, String article_content, String uri) {
-        MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
-        file_name = getUserName(uri);
-        int user_id = LifeApplication.user_id;
-        LogUtils.d(TAG, uri);
-        RequestBody body = new MultipartBuilder()
-                .type(MultipartBuilder.FORM)
-                .addPart(Headers.of("Content-Disposition",
-                        "form-data; name=\"article_content\"" + "\r\n"),
-                        RequestBody.create(null, article_content))
-                .addPart(Headers.of("Content-Disposition",
-                        "form-data; name=\"user_id\"" + "\r\n"),
-                        RequestBody.create(null, String.valueOf(user_id)))
-                .addPart(Headers.of("Content-Disposition",
-                        "form-data; name=\"file_name\"" + "\r\n"),
-                        RequestBody.create(null, file_name))
-                .addPart(Headers.of("Content-Disposition", "form-data;" +
-                                " name=\"article_image\"" + "\r\n"),
-                        RequestBody.create(MEDIA_TYPE_PNG, new File(uri)))
-                .build();
+    public boolean uploadDynamic(final String url, final String article_content, final String uri) {
 
-        Callback callback = new Callback() {
+        new AsyncTask<Void, Void, Boolean>() {
             @Override
-            public void onFailure(Request request, IOException e) {
-                isRight = false;
-            }
+            protected Boolean doInBackground(Void... params) {
+                MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
+                file_name = getUserName(uri);
+                int user_id = LifeApplication.user_id;
+                LogUtils.d(TAG, uri);
+                final RequestBody body = new MultipartBuilder()
+                        .type(MultipartBuilder.FORM)
+                        .addPart(Headers.of("Content-Disposition",
+                                "form-data; name=\"article_content\"" + "\r\n"),
+                                RequestBody.create(null, article_content))
+                        .addPart(Headers.of("Content-Disposition",
+                                "form-data; name=\"user_id\"" + "\r\n"),
+                                RequestBody.create(null, String.valueOf(user_id)))
+                        .addPart(Headers.of("Content-Disposition",
+                                "form-data; name=\"file_name\"" + "\r\n"),
+                                RequestBody.create(null, file_name))
+                        .addPart(Headers.of("Content-Disposition", "form-data;" +
+                                        " name=\"article_image\"" + "\r\n"),
+                                RequestBody.create(MEDIA_TYPE_PNG, new File(uri)))
+                        .build();
+                Callback callback = new Callback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                    }
 
-            @Override
-            public void onResponse(Response response) throws IOException {
-                String responseFlag = response.body().string();
-                LogUtils.d(TAG, responseFlag);
+                    @Override
+                    public void onResponse(Response response) throws IOException {
+                        String responseFlag = response.body().string();
+                        LogUtils.d(TAG, responseFlag);
+                        try {
+                            JSONObject object = new JSONObject(responseFlag);
+                            responsePost = object.getBoolean("flag");
+                            LogUtils.d(TAG, responsePost + ">>>>");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+
                 try {
-                    JSONObject object = new JSONObject(responseFlag);
-                    responsePost = object.getBoolean("flag");
-                } catch (JSONException e) {
+                    LifeApplication.getNetWorkResponse(callback, body, url);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
+                return responsePost;
             }
-        };
-        try {
-            LifeApplication.getNetWorkResponse(callback, body, url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return responsePost && isRight;
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                responsePost = aBoolean;
+            }
+        }.execute();
+
+        return (responsePost && isRight);
     }
 
     public static String getUserName(String uri) {
@@ -92,6 +106,4 @@ public class UploadDynamic {
         System.out.println(b);
         return b;
     }
-
-
 }

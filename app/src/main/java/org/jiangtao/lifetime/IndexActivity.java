@@ -392,6 +392,16 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
 
             }
         }
+        if (requestCode == Code.REQUEST_OPEN_WRITEDYNAMIC) {
+            if (resultCode == Code.RESULTCODE_RETRUN_INDEX) {
+                getSupportFragmentManager().beginTransaction()
+                        .show(fragments[0])
+                        .hide(fragments[1])
+                        .hide(fragments[2])
+                        .hide(fragments[3])
+                        .commitAllowingStateLoss();
+            }
+        }
     }
 
     /**

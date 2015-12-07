@@ -65,7 +65,7 @@ public class LifeTimeSQLiteOpenHelper extends SQLiteOpenHelper {
                 + "user_headpicture VARCHAR(100), "
                 + "article_id INTEGER, "
                 + "article_user_id INTEGER, "
-                + "article_time TIMESTAMP, "
+                + "article_time VARCHAR(50), "
                 + "article_content TEXT, "
                 + "article_image VARCHAR(100), "
                 + "article_love_number INTEGER, "

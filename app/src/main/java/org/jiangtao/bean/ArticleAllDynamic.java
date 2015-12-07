@@ -1,7 +1,6 @@
 package org.jiangtao.bean;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 /**
  * Created by mr-jiang
@@ -13,7 +12,7 @@ public class ArticleAllDynamic implements Serializable {
     private String user_headpicture;
     private int article_id;
     private int article_user_id;
-    private Timestamp article_time;
+    private String article_time;
     private String article_content;
     private String article_image;
     private int article_love_number;
@@ -86,11 +85,11 @@ public class ArticleAllDynamic implements Serializable {
         this.article_comment_number = article_comment_number;
     }
 
-    public Timestamp getArticle_time() {
+    public String getArticle_time() {
         return article_time;
     }
 
-    public void setArticle_time(Timestamp article_time) {
+    public void setArticle_time(String article_time) {
         this.article_time = article_time;
     }
 

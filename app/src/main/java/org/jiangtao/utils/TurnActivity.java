@@ -44,7 +44,7 @@ public class TurnActivity {
      */
     public static void turnWrietDynamicActivity(AppCompatActivity activity){
         Intent intent = new Intent(activity, WriteDynamicActivity.class);
-        activity.startActivityForResult(intent, 0x123);
+        activity.startActivityForResult(intent, Code.REQUEST_OPEN_WRITEDYNAMIC);
     }
     /**
      * 跳转到 WriteNoteActivity
