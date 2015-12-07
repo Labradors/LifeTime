@@ -157,4 +157,9 @@
     <string name="setting_userinfo_city">城市</string>
     <string name="title_activity_Capture">扫描二维码</string>
 
+
+    <string name="write_dynamic_title">上传</string>
+    <string name="write_dynamic_message">文章正在上传</string>
+    <string name="title_activity_user_home_page">UserHomePageActivity</string>
+
 </resources>

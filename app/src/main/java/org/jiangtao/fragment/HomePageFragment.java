@@ -37,6 +37,8 @@ public class HomePageFragment extends android.support.v4.app.Fragment {
         this.context = context;
     }
 
+    public HomePageFragment(){}
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

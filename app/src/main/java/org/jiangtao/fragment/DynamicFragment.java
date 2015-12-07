@@ -52,6 +52,8 @@ public class DynamicFragment extends android.support.v4.app.Fragment implements 
         this.context = context;
     }
 
+    public DynamicFragment(){}
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

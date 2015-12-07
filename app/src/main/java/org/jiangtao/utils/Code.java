@@ -17,4 +17,8 @@ public class Code {
      */
     //打开相册请求码
     public final static int REQUESTCODE_OPEN_GALLERY = 0x600;
+    //写完文章后返回到本地的返回码
+    public final static int RESULTCODE_RETRUN_INDEX = 0x777;
+    //打开写动态界面的请求码
+    public final static int REQUEST_OPEN_WRITEDYNAMIC = 0x778;
 }
