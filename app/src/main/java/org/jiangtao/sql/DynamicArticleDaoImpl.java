@@ -41,7 +41,7 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
             ArticleAllDynamic articleAllDynamic = articleAllDynamics.get(i);
             db.execSQL(sql, new Object[]{articleAllDynamic.getUser_name(),
                     articleAllDynamic.getUser_headpicture(), articleAllDynamic.getArticle_id(),
-                    articleAllDynamic.getArticle_user_id(), articleAllDynamic.getArticle_time(),
+                    articleAllDynamic.getArticle_user_id(), articleAllDynamic.getArticle_time().toString(),
                     articleAllDynamic.getArticle_content(), articleAllDynamic.getArticle_image(),
                     articleAllDynamic.getArticle_love_number(),
                     articleAllDynamic.getArticle_comment_number()});
@@ -75,9 +75,7 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
                 dynamic.setUser_headpicture(c.getString(c.getColumnIndex("user_headpicture")));
                 dynamic.setArticle_id(c.getInt(c.getColumnIndex("article_id")));
                 dynamic.setArticle_user_id(c.getInt(c.getColumnIndex("article_user_id")));
-//                String myDate = c.getString(c.getColumnIndex("article_time"));
-//                Timestamp timestamp = JavaTimeToSqlite.parseTimestamp(myDate);
-                dynamic.setArticle_time(null);
+                dynamic.setArticle_time(c.getString(c.getColumnIndex("article_time")));
                 dynamic.setArticle_content(c.getString(c.getColumnIndex("article_content")));
                 dynamic.setArticle_image(c.getString(c.getColumnIndex("article_image")));
                 dynamic.setArticle_love_number(c.getInt(c.getColumnIndex("article_love_number")));
@@ -105,6 +103,43 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
         c.moveToFirst();
         int id = c.getInt(c.getColumnIndex("article_id"));
         LogUtils.d(TAG, id + "********");
+        if (c != null && !c.isClosed()) {
+            c.close();
+        }
+
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
         return id;
+    }
+
+    @Override
+    public ArrayList<ArticleAllDynamic> getDynamicArticleFromID(int user_id) throws Exception {
+        ArrayList<ArticleAllDynamic> dynamics = new ArrayList<>();
+        SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
+        String sql = "select * from " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE + " where article_user_id=" + user_id;
+        LogUtils.d(TAG, sql);
+        Cursor c = db.rawQuery(sql, null);
+        while (c.moveToNext()) {
+            ArticleAllDynamic dynamic = new ArticleAllDynamic();
+            dynamic.setUser_name(c.getString(c.getColumnIndex("user_name")));
+            dynamic.setUser_headpicture(c.getString(c.getColumnIndex("user_headpicture")));
+            dynamic.setArticle_id(c.getInt(c.getColumnIndex("article_id")));
+            dynamic.setArticle_user_id(c.getInt(c.getColumnIndex("article_user_id")));
+            dynamic.setArticle_content(c.getString(c.getColumnIndex("article_content")));
+            dynamic.setArticle_image(c.getString(c.getColumnIndex("article_image")));
+            dynamic.setArticle_time(c.getString(c.getColumnIndex("article_time")));
+            dynamic.setArticle_comment_number(c.getInt(c.getColumnIndex("article_comment_number")));
+            dynamic.setArticle_love_number(c.getInt(c.getColumnIndex("article_love_number")));
+            dynamics.add(dynamic);
+        }
+        if (c != null && !c.isClosed()) {
+            c.close();
+        }
+
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
+        return dynamics;
     }
 }

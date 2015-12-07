@@ -98,7 +98,7 @@ public class RequestArticleData {
                                                 dynamic.setUser_headpicture(data.getString("user_headpicture"));
                                                 dynamic.setArticle_id(data.getInt("article_id"));
                                                 dynamic.setArticle_user_id(data.getInt("article_user_id"));
-                                                dynamic.setArticle_time(null);
+                                                dynamic.setArticle_time(data.getString("article_time"));
                                                 dynamic.setArticle_content(data.getString("article_content"));
                                                 dynamic.setArticle_image(data.getString("article_image"));
                                                 dynamic.setArticle_love_number(data.getInt("article_love_number"));

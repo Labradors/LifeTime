@@ -124,7 +124,6 @@ public class LifeApplication extends Application {
         mOkHttpClient.newCall(request).enqueue(callback);
     }
 
-
     /**
      * 获取用户回调
      *

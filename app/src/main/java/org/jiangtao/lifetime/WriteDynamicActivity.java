@@ -1,10 +1,12 @@
 package org.jiangtao.lifetime;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
@@ -16,9 +18,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import org.jiangtao.application.LifeApplication;
+import org.jiangtao.networkutils.UploadDynamic;
 import org.jiangtao.utils.BitmapUtils;
 import org.jiangtao.utils.Code;
 import org.jiangtao.utils.ConstantValues;
@@ -39,7 +41,8 @@ public class WriteDynamicActivity extends AppCompatActivity {
     public String mImageAddress = "";
     //用户所写文章的内容
     public String mArticleContent = "";
-    private ProgressBar mProgressBar;
+    private ProgressDialog mProgressDialog;
+    private UploadDynamic mUploadDynamic;
 
     Uri imageUri = null;
 
@@ -56,7 +59,18 @@ public class WriteDynamicActivity extends AppCompatActivity {
         ImageButton mImageButton = (ImageButton) findViewById(R.id.ibtn_write_dynamic);
         Button mButton = (Button) findViewById(R.id.btn_send_dynamic);
         mLinearLayout = (LinearLayout) findViewById(R.id.ll_write_dynamic);
-        mProgressBar = new ProgressBar(this);
+        mProgressDialog = new ProgressDialog(this);
+        mUploadDynamic = new UploadDynamic();
+    }
+
+    public void openDailog() {
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setTitle(R.string.write_dynamic_title);
+        mProgressDialog.setMessage(getResources().getString(R.string.write_dynamic_message));
+        mProgressDialog.setIcon(R.drawable.ic_action_upload);
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setCancelable(true);
+        mProgressDialog.show();
     }
 
     /**
@@ -85,22 +99,42 @@ public class WriteDynamicActivity extends AppCompatActivity {
      */
     private void uploadServers() {
         if (LifeApplication.hasNetWork) {
-            setSupportProgressBarVisibility(true);
+            openDailog();
             getArticleContent();
             LogUtils.d(TAG, ">>>" + mArticleContent);
             LogUtils.d(TAG, "<<<" + mImageAddress);
-            if (mArticleContent != "" || mImageAddress != "") {
+            if (mArticleContent.length() != 0 || mImageAddress.length() != 0) {
                 //上传到服务器
                 LogUtils.d(TAG, ">>>" + mArticleContent);
-                boolean isTrue = org.jiangtao.networkutils.UploadDynamic.uploadDynamic(ConstantValues.uploadImageArticleUrl
-                        , mArticleContent, mImageAddress);
-                if (isTrue) {
-                    setSupportProgressBarVisibility(false);
-                    finish();
-                } else {
-                    Snackbar.make(mLinearLayout, R.string.article_data_error, Snackbar
-                            .LENGTH_SHORT).show();
-                }
+                new AsyncTask<Void, Void, Boolean>() {
+
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+                        boolean result = mUploadDynamic.uploadDynamic(ConstantValues.uploadImageArticleUrl,
+                                mArticleContent, mImageAddress);
+                        LogUtils.d(TAG, "@@@@@@@@@@" + result);
+                        return result;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean aBoolean) {
+                        super.onPostExecute(aBoolean);
+                        if (aBoolean) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mProgressDialog.cancel();
+                                    Intent intent = new Intent(WriteDynamicActivity.this,
+                                            IndexActivity.class);
+                                    startActivityForResult(intent, Code.RESULTCODE_RETRUN_INDEX);
+                                }
+                            });
+                        } else {
+                            Snackbar.make(mLinearLayout, R.string.article_data_error, Snackbar
+                                    .LENGTH_SHORT).show();
+                        }
+                    }
+                }.execute();
             } else {
                 Snackbar.make(mLinearLayout, R.string.article_info_error, Snackbar
                         .LENGTH_SHORT).show();
@@ -176,4 +210,5 @@ public class WriteDynamicActivity extends AppCompatActivity {
     public void getArticleContent() {
         mArticleContent = mEditText.getText().toString().trim();
     }
+
 }

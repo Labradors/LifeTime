@@ -31,4 +31,9 @@ public class DynamicArticleBusinessImpl implements DynamicArticleBusiness {
     public int getDynamicMaxID() throws Exception {
         return dynamicArticleDao.getMaxDynamicArticleID();
     }
+
+    @Override
+    public ArrayList<ArticleAllDynamic> getDynamicFromID(int id) throws Exception {
+        return dynamicArticleDao.getDynamicArticleFromID(id);
+    }
 }

@@ -16,5 +16,7 @@ public interface DynamicArticleBusiness {
 
     public int getDynamicMaxID() throws Exception;
 
+    public ArrayList<ArticleAllDynamic> getDynamicFromID(int id) throws Exception;
+
 
 }
