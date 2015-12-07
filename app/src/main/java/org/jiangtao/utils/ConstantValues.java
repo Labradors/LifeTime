@@ -18,13 +18,13 @@ public class ConstantValues {
     /**
      * 保存便签的内容
      */
-    public static final String saveNoteUri = Environment.getExternalStorageDirectory() + "/lifetime/notes/";
+    public static final String saveNoteUri = Environment.getExternalStorageDirectory() + "/lifetime/";
     /**
      * 保存缓存的目录
      */
     public static final String saveCacheUri = Environment.getExternalStorageDirectory() + "/lifetime/cache/";
 
-    public static final String url = "http://192.168.1.106:8080/LifeTimeBackstage/";
+    public static final String url = "http://192.168.1.118:8080/LifeTimeBackstage/";
     //欢迎界面的url
     public static final String welcomeUrl = url + "welcome.action";
     //请求获得验证码

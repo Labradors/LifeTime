@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:layout_marginBottom="10dp"
-    android:background="@drawable/note_item_shape">
+    android:layout_marginTop="10dp"
+    android:background="@drawable/note_item_shape"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/item_notelistview_title"
@@ -17,9 +17,20 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/note_textviewpress_selector"
         android:gravity="center_vertical" />
-    <!--<TextView-->
-    <!--android:id="@+id/item_notelistview_content"-->
-    <!--android:layout_marginTop="5dp"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content" />-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/item_notelistview_title"
+        android:background="#B8B8B8" />
+
+    <TextView
+        android:id="@+id/item_notelistview_context"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_notelistview_title"
+        />
+
 </RelativeLayout>
