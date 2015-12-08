@@ -35,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mEmailEditText;
     private EditText mEmailValidateEditText;
     private Button mSendValidateButton;
+    private Button mResetButton;
     private Button mRegisterButton;
     private int flag;
     private String mUserName;
@@ -71,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
         container = (ScrollView) findViewById(R.id.register_container);
         mSendValidateButton = (Button) findViewById(R.id.activity_register_btn_sentcheckemil);
         mRegisterButton = (Button) findViewById(R.id.btn_activity_register);
+        mResetButton= (Button) findViewById(R.id.btn_activity_reset);
     }
 
     /**
@@ -170,7 +172,20 @@ public class RegisterActivity extends AppCompatActivity {
                     });
                 }
                 break;
+
             }
+            case R.id.btn_activity_reset:{
+                mResetButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mUserNameEditText.setText("");
+                        mPassWordEditText.setText("");
+                        mRepeatPassWordEditText.setText("");
+                        mEmailEditText.setText("");
+                        mEmailValidateEditText.setText("");
+                    }
+                });}
+            break;
         }
 
     }

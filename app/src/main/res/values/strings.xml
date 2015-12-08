@@ -53,6 +53,7 @@
     <string name="regest_et_hint_checkemail">邮箱验证码</string>
     <string name="regest_btn_sent_checkemail">获取验证码</string>
     <string name="regest_btn_regest">注册</string>
+    <string name="regest_btn_reset">重置</string>
     <string name="regest_tv_prompt">注：请正确填写邮箱内容，用于找回密码！</string>
 
 
@@ -161,5 +162,6 @@
     <string name="write_dynamic_title">上传</string>
     <string name="write_dynamic_message">文章正在上传</string>
     <string name="title_activity_user_home_page">UserHomePageActivity</string>
+    <string name="title_activity_comment">CommentActivity</string>
 
 </resources>
