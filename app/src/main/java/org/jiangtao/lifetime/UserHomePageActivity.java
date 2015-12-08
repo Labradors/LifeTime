@@ -51,12 +51,14 @@ public class UserHomePageActivity extends AppCompatActivity {
         controlsInitialization();
         fillingRecylerView();
 
+
     }
 
     private void fillingRecylerView() {
         mRecylerView.setLayoutManager(manager);
         dynamicAdapter = new DynamicAdapter(
                 mLists, context);
+        dynamicAdapter.mHeadIsClick = false;
         mRecylerView.setAdapter(dynamicAdapter);
     }
 
@@ -68,7 +70,7 @@ public class UserHomePageActivity extends AppCompatActivity {
     private void obtainUserInfo() {
         Intent intent = getIntent();
         user_id = intent.getIntExtra("user_id", 0);
-        LogUtils.d(TAG, user_id + "");
+        LogUtils.d(TAG, user_id + "获取的值");
         //查询本地用户的文章
         //联网下载用户信息
     }
@@ -134,8 +136,8 @@ public class UserHomePageActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<ArticleAllDynamic> articleAllDynamics) {
             super.onPostExecute(articleAllDynamics);
             mLists = articleAllDynamics;
-            for (int i=0;i<mLists.size();i++){
-                LogUtils.d(TAG,"?????????"+mLists.get(i).toString());
+            for (int i = 0; i < mLists.size(); i++) {
+                LogUtils.d(TAG, "?????????" + mLists.get(i).toString());
             }
             //向适配器传值
             //函数实现，页面公用

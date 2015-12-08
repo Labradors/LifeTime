@@ -18,7 +18,7 @@ public class ConstantValues {
     /**
      * 保存便签的内容
      */
-    public static final String saveNoteUri = Environment.getExternalStorageDirectory() + "/lifetime/";
+    public static final String saveNoteUri = Environment.getExternalStorageDirectory() + "/lifetime/note/";
     /**
      * 保存缓存的目录
      */
@@ -49,5 +49,7 @@ public class ConstantValues {
     public static final String getArticleImageUrl = url+"getArticleImage.action?user_image=";
     //点击用户头像，获取别的用户的信息
     public static final String getOtherUserInfoUrl = url+"obtainUserInfo.action";
+    //用户相互关注
+    public static final String attentionUserUrl = url+"attentionUser.action";
 
 }
