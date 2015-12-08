@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.ArticleAllDynamic;
+import org.jiangtao.lifetime.CommentActivity;
 import org.jiangtao.lifetime.R;
 import org.jiangtao.lifetime.UserHomePageActivity;
 import org.jiangtao.networkutils.ArticleOperation;
@@ -37,6 +38,7 @@ import static org.jiangtao.lifetime.R.id.dynamic_textview_userName;
 public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHolder> {
     public ArrayList<ArticleAllDynamic> mList;
     public Context mContext;
+    public Context mCommentContext;
     private LayoutInflater mLayoutInflater;
     public static final String TAG = DynamicAdapter.class.getSimpleName();
     public static Bitmap bitmap = null;
@@ -72,11 +74,25 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                         attentionFuction(position);
                         break;
                     }
+                    case R.id.dynamic_comment_listview: {
+                        openComment(position);
+                        break;
+                    }
                 }
             }
         });
         handlerMessage();
         return holder;
+    }
+
+    /**
+     * 打开评论界面
+     */
+    private void openComment(int position) {
+        int article_id = mList.get(position).getArticle_id();
+        Intent intent = new Intent(mContext, CommentActivity.class);
+        intent.putExtra("article_id", article_id);
+        mContext.startActivity(intent);
     }
 
     private void handlerMessage() {
@@ -91,6 +107,10 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                     }
                     case 0x998: {
                         Toast.makeText(mContext, R.string.attention_fail, Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    case 0x997: {
+                        Toast.makeText(mContext, R.string.article_network_error, Toast.LENGTH_LONG).show();
                         break;
                     }
                 }
@@ -155,7 +175,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
      */
     public void attentionFuction(int position) {
         if (LifeApplication.isLogin) {
-            if (LifeApplication.hasNetWork) {
+            if (LifeApplication.getInstance().isNetworkAvailable()) {
                 int friend_user_id = LifeApplication.user_id;
                 int friend_another_id = mList.get(position).getArticle_user_id();
                 ArticleOperation.getInstance().new AttentionAsyncTask()
@@ -174,6 +194,10 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                         }
                     }
                 });
+            } else {
+                Message msg = new Message();
+                msg.what = 0x997;
+                handler.sendMessage(msg);
             }
         } else {
             TurnActivity.turnLoginActivity(mContext);
