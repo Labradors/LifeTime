@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.ArticleAllDynamic;
+import org.jiangtao.lifetime.CommentActivity;
 import org.jiangtao.lifetime.R;
 import org.jiangtao.lifetime.UserHomePageActivity;
 import org.jiangtao.utils.ConstantValues;
@@ -33,6 +34,7 @@ import static org.jiangtao.lifetime.R.id.dynamic_textview_userName;
 public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHolder> implements View.OnClickListener {
     public ArrayList<ArticleAllDynamic> mList;
     public Context mContext;
+    public Context mCommentContext;
     private LayoutInflater mLayoutInflater;
     public static final String TAG = DynamicAdapter.class.getSimpleName();
     public static Bitmap bitmap = null;
@@ -44,6 +46,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     public DynamicAdapter(ArrayList<ArticleAllDynamic> mList, Context context) {
         this.mList = mList;
         this.mContext = context;
+
 
 
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -114,6 +117,12 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         intent.putExtra("user_id", user_id);
         mContext.startActivity(intent);
     }
+    public void openCommentPage(){
+        Intent intent=new Intent(mContext, CommentActivity.class);
+        int article_id=mList.get(DynamicAdapter.position).getArticle_id();
+        intent.putExtra("artcle_id",article_id);
+        mContext.startActivity(intent);
+    }
 
     @Override
     public void onClick(View v) {
@@ -131,6 +140,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 break;
             }
             case R.id.dynamic_comment_listview: {
+                openCommentPage();
 
                 break;
             }
