@@ -78,6 +78,9 @@
 
     <!-- 提示信息-->
     <string name="two_click_exit">双击退出</string>
+    <string name="attention_success">关注成功</string>
+    <string name="attention_fail">关注失败</string>
+    <string name="comment_null">关注失败</string>
 
     <!--Message Page-->
     <string name="messagepage_mycollection">我的收藏</string>
@@ -162,6 +165,9 @@
     <string name="write_dynamic_title">上传</string>
     <string name="write_dynamic_message">文章正在上传</string>
     <string name="title_activity_user_home_page">UserHomePageActivity</string>
+
     <string name="title_activity_comment">CommentActivity</string>
+    <string name="comment_edittext">评论</string>
+    <string name="send_comment">发送</string>
 
 </resources>
