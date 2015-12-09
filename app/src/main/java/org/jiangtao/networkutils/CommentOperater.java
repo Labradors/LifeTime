@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
@@ -26,6 +28,7 @@ public class CommentOperater {
     private static CommentOperater mCommentOperater;
     private static final String TAG = CommentOperater.class.getSimpleName();
     public CommentCallBack mCommentCallBack;
+    public UploadCommentResult mUploadCommentResult;
 
     private CommentOperater() {
     }
@@ -94,5 +97,67 @@ public class CommentOperater {
 
     public void CommentCallBackInstance(CommentCallBack commentCallBack) {
         mCommentCallBack = commentCallBack;
+    }
+
+    /**
+     * 用户上传评论数据
+     */
+    public class AddCommentAsyncTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            String comment_user_id = params[0];
+            String article_id = params[1];
+            String comment_content = params[2];
+            //添加请求，联网
+            RequestBody body = new MultipartBuilder()
+                    .type(MultipartBuilder.FORM)
+                    .addPart(Headers.of("Content-Disposition",
+                            "form-data; name=\"comment_user_id\"" + "\r\n"),
+                            RequestBody.create(null, comment_user_id))
+                    .addPart(Headers.of("Content-Disposition",
+                            "form-data; name=\"article_id\"" + "\r\n"),
+                            RequestBody.create(null, article_id))
+                    .addPart(Headers.of("Content-Disposition",
+                            "form-data; name=\"comment_content\"" + "\r\n"),
+                            RequestBody.create(null, comment_content))
+                    .build();
+            Callback callback = new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    LogUtils.d(TAG, "请求失败");
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    String isSuccessInsertComment = response.body().string();
+                    try {
+                        JSONObject object = new JSONObject(isSuccessInsertComment);
+                        String isSuccessComment = object.getString("isSuccessInsertComment");
+                        if (isSuccessComment.equals("true")) {
+                            mUploadCommentResult.sendCommentResult(true);
+                        } else {
+                            mUploadCommentResult.sendCommentResult(false);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            try {
+                LifeApplication.getNetWorkResponse(callback, body, ConstantValues.addCommentUrl);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public interface UploadCommentResult {
+        public void sendCommentResult(boolean isSuccess);
+    }
+
+    public void UploadCommentResultListener(UploadCommentResult uploadCommentResult) {
+        mUploadCommentResult = uploadCommentResult;
     }
 }

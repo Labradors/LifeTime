@@ -1,5 +1,6 @@
 package org.jiangtao.lifetime;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -43,14 +43,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String userName;
     private String passWord;
     private UserBusinessImpl userBusiness;
-    private ProgressBar mProgressBar;
+    public User user;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            mProgressBar.setVisibility(ProgressBar.GONE);
+            if (msg.what == 0x111) {
+                mDialog.dismiss();
+            }
         }
     };
+    private ProgressDialog mDialog;
 
     public LoginActivity() {
         userBusiness = new UserBusinessImpl(this);
@@ -61,7 +64,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initControl();
+        openDialog();
         getEditTextValue();
+    }
+
+    public void openDialog() {
+        mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mDialog.setTitle(R.string.login);
+        mDialog.setMessage(getResources().getString(R.string.logining));
+        mDialog.setIcon(R.drawable.login);
+        mDialog.setIndeterminate(false);
+        mDialog.setCancelable(true);
     }
 
     /**
@@ -79,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLinearLayout = (LinearLayout) findViewById(R.id.activity_login_container);
         mEditTextUserEmal = (EditText) findViewById(R.id.personal_login_username);
         mEditTextPassWord = (EditText) findViewById(R.id.personal_login_password);
-        mProgressBar = (ProgressBar) findViewById(R.id.login_progressbar);
+        mDialog = new ProgressDialog(this);
     }
 
     @Override
@@ -110,11 +123,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 LogUtils.d(TAG, userName);
                 LogUtils.d(TAG, passWord);
                 getEditTextValue();
-                if (userName.equals("")||passWord.equals("")||userName.equals(null)||passWord.equals(null)) {
+                if (userName.equals("") || passWord.equals("") || userName.equals(null) || passWord.equals(null)) {
                     Snackbar.make(mLinearLayout, R.string.input_not_null,
                             Snackbar.LENGTH_SHORT).show();
                 } else {
-                    mProgressBar.setVisibility(ProgressBar.VISIBLE);
+                    mDialog.show();
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -152,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String userInformation = response.body().string();
                 try {
                     JSONObject object = new JSONObject(userInformation);
-                    User user = (User) JSONUtil.JSONToObj(userInformation, User.class);
+                    user = (User) JSONUtil.JSONToObj(userInformation, User.class);
                     LogUtils.d(TAG, "*******" + user.getUser_headpicture());
                     /**
                      * 开启网络请求
@@ -164,27 +177,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         LifeApplication.user_email = user.getUser_email();
                         LifeApplication.user_name = user.getUser_name();
                         LogUtils.d(TAG, Environment.getExternalStorageDirectory() + "/lifetime/headImage/user.jpg");
-                        //开启网络请求，请求图片，并且保存到sdcard；
-                        Bitmap bitmap = LoadHeadImage.loadNetWorkHeadImage(
+                        LoadHeadImage.getInstance().new BitmapAsyncTask().execute(
                                 user.getUser_headpicture(), ConstantValues.userImageUrl
                         );
-                        if (bitmap != null) {
-                            BitmapUtils.savePhotoToSDCard(ConstantValues.saveImageUri,
-                                    user.getUser_name() + ".png", bitmap);
+                        LoadHeadImage.getInstance().BitmapListener(new LoadHeadImage.BitmapCallBack() {
+                            @Override
+                            public void sendBitmap(Bitmap bitmap) {
+                                if (bitmap != null) {
+                                    BitmapUtils.savePhotoToSDCard(ConstantValues.saveImageUri,
+                                            user.getUser_name() + ".png", bitmap);
 
-                            userBusiness.insertUser(user);
-                            LogUtils.d(TAG, ">>><<<<" + user.toString());
-                            Intent intent = new Intent(LoginActivity.this, IndexActivity.class);
-                            intent.putExtra("flag", true);
-                            Message msg = new Message();
-                            msg.what = 111;
-                            msg.obj = "true";
-                            handler.sendMessage(msg);
-                            setResult(Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE, intent);
-                            finish();
-                        }
-
-
+                                    try {
+                                        userBusiness.insertUser(user);
+                                        LogUtils.d(TAG, ">>><<<<" + user.toString());
+                                        Intent intent = new Intent(LoginActivity.this, IndexActivity.class);
+                                        intent.putExtra("flag", true);
+                                        Message msg = new Message();
+                                        msg.what = 111;
+                                        msg.obj = "true";
+                                        handler.sendMessage(msg);
+                                        setResult(Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE, intent);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
                     } else {
                         Snackbar.make(mLinearLayout, R.string.please_register,
                                 Snackbar.LENGTH_LONG).show();

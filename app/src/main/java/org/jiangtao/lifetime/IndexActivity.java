@@ -138,7 +138,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
             menuWindow.dismiss();
             switch (v.getId()) {
                 case R.id.pup_btn_takephoto:
-                    Intent camera=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(camera, Activity.DEFAULT_KEYS_DIALER);
                     break;
                 case R.id.pup_btn_richscan:
@@ -352,49 +352,47 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         /**
          * 当用户登陆成功后，更新数据
          */
-        if (requestCode == Code.REQUESTCODE_INDEXACTIVITY_TO_LOGINACTIVITY) {
-            switch (resultCode) {
-                case Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE: {
-                    boolean flag = data.getBooleanExtra("flag", false);
-                    LogUtils.d(TAG, "<<________------" + flag);
-                    try {
-                        business = new UserBusinessImpl(this);
-                        if (flag) {
-                            /**
-                             * 发送信号给personalfragment
-                             * 把图片和用户名名换掉
-                             */
-                            User user = null;
-                            user = business.selectUser(LifeApplication.user_email);
-                            LogUtils.d(TAG, "查看是否取出文件" + user.toString());
-                            if (user != null) {
-                                LogUtils.d(TAG, "---------" + user.toString());
-                                mHeadTextView.setText(user.getUser_name());
-                                if (user.getUser_headpicture() != null) {
-                                    /**
-                                     * 将地址转化为bitmap
-                                     */
-                                    Bitmap bitmap = BitmapUtils.getBitmap(ConstantValues.saveImageUri +
-                                            LifeApplication.user_name + ".png");
-                                    mHeadImageView.setImageBitmap(bitmap);
-                                    updateNavigationView();
-                                }
+        switch (resultCode) {
+            case Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE: {
+                boolean flag = data.getBooleanExtra("flag", false);
+                LogUtils.d(TAG, "<<________------" + flag);
+                try {
+                    business = new UserBusinessImpl(this);
+                    if (flag) {
+                        /**
+                         * 发送信号给personalfragment
+                         * 把图片和用户名名换掉
+                         */
+                        User user = null;
+                        user = business.selectUser(LifeApplication.user_email);
+                        LogUtils.d(TAG, "查看是否取出文件" + user.toString());
+                        if (user != null) {
+                            LogUtils.d(TAG, "---------" + user.toString());
+                            mHeadTextView.setText(user.getUser_name());
+                            if (user.getUser_headpicture() != null) {
+                                /**
+                                 * 将地址转化为bitmap
+                                 */
+                                Bitmap bitmap = BitmapUtils.getBitmap(ConstantValues.saveImageUri +
+                                        LifeApplication.user_name + ".png");
+                                mHeadImageView.setImageBitmap(bitmap);
+                                updateNavigationView();
                             }
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
-                    fragmentCallback.onMainAction(flag);
-                    getSupportFragmentManager().beginTransaction()
-                            .show(fragments[3])
-                            .hide(fragments[1])
-                            .hide(fragments[2])
-                            .hide(fragments[0])
-                            .commitAllowingStateLoss();
-                    break;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
+                fragmentCallback.onMainAction(flag);
+                getSupportFragmentManager().beginTransaction()
+                        .show(fragments[3])
+                        .hide(fragments[1])
+                        .hide(fragments[2])
+                        .hide(fragments[0])
+                        .commitAllowingStateLoss();
+                break;
             }
+
         }
         if (requestCode == Code.REQUEST_OPEN_WRITEDYNAMIC) {
             if (resultCode == Code.RESULTCODE_RETRUN_INDEX) {

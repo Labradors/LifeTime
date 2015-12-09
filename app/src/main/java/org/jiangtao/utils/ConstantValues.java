@@ -46,12 +46,18 @@ public class ConstantValues {
     //获取文章的图片
 //    public static final String getArticleImageUrl = url+"getArticleImage.action";
     //get请求加载图片
-    public static final String getArticleImageUrl = url+"getArticleImage.action?user_image=";
+    public static final String getArticleImageUrl = url + "getArticleImage.action?user_image=";
     //点击用户头像，获取别的用户的信息
-    public static final String getOtherUserInfoUrl = url+"obtainUserInfo.action";
-    //用户相互关注
-    public static final String attentionUserUrl = url+"attentionUser.action";
+    public static final String getOtherUserInfoUrl = url + "obtainUserInfo.action";
     //请求文章的评论
-    public static final String CommentOperater = url+"getComment.action";
+    public static final String CommentOperater = url + "getComment.action";
+    //判断用户之间是否为好友
+    public static final String isFriendUrl = url + "isFriend.action";
+    //用户相互关注
+    public static final String attentionUserUrl = url + "attentionUser.action";
+    //用户之间取消关注
+    public static final String deleteFriendUrl = url + "deleteFriend.action";
+    //添加评论信息
+    public static final String addCommentUrl = url + "addComment.action";
 
 }

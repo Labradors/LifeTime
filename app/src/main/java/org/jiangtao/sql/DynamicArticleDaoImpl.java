@@ -1,5 +1,6 @@
 package org.jiangtao.sql;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -141,5 +142,34 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
             db.close();
         }
         return dynamics;
+    }
+
+    /**
+     * 更新数据库
+     *
+     * @param articleAllDynamics
+     * @throws Exception
+     */
+    @Override
+    public void updateDynamic(ArrayList<ArticleAllDynamic> articleAllDynamics) throws Exception {
+        SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
+        db.beginTransaction();
+        for (int i = 0; i < articleAllDynamics.size(); i++) {
+            ArticleAllDynamic articleAllDynamic = articleAllDynamics.get(i);
+            ContentValues values = new ContentValues();
+            values.put("article_id", articleAllDynamic.getArticle_id());
+            values.put("user_name", articleAllDynamic.getUser_name());
+            values.put("user_headpicture", articleAllDynamic.getUser_headpicture());
+            values.put("article_user_id", articleAllDynamic.getArticle_user_id());
+            values.put("article_time", articleAllDynamic.getArticle_time());
+            values.put("article_content", articleAllDynamic.getArticle_content());
+            values.put("article_image", articleAllDynamic.getArticle_image());
+            values.put("article_love_number", articleAllDynamic.getArticle_love_number());
+            values.put("article_comment_number", articleAllDynamic.getArticle_comment_number());
+            db.replace(LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE, null,
+                    values);
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
     }
 }

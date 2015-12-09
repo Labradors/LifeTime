@@ -3,13 +3,10 @@ package org.jiangtao.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,9 +16,7 @@ import org.jiangtao.bean.ArticleAllDynamic;
 import org.jiangtao.lifetime.CommentActivity;
 import org.jiangtao.lifetime.R;
 import org.jiangtao.lifetime.UserHomePageActivity;
-import org.jiangtao.networkutils.ArticleOperation;
 import org.jiangtao.utils.ConstantValues;
-import org.jiangtao.utils.TurnActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,10 +65,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                         openHomePage(position);
                         break;
                     }
-                    case R.id.dynamic_button: {
-                        attentionFuction(position);
-                        break;
-                    }
                     case R.id.dynamic_comment_listview: {
                         openComment(position);
                         break;
@@ -81,7 +72,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 }
             }
         });
-        handlerMessage();
         return holder;
     }
 
@@ -93,29 +83,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         Intent intent = new Intent(mContext, CommentActivity.class);
         intent.putExtra("article_id", article_id);
         mContext.startActivity(intent);
-    }
-
-    private void handlerMessage() {
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    case 0x999: {
-                        Toast.makeText(mContext, R.string.attention_success, Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                    case 0x998: {
-                        Toast.makeText(mContext, R.string.attention_fail, Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                    case 0x997: {
-                        Toast.makeText(mContext, R.string.article_network_error, Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                }
-            }
-        };
     }
 
     @Override
@@ -167,47 +134,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         intent.putExtra("user_id", article_user_id);
         mContext.startActivity(intent);
     }
-
-    /**
-     * 关注功能
-     *
-     * @param position
-     */
-    public void attentionFuction(int position) {
-        if (LifeApplication.isLogin) {
-            if (LifeApplication.getInstance().isNetworkAvailable()) {
-                int friend_user_id = LifeApplication.user_id;
-                int friend_another_id = mList.get(position).getArticle_user_id();
-                ArticleOperation.getInstance().new AttentionAsyncTask()
-                        .execute(friend_user_id, friend_another_id);
-                ArticleOperation.getInstance().interfaceInstance(new ArticleOperation.AttentionOperate() {
-                    @Override
-                    public void sendResult(boolean result) {
-                        if (result) {
-                            Message message = new Message();
-                            message.what = 0x999;
-                            handler.sendMessage(message);
-                        } else {
-                            Message message = new Message();
-                            message.what = 0x998;
-                            handler.sendMessage(message);
-                        }
-                    }
-                });
-            } else {
-                Message msg = new Message();
-                msg.what = 0x997;
-                handler.sendMessage(msg);
-            }
-        } else {
-            TurnActivity.turnLoginActivity(mContext);
-        }
-    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public CircleImageView mHeadImageCircleImageView;
         public TextView mUserNameTextView;
-        public Button mAttentionButton;
         public TextView mTimeTextView;
         public ImageView mArticleImageView;
         public TextView mArticleTextView;
@@ -222,7 +151,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             mHeadImageCircleImageView = (CircleImageView) itemView.findViewById(
                     R.id.profile_image_listview);
             mUserNameTextView = (TextView) itemView.findViewById(dynamic_textview_userName);
-            mAttentionButton = (Button) itemView.findViewById(R.id.dynamic_button);
             mTimeTextView = (TextView) itemView.findViewById(R.id.dynamic_time_listview);
             mArticleImageView = (ImageView) itemView.findViewById(R.id.dynamic_imageview);
             mArticleTextView = (TextView) itemView.findViewById(R.id.dynamic_article_content);
@@ -237,7 +165,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             if (mHeadIsClick) {
                 mHeadImageCircleImageView.setOnClickListener(this);
             }
-            mAttentionButton.setOnClickListener(this);
             mArticleImageView.setOnClickListener(this);
             mCommentTextView.setOnClickListener(this);
             mCollectionTextView.setOnClickListener(this);

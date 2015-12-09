@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class RequestArticleData {
     public static final String TAG = RequestArticleData.class.getSimpleName();
     private ArrayList<ArticleAllDynamic> mList;
+    private ArrayList<ArticleAllDynamic> mUpdateLists;
     private static RequestArticleData data;
     public static Bitmap bitmap = null;
     private DynamicArticleBusinessImpl business;
@@ -54,6 +55,7 @@ public class RequestArticleData {
      */
     public void getArticleData(final String url, final Context context) {
         mList = new ArrayList<>();
+        mUpdateLists = new ArrayList<>();
         business = new DynamicArticleBusinessImpl(context);
         //开启一个线程，将sqlite最大值取出
         new AsyncTask<Void, Void, Integer>() {
@@ -85,11 +87,27 @@ public class RequestArticleData {
 
                             @Override
                             public void onResponse(Response response) throws IOException {
-                                if (LifeApplication.hasNetWork) {
+                                if (LifeApplication.getInstance().isNetworkAvailable()) {
                                     String articleData = response.body().string();
                                     try {
                                         JSONArray array = new JSONArray(articleData);
                                         if (array != null) {
+                                            for (int i = 0; i < array.length(); i++) {
+                                                JSONObject data = array.getJSONObject(i);
+                                                ArticleAllDynamic dynamic = new ArticleAllDynamic();
+                                                dynamic.setUser_name(data.getString("user_name"));
+                                                dynamic.setUser_headpicture(data.getString("user_headpicture"));
+                                                dynamic.setArticle_id(data.getInt("article_id"));
+                                                dynamic.setArticle_user_id(data.getInt("article_user_id"));
+                                                dynamic.setArticle_time(data.getString("article_time"));
+                                                dynamic.setArticle_content(data.getString("article_content"));
+                                                dynamic.setArticle_image(data.getString("article_image"));
+                                                dynamic.setArticle_love_number(data.getInt("article_love_number"));
+                                                dynamic.setArticle_comment_number(data.getInt("article_comment_number"));
+                                                mUpdateLists.add(dynamic);
+                                                LogUtils.d(TAG, dynamic.toString());
+                                            }
+                                            //这部分代码没有用处，待
                                             for (int i = MAX_ID; i < array.length(); i++) {
 
                                                 JSONObject data = array.getJSONObject(i);
@@ -107,7 +125,8 @@ public class RequestArticleData {
                                                 LogUtils.d(TAG, dynamic.toString());
                                             }
                                         }
-                                        business.insertDynamicArticles(mList);
+                                        business.updateArticle(mUpdateLists);
+//                                        business.insertDynamicArticles(mList);
                                         LogUtils.d(TAG, mList.size() + "&&&&&&&");
                                         LogUtils.d(TAG, "====写入数据库" + ((mList.size()) - MAX_ID) + "------");
                                     } catch (Exception e) {

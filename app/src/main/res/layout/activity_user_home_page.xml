@@ -12,8 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:gravity="center_vertical"
         android:background="@drawable/welcome"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -35,21 +35,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
-                android:textColor="#fff"
-                android:gravity="right"/>
+                android:gravity="right"
+                android:textColor="#fff"/>
+
             <TextView
                 android:id="@+id/homepage_jointime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textColor="#fff"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:textColor="#fff"/>
 
             <TextView
                 android:id="@+id/homepage_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
+
+            <Button
+                android:id="@+id/dynamic_button"
+                style="@style/Base.Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:clickable="true"
+                android:text="@string/dynamic_button"/>
         </LinearLayout>
     </LinearLayout>
 
