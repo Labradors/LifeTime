@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -42,9 +44,27 @@ public class WriteDynamicActivity extends AppCompatActivity {
     //用户所写文章的内容
     public String mArticleContent = "";
     private ProgressDialog mProgressDialog;
-    private UploadDynamic mUploadDynamic;
-
     Uri imageUri = null;
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0x444: {
+                    mProgressDialog.cancel();
+                    Intent intent = new Intent(WriteDynamicActivity.this,
+                            IndexActivity.class);
+                    startActivityForResult(intent, Code.RESULTCODE_RETRUN_INDEX);
+                    break;
+                }
+                case 0x445: {
+                    Snackbar.make(mLinearLayout, R.string.article_data_error, Snackbar
+                            .LENGTH_SHORT).show();
+                    break;
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +80,6 @@ public class WriteDynamicActivity extends AppCompatActivity {
         Button mButton = (Button) findViewById(R.id.btn_send_dynamic);
         mLinearLayout = (LinearLayout) findViewById(R.id.ll_write_dynamic);
         mProgressDialog = new ProgressDialog(this);
-        mUploadDynamic = new UploadDynamic();
     }
 
     public void openDailog() {
@@ -98,7 +117,7 @@ public class WriteDynamicActivity extends AppCompatActivity {
      * 上传服务器
      */
     private void uploadServers() {
-        if (LifeApplication.hasNetWork) {
+        if (LifeApplication.getInstance().isNetworkAvailable()) {
             openDailog();
             getArticleContent();
             LogUtils.d(TAG, ">>>" + mArticleContent);
@@ -110,29 +129,23 @@ public class WriteDynamicActivity extends AppCompatActivity {
 
                     @Override
                     protected Boolean doInBackground(Void... params) {
-                        boolean result = mUploadDynamic.uploadDynamic(ConstantValues.uploadImageArticleUrl,
-                                mArticleContent, mImageAddress);
-                        LogUtils.d(TAG, "@@@@@@@@@@" + result);
-                        return result;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Boolean aBoolean) {
-                        super.onPostExecute(aBoolean);
-                        if (aBoolean) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mProgressDialog.cancel();
-                                    Intent intent = new Intent(WriteDynamicActivity.this,
-                                            IndexActivity.class);
-                                    startActivityForResult(intent, Code.RESULTCODE_RETRUN_INDEX);
+                        UploadDynamic.getInstance().new uploadArticleAsyncTask().execute(
+                                ConstantValues.uploadImageArticleUrl,
+                                mArticleContent, mImageAddress
+                        );
+                        UploadDynamic.getInstance().setUploadArticleResult(new UploadDynamic.UploadArticleResult() {
+                            @Override
+                            public void sendResult(boolean result) {
+                                LogUtils.d(TAG, "@@@@@@@@@@" + result);
+                                if (result) {
+                                    handler.sendEmptyMessage(0x444);
+                                } else {
+                                    handler.sendEmptyMessage(0x445);
                                 }
-                            });
-                        } else {
-                            Snackbar.make(mLinearLayout, R.string.article_data_error, Snackbar
-                                    .LENGTH_SHORT).show();
-                        }
+                            }
+                        });
+
+                        return null;
                     }
                 }.execute();
             } else {

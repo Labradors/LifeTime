@@ -36,4 +36,9 @@ public class DynamicArticleBusinessImpl implements DynamicArticleBusiness {
     public ArrayList<ArticleAllDynamic> getDynamicFromID(int id) throws Exception {
         return dynamicArticleDao.getDynamicArticleFromID(id);
     }
+
+    @Override
+    public void updateArticle(ArrayList<ArticleAllDynamic> articleAllDynamics) throws Exception {
+        dynamicArticleDao.updateDynamic(articleAllDynamics);
+    }
 }

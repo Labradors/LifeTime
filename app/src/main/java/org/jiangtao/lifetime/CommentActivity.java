@@ -16,8 +16,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.jiangtao.adapter.CommentAdapter;
+import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.Comment;
 import org.jiangtao.networkutils.CommentOperater;
+import org.jiangtao.utils.LogUtils;
+import org.jiangtao.utils.TurnActivity;
 
 import java.util.ArrayList;
 
@@ -25,6 +28,7 @@ import java.util.ArrayList;
  * 下拉请求数据
  */
 public class CommentActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = CommentActivity.class.getSimpleName();
     private RecyclerView mRecyclerView;
     private EditText mEditTextWriteComment;
     private Button mSendButton;
@@ -59,10 +63,21 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                 switch (msg.what) {
                     case 0x555: {
                         adapterFilling();
+                        mCommentAdapter.notifyDataSetChanged();
                         break;
                     }
                     case 0x556: {
                         Toast.makeText(CommentActivity.this, R.string.comment_null,
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    case 0x557: {
+                        Toast.makeText(CommentActivity.this, R.string.comment_success,
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                    case 0x558: {
+                        Toast.makeText(CommentActivity.this, R.string.comment_fail,
                                 Toast.LENGTH_LONG).show();
                         break;
                     }
@@ -71,9 +86,12 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         };
     }
 
+    public void getMCommentContent() {
+        mCommentContent = mEditTextWriteComment.getText().toString().trim();
+    }
+
     private void obtainComent(int mArticleID) {
         CommentOperater.getInstance().new CommentAsyncTask().execute(mArticleID);
-        CommentOperater.getInstance().CommentCallBackInstance(commentCallBack);
         commentCallBack = new CommentOperater.CommentCallBack() {
             @Override
             public void sendCommentList(ArrayList<Comment> commentsList) {
@@ -88,6 +106,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         };
+        CommentOperater.getInstance().CommentCallBackInstance(commentCallBack);
     }
 
     private void adapterFilling() {
@@ -104,6 +123,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         mSendButton = (Button) findViewById(R.id.comment_send_comment);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.comment_swipe);
         mCommentLists = new ArrayList<>();
+        mSendButton.setOnClickListener(this);
     }
 
     private void obtainIntentValue() {
@@ -119,6 +139,36 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-
+        if (LifeApplication.isLogin) {
+            if (LifeApplication.getInstance().isNetworkAvailable()) {
+                getMCommentContent();
+                LogUtils.d(TAG,mCommentContent);
+                if (mCommentContent != null && mCommentContent.length() != 0) {
+                    //开启异步任务
+                    CommentOperater.getInstance().new AddCommentAsyncTask().execute(
+                            String.valueOf(LifeApplication.user_id), String.valueOf(mArticleID),
+                            mCommentContent
+                    );
+                    CommentOperater.getInstance().UploadCommentResultListener(new CommentOperater.UploadCommentResult() {
+                        @Override
+                        public void sendCommentResult(boolean isSuccess) {
+                            if (isSuccess) {
+                                mHandler.sendEmptyMessage(0x557);
+                            } else {
+                                mHandler.sendEmptyMessage(0x558);
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(CommentActivity.this,
+                            R.string.comment_not_null, Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(CommentActivity.this,
+                        R.string.network_error, Toast.LENGTH_LONG).show();
+            }
+        } else {
+            TurnActivity.turnLoginActivity(CommentActivity.this);
+        }
     }
 }

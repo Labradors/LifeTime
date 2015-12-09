@@ -22,88 +22,89 @@ import java.io.IOException;
  * Created by mr-jiang on 15-11-29.
  */
 public class UploadDynamic {
-    public static boolean isRight = true;
-    public static boolean responsePost;
     public static final String TAG = UploadDynamic.class.getSimpleName();
     static String file_name;
+    public UploadArticleResult mUploadArticleResult;
+    private static UploadDynamic mUploadDynamic;
 
-    /**
-     * 上传用户所写的文章
-     * 这个函数的作用是只管上传
-     * 如果在没网的条件下，讲内容保存到本地数据库，在草稿箱里添加1
-     * 然后在有网的情况下
-     * 发送
-     * error:
-     * 上传成功，返回的响应值不对
-     *
-     * @param uri
-     * @param article_content
-     * @param uri
-     */
-    public boolean uploadDynamic(final String url, final String article_content, final String uri) {
+    private UploadDynamic() {
+    }
 
-        new AsyncTask<Void, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
-                file_name = getUserName(uri);
-                int user_id = LifeApplication.user_id;
-                LogUtils.d(TAG, uri);
-                final RequestBody body = new MultipartBuilder()
-                        .type(MultipartBuilder.FORM)
-                        .addPart(Headers.of("Content-Disposition",
-                                "form-data; name=\"article_content\"" + "\r\n"),
-                                RequestBody.create(null, article_content))
-                        .addPart(Headers.of("Content-Disposition",
-                                "form-data; name=\"user_id\"" + "\r\n"),
-                                RequestBody.create(null, String.valueOf(user_id)))
-                        .addPart(Headers.of("Content-Disposition",
-                                "form-data; name=\"file_name\"" + "\r\n"),
-                                RequestBody.create(null, file_name))
-                        .addPart(Headers.of("Content-Disposition", "form-data;" +
-                                        " name=\"article_image\"" + "\r\n"),
-                                RequestBody.create(MEDIA_TYPE_PNG, new File(uri)))
-                        .build();
-                Callback callback = new Callback() {
-                    @Override
-                    public void onFailure(Request request, IOException e) {
-                    }
+    public static UploadDynamic getInstance() {
+        if (mUploadDynamic == null) {
+            mUploadDynamic = new UploadDynamic();
+        }
+        return mUploadDynamic;
+    }
 
-                    @Override
-                    public void onResponse(Response response) throws IOException {
-                        String responseFlag = response.body().string();
-                        LogUtils.d(TAG, responseFlag);
-                        try {
-                            JSONObject object = new JSONObject(responseFlag);
-                            responsePost = object.getBoolean("flag");
-                            LogUtils.d(TAG, responsePost + ">>>>");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+    public class uploadArticleAsyncTask extends AsyncTask<String, Void, Boolean> {
 
-                    }
-                };
-
-                try {
-                    LifeApplication.getNetWorkResponse(callback, body, url);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        @Override
+        protected Boolean doInBackground(String... params) {
+            String url = params[0];
+            String article_content = params[1];
+            String uri = params[2];
+            MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
+            file_name = getUserName(uri);
+            int user_id = LifeApplication.user_id;
+            LogUtils.d(TAG, uri);
+            final RequestBody body = new MultipartBuilder()
+                    .type(MultipartBuilder.FORM)
+                    .addPart(Headers.of("Content-Disposition",
+                            "form-data; name=\"article_content\"" + "\r\n"),
+                            RequestBody.create(null, article_content))
+                    .addPart(Headers.of("Content-Disposition",
+                            "form-data; name=\"user_id\"" + "\r\n"),
+                            RequestBody.create(null, String.valueOf(user_id)))
+                    .addPart(Headers.of("Content-Disposition",
+                            "form-data; name=\"file_name\"" + "\r\n"),
+                            RequestBody.create(null, file_name))
+                    .addPart(Headers.of("Content-Disposition", "form-data;" +
+                                    " name=\"article_image\"" + "\r\n"),
+                            RequestBody.create(MEDIA_TYPE_PNG, new File(uri)))
+                    .build();
+            Callback callback = new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
                 }
-                return responsePost;
-            }
 
-            @Override
-            protected void onPostExecute(Boolean aBoolean) {
-                responsePost = aBoolean;
-            }
-        }.execute();
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    String responseFlag = response.body().string();
+                    LogUtils.d(TAG, responseFlag);
+                    try {
+                        JSONObject object = new JSONObject(responseFlag);
+                        boolean responsePost = object.getBoolean("flag");
+                        LogUtils.d(TAG, responsePost + ">>>>");
+                        mUploadArticleResult.sendResult(responsePost);
 
-        return (responsePost && isRight);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            };
+
+            try {
+                LifeApplication.getNetWorkResponse(callback, body, url);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
     public static String getUserName(String uri) {
         String b = uri.substring(uri.lastIndexOf("/") + 1, uri.length());
         System.out.println(b);
         return b;
+    }
+
+    public interface UploadArticleResult {
+        public void sendResult(boolean result);
+    }
+
+    public void setUploadArticleResult(UploadArticleResult uploadArticleResult) {
+        mUploadArticleResult = uploadArticleResult;
     }
 }

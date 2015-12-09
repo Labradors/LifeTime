@@ -36,6 +36,7 @@ public class ArticleOperation {
 
     /**
      * 关注异步任务
+     * 添加更关注的操作
      */
     public class AttentionAsyncTask extends AsyncTask<Integer, Void, Void> {
 
@@ -62,9 +63,9 @@ public class ArticleOperation {
                         String isSuccess = object.getString("isSuccess");
                         LogUtils.d(TAG, isSuccess);
                         if (isSuccess.equals("true")) {
-                            attentionOperate.sendResult(true);
+                            attentionOperate.sendResult(0x113);
                         } else {
-                            attentionOperate.sendResult(false);
+                            attentionOperate.sendResult(0x114);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -82,11 +83,103 @@ public class ArticleOperation {
     }
 
     public interface AttentionOperate {
-        public void sendResult(boolean result);
+        public void sendResult(int result);
     }
 
     public void interfaceInstance(AttentionOperate mAttentionOperate) {
         attentionOperate = mAttentionOperate;
+    }
+
+    /**
+     * 判断两个用户之间是否关注
+     */
+    public class JudgmentAttentionAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Integer... params) {
+            int friend_user_id = params[0];
+            int friend_another_id = params[1];
+            //联网
+            RequestBody body = new FormEncodingBuilder()
+                    .add("friend_user_id", friend_user_id + "")
+                    .add("friend_another_id", friend_another_id + "")
+                    .build();
+            Callback callback = new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    LogUtils.d(TAG, "请求失败");
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    String result = response.body().string();
+                    try {
+                        JSONObject object = new JSONObject(result);
+                        String isSuccess = object.getString("isFriend");
+                        LogUtils.d(TAG, isSuccess);
+                        if (isSuccess.equals("true")) {
+                            attentionOperate.sendResult(0x111);
+                        } else {
+                            attentionOperate.sendResult(0x112);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            try {
+                LifeApplication.getNetWorkResponse(callback, body, ConstantValues.isFriendUrl);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    /**
+     * 当用户关注成功后，取消相互关注
+     */
+    public class deleteAttentionAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Integer... params) {
+            int friend_user_id = params[0];
+            int friend_another_id = params[1];
+            //联网
+            RequestBody body = new FormEncodingBuilder()
+                    .add("friend_user_id", friend_user_id + "")
+                    .add("friend_another_id", friend_another_id + "")
+                    .build();
+            Callback callback = new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    LogUtils.d(TAG, "请求失败");
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    String result = response.body().string();
+                    try {
+                        JSONObject object = new JSONObject(result);
+                        String isSuccess = object.getString("deleteResult");
+                        LogUtils.d(TAG, isSuccess);
+                        if (isSuccess.equals("true")) {
+                            attentionOperate.sendResult(0x115);
+                        } else {
+                            attentionOperate.sendResult(0x116);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            try {
+                LifeApplication.getNetWorkResponse(callback, body, ConstantValues.deleteFriendUrl);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
 }

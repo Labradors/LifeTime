@@ -18,5 +18,7 @@ public interface DynamicArticleBusiness {
 
     public ArrayList<ArticleAllDynamic> getDynamicFromID(int id) throws Exception;
 
+    public void updateArticle(ArrayList<ArticleAllDynamic> articleAllDynamics) throws Exception;
+
 
 }

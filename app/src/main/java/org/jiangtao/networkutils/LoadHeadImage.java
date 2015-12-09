@@ -2,6 +2,7 @@ package org.jiangtao.networkutils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Environment;
 
 import com.squareup.okhttp.Callback;
@@ -24,37 +25,62 @@ import java.io.InputStream;
 public class LoadHeadImage {
     private static final String TAG = LoadHeadImage.class.getSimpleName();
     public static boolean isNetWorkError = true;
-    public static Bitmap bitmap;
+    public BitmapCallBack mBitmapCallBack;
+    private static LoadHeadImage loadHeadImage;
 
-    /**
-     * 根据地址和位置发起网络请求
-     *
-     * @param uri
-     * @param url
-     * @return
-     * @throws Exception
-     */
-    public static Bitmap loadNetWorkHeadImage(String uri, String url) throws Exception {
-        FormEncodingBuilder builder = new FormEncodingBuilder();
-        builder.add("headImageUri", uri);
-        RequestBody body = builder.build();
-        Callback callback = new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                isNetWorkError = false;
-                LogUtils.d(TAG, "网络错误");
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                File file = new File(Environment.getExternalStorageDirectory() +
-                        "/lifetime/headImage/");
-                InputStream inputStream;
-                inputStream = response.body().byteStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            }
-        };
-        LifeApplication.getNetWorkResponse(callback, body, url);
-        return bitmap;
+    private LoadHeadImage() {
     }
+
+    public static LoadHeadImage getInstance() {
+        if (loadHeadImage == null) {
+            loadHeadImage = new LoadHeadImage();
+        }
+        return loadHeadImage;
+    }
+
+    public interface BitmapCallBack {
+        public void sendBitmap(Bitmap bitmap);
+    }
+
+    public void BitmapListener(BitmapCallBack bitmapCallBack) {
+        mBitmapCallBack = bitmapCallBack;
+    }
+
+
+    public class BitmapAsyncTask extends AsyncTask<String, Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            String uri = params[0];
+            String url = params[1];
+            FormEncodingBuilder builder = new FormEncodingBuilder();
+            builder.add("headImageUri", uri);
+            RequestBody body = builder.build();
+            Callback callback = new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    isNetWorkError = false;
+                    LogUtils.d(TAG, "网络错误");
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    File file = new File(Environment.getExternalStorageDirectory() +
+                            "/lifetime/headImage/");
+                    InputStream inputStream;
+                    inputStream = response.body().byteStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    mBitmapCallBack.sendBitmap(bitmap);
+                }
+            };
+            try {
+                LifeApplication.getNetWorkResponse(callback, body, url);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+
 }

@@ -1,6 +1,8 @@
 package org.jiangtao.lifetime;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
@@ -48,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ScrollView container;
     private CountDownTimer mCountDownTimer;
     public long timeRemain;
+    public ProgressDialog mDialogs;
 
 
     @Override
@@ -72,7 +75,19 @@ public class RegisterActivity extends AppCompatActivity {
         container = (ScrollView) findViewById(R.id.register_container);
         mSendValidateButton = (Button) findViewById(R.id.activity_register_btn_sentcheckemil);
         mRegisterButton = (Button) findViewById(R.id.btn_activity_register);
-        mResetButton= (Button) findViewById(R.id.btn_activity_reset);
+        mResetButton = (Button) findViewById(R.id.btn_activity_reset);
+        mDialogs = new ProgressDialog(this);
+    }
+
+    public void openDialog() {
+
+        mDialogs.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mDialogs.setTitle(R.string.register);
+        mDialogs.setMessage(getResources().getString(R.string.registering));
+        mDialogs.setIcon(R.drawable.register);
+        mDialogs.setIndeterminate(false);
+        mDialogs.setCancelable(true);
+        mDialogs.show();
     }
 
     /**
@@ -92,41 +107,55 @@ public class RegisterActivity extends AppCompatActivity {
                     if (netWorkValidatevalue.equals(mValidatValue)) {
                         /**
                          * 保存用户信息到数据库
-                         *
                          */
-                        FormEncodingBuilder builder = new FormEncodingBuilder();
-                        builder.add("userName", mUserName);
-                        builder.add("passWord", mPassWord);
-                        builder.add("email", mEmail);
-                        Request request = new Request.Builder().url(
-                                ConstantValues.registerInformationUrl
-                        ).post(builder.build()).build();
-                        LifeApplication.getCall(request).enqueue(new Callback() {
-                            @Override
-                            public void onFailure(Request request, IOException e) {
-                                LogUtils.d(TAG, request.toString());
-                            }
+                        openDialog();
+                        new AsyncTask<Void, Void, Void>() {
+                            int id;
 
                             @Override
-                            public void onResponse(Response response) throws IOException {
-                                String emailJson = response.body().string();
-                                LogUtils.d(TAG, emailJson);
-                                try {
-                                    JSONObject object = new JSONObject(emailJson);
-                                    boolean flag = object.getBoolean("flag");
-                                    int id = object.getInt("id");
-                                    if (flag) {
-                                        Intent intent = new Intent(RegisterActivity.this,
-                                                LoginActivity.class);
-                                        intent.putExtra("id", id);
-                                        startActivity(intent);
+                            protected Void doInBackground(Void... params) {
+                                FormEncodingBuilder builder = new FormEncodingBuilder();
+                                builder.add("userName", mUserName);
+                                builder.add("passWord", mPassWord);
+                                builder.add("email", mEmail);
+                                Request request = new Request.Builder().url(
+                                        ConstantValues.registerInformationUrl
+                                ).post(builder.build()).build();
+                                LifeApplication.getCall(request).enqueue(new Callback() {
+                                    @Override
+                                    public void onFailure(Request request, IOException e) {
+                                        LogUtils.d(TAG, request.toString());
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
 
+                                    @Override
+                                    public void onResponse(Response response) throws IOException {
+                                        String emailJson = response.body().string();
+                                        LogUtils.d(TAG, emailJson);
+                                        try {
+                                            JSONObject object = new JSONObject(emailJson);
+                                            boolean flag = object.getBoolean("flag");
+                                            id = object.getInt("id");
+                                            if (flag) {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        mDialogs.dismiss();
+                                                        Intent intent = new Intent(RegisterActivity.this,
+                                                                LoginActivity.class);
+                                                        intent.putExtra("id", id);
+                                                        startActivity(intent);
+                                                    }
+                                                });
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                });
+                                return null;
                             }
-                        });
+                        }.execute();
                     } else {
                         Snackbar.make(container, R.string.password_error, Snackbar.LENGTH_SHORT)
                                 .show();
@@ -174,7 +203,7 @@ public class RegisterActivity extends AppCompatActivity {
                 break;
 
             }
-            case R.id.btn_activity_reset:{
+            case R.id.btn_activity_reset: {
                 mResetButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -184,7 +213,8 @@ public class RegisterActivity extends AppCompatActivity {
                         mEmailEditText.setText("");
                         mEmailValidateEditText.setText("");
                     }
-                });}
+                });
+            }
             break;
         }
 
@@ -234,7 +264,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
+        finish();
     }
 
     /**

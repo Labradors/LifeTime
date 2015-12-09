@@ -1,23 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:id="@+id/activity_login_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.Rony.login.LoginActivity">
+    tools:context="org.jiangtao.lifetime.LoginActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <ProgressBar
-            android:id="@+id/login_progressbar"
-            style="@style/Base.Widget.AppCompat.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="100dp"
-            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/personal_login_FrameLayout_buttom"
@@ -45,14 +37,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1.1"
-                    android:hint="@string/username_hint" />
+                    android:hint="@string/username_hint"/>
 
                 <EditText
                     android:id="@+id/personal_login_password"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="0.9"
-                    android:hint="@string/password_hint" />
+                    android:hint="@string/password_hint"/>
 
             </LinearLayout>
 
@@ -66,7 +58,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/personal_login_btn_shpe"
                 android:onClick="onClick"
-                android:text="@string/personal_login_btn" />
+                android:text="@string/personal_login_btn"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,7 +75,7 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:onClick="onClick"
-                    android:text="@string/personal_login_tv_regest" />
+                    android:text="@string/personal_login_tv_regest"/>
 
                 <TextView
                     android:id="@+id/activity_login_forget_password"
@@ -92,7 +84,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:onClick="onClick"
-                    android:text="@string/personal_login_tv_forget" />
+                    android:text="@string/personal_login_tv_forget"/>
             </LinearLayout>
 
 

@@ -4,19 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jiangtao.adapter.DynamicAdapter;
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.ArticleAllDynamic;
 import org.jiangtao.bean.OtherUser;
+import org.jiangtao.networkutils.ArticleOperation;
 import org.jiangtao.networkutils.ObtainOtherUser;
 import org.jiangtao.sql.DynamicArticleDaoImpl;
 import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.LogUtils;
+import org.jiangtao.utils.TurnActivity;
 
 import java.util.ArrayList;
 
@@ -33,6 +41,7 @@ public class UserHomePageActivity extends AppCompatActivity {
     public RecyclerView mRecylerView;
     private TextView mUserJoinTime;
     private TextView mUserSex;
+    public Button mAttentionButton;
     private int user_id;
     private DynamicArticleDaoImpl dynamicArticleDao;
     private DynamicAdapter dynamicAdapter;
@@ -41,24 +50,142 @@ public class UserHomePageActivity extends AppCompatActivity {
     public Context context;
     UserAsyncTask asyncTask = new UserAsyncTask();
     UserArticleAsyncTask userAsyncTask = new UserArticleAsyncTask();
+    public boolean mAttentionFlag;
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0x111: {
+                    mAttentionFlag = true;
+                    mAttentionButton.setText(R.string.reset_attention);
+                    break;
+                }
+                case 0x112: {
+                    mAttentionFlag = false;
+                    mAttentionButton.setText(R.string.attention);
+                    break;
+                }
+                case 0x113: {
+                    mAttentionFlag = true;
+                    mAttentionButton.setText(R.string.reset_attention);
+                    break;
+                }
+                case 0x114: {
+                    mAttentionFlag = false;
+                    mAttentionButton.setText(R.string.attention);
+                    break;
+                }
+                case 0x115: {
+                    mAttentionFlag = false;
+                    mAttentionButton.setText(R.string.attention);
+                    break;
+                }
+                case 0x116: {
+                    mAttentionFlag = true;
+                    mAttentionButton.setText(R.string.reset_attention);
+                    break;
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home_page);
         obtainUserInfo();
+        judgmentFriend();
         openAsyncTask();
         controlsInitialization();
+        attentionOnClick();
         fillingRecylerView();
 
 
+
+    }
+
+    /**
+     * 判断用户是否登陆
+     */
+    private void judgmentFriend() {
+        if (LifeApplication.getInstance().isNetworkAvailable()) {
+            //联网判断用户之间是否为好友
+            ArticleOperation.getInstance().new JudgmentAttentionAsyncTask().execute(
+                    LifeApplication.user_id, user_id
+            );
+            ArticleOperation.getInstance().interfaceInstance(new ArticleOperation.AttentionOperate() {
+                @Override
+                public void sendResult(int result) {
+                    if (result == 0x111) {
+                        //发送信息，操作界面
+                        handler.sendEmptyMessage(0x111);
+                    } else if (result == 0x112) {
+                        handler.sendEmptyMessage(0x112);
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(UserHomePageActivity.this,
+                    R.string.article_network_error, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void attentionOnClick() {
+        mAttentionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (LifeApplication.isLogin) {
+                    if (LifeApplication.getInstance().isNetworkAvailable()) {
+                        if (mAttentionFlag) {
+                            //一关注，取消关注的操作
+                            ArticleOperation.getInstance().new deleteAttentionAsyncTask().execute(
+                                    LifeApplication.user_id, user_id
+                            );
+                            ArticleOperation.getInstance().interfaceInstance(new ArticleOperation.AttentionOperate() {
+                                @Override
+                                public void sendResult(int result) {
+                                    if (result == 0x115) {
+                                        handler.sendEmptyMessage(0x115);
+                                    } else if (result == 0x116) {
+                                        handler.sendEmptyMessage(0x116);
+                                    }
+                                }
+                            });
+
+                        } else {
+                            //关注操作
+                            ArticleOperation.getInstance().new AttentionAsyncTask().execute(
+                                    LifeApplication.user_id, user_id
+                            );
+                            ArticleOperation.getInstance().interfaceInstance(new ArticleOperation.AttentionOperate() {
+                                @Override
+                                public void sendResult(int result) {
+                                    if (result == 0x113) {
+                                        handler.sendEmptyMessage(0x113);
+                                    } else if (result == 114) {
+                                        handler.sendEmptyMessage(0x114);
+                                    }
+                                }
+                            });
+
+                        }
+                    } else {
+                        Toast.makeText(UserHomePageActivity.this,
+                                R.string.article_network_error, Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    TurnActivity.turnLoginActivity(UserHomePageActivity.this);
+                }
+            }
+        });
     }
 
     private void fillingRecylerView() {
         mRecylerView.setLayoutManager(manager);
         dynamicAdapter = new DynamicAdapter(
                 mLists, context);
-        dynamicAdapter.mHeadIsClick = false;
+        DynamicAdapter.mHeadIsClick = false;
         mRecylerView.setAdapter(dynamicAdapter);
     }
 
@@ -81,6 +208,7 @@ public class UserHomePageActivity extends AppCompatActivity {
         mRecylerView = (RecyclerView) findViewById(R.id.homepage_recycleview);
         mUserJoinTime = (TextView) findViewById(R.id.homepage_jointime);
         mUserSex = (TextView) findViewById(R.id.homepage_sex);
+        mAttentionButton = (Button) findViewById(R.id.dynamic_button);
         dynamicArticleDao = new DynamicArticleDaoImpl(this);
         manager = new LinearLayoutManager(this);
         context = this;
@@ -150,4 +278,11 @@ public class UserHomePageActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode==KeyEvent.KEYCODE_BACK){
+            DynamicAdapter.mHeadIsClick = true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
