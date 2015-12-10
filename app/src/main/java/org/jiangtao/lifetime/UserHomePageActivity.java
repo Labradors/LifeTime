@@ -22,6 +22,7 @@ import org.jiangtao.bean.OtherUser;
 import org.jiangtao.networkutils.ArticleOperation;
 import org.jiangtao.networkutils.ObtainOtherUser;
 import org.jiangtao.sql.DynamicArticleDaoImpl;
+import org.jiangtao.sql.FriendBusinessImpl;
 import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.LogUtils;
 import org.jiangtao.utils.TurnActivity;
@@ -48,6 +49,7 @@ public class UserHomePageActivity extends AppCompatActivity {
     public LinearLayoutManager manager;
     private ArrayList<ArticleAllDynamic> mLists = new ArrayList<>();
     public Context context;
+    public FriendBusinessImpl business;
     UserAsyncTask asyncTask = new UserAsyncTask();
     UserArticleAsyncTask userAsyncTask = new UserArticleAsyncTask();
     public boolean mAttentionFlag;
@@ -102,7 +104,6 @@ public class UserHomePageActivity extends AppCompatActivity {
         fillingRecylerView();
 
 
-
     }
 
     /**
@@ -138,6 +139,7 @@ public class UserHomePageActivity extends AppCompatActivity {
                 if (LifeApplication.isLogin) {
                     if (LifeApplication.getInstance().isNetworkAvailable()) {
                         if (mAttentionFlag) {
+                            new CancelAttentionAsyncTask().execute();
                             //一关注，取消关注的操作
                             ArticleOperation.getInstance().new deleteAttentionAsyncTask().execute(
                                     LifeApplication.user_id, user_id
@@ -198,8 +200,6 @@ public class UserHomePageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user_id = intent.getIntExtra("user_id", 0);
         LogUtils.d(TAG, user_id + "获取的值");
-        //查询本地用户的文章
-        //联网下载用户信息
     }
 
     private void controlsInitialization() {
@@ -212,6 +212,7 @@ public class UserHomePageActivity extends AppCompatActivity {
         dynamicArticleDao = new DynamicArticleDaoImpl(this);
         manager = new LinearLayoutManager(this);
         context = this;
+        business = new FriendBusinessImpl(this);
     }
 
     /**
@@ -280,9 +281,23 @@ public class UserHomePageActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             DynamicAdapter.mHeadIsClick = true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public class CancelAttentionAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                boolean a = business.deleteFriendAccordingToID(user_id);
+                LogUtils.d(TAG, "删除是否成功" + a);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

@@ -37,7 +37,8 @@ public class HomePageFragment extends android.support.v4.app.Fragment {
         this.context = context;
     }
 
-    public HomePageFragment(){}
+    public HomePageFragment() {
+    }
 
 
     @Override
@@ -75,8 +76,8 @@ public class HomePageFragment extends android.support.v4.app.Fragment {
      */
     private void initmViewList() {
         mDynamicFragment = new DynamicFragment(context);
-        mRecommendFragment = new RecommendFragment();
-        mLoveFragment = new LoveFragment();
+        mRecommendFragment = new RecommendFragment(context);
+        mLoveFragment = new LoveFragment(context);
         mViewList = new ArrayList<>();
         mViewList.add(mDynamicFragment);
         mViewList.add(mRecommendFragment);

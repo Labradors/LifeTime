@@ -33,7 +33,6 @@ import static org.jiangtao.lifetime.R.id.dynamic_textview_userName;
 public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHolder> {
     public ArrayList<ArticleAllDynamic> mList;
     public Context mContext;
-    public Context mCommentContext;
     private LayoutInflater mLayoutInflater;
     public static final String TAG = DynamicAdapter.class.getSimpleName();
     public static Bitmap bitmap = null;

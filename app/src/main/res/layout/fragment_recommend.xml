@@ -1,19 +1,30 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/container_swipelayout_recomment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.jiangtao.fragment.RecommendFragment">
 
-    <ListView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listview_fragment_recommend">
-    </ListView>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/imageview_fragment_recommend"
-        android:scaleType="fitXY"
-        android:src="@drawable/not_network"/>
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/imageview_fragment_recomment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/not_network"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recomment_recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/BlueViolet"
+            android:dividerHeight="10dp"
+            android:scrollbars="vertical"/>
+
+    </FrameLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

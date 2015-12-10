@@ -1,6 +1,7 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SwipeRefreshLayout
     android:id="@+id/container_dynamicfriendfragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.jiangtao.fragment.DynamicFriendFragment">
@@ -15,18 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/no_friend" />
+            android:src="@drawable/no_friend"/>
 
-        <ScrollView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleview_fragment_friend"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ListView
-                android:id="@+id/listview_fragment_friend_all"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </ScrollView>
+            android:layout_height="wrap_content"
+            android:divider="@color/BlueViolet"
+            android:dividerHeight="10dp"
+            android:scrollbars="vertical"/>
     </FrameLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>
