@@ -20,5 +20,11 @@ public interface DynamicArticleBusiness {
 
     public void updateArticle(ArrayList<ArticleAllDynamic> articleAllDynamics) throws Exception;
 
+    public ArrayList<ArticleAllDynamic> getFriendArticle() throws Exception;
+
+    public ArrayList<ArticleAllDynamic> getDynamicArticleByComment() throws Exception;
+
+    public ArrayList<ArticleAllDynamic> getDynamicArticleByLove() throws Exception;
+
 
 }

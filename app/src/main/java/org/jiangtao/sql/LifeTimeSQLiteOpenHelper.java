@@ -30,6 +30,8 @@ public class LifeTimeSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String LOVE_ARTICLE = "love_article";
     //评论文章表
     public static final String COMMENT_ARTICLE = "comment_article";
+    //所有的朋友表
+    public static final String TABLE_FRIEND = "tab_friend";
 
     /**
      * 构造数据库
@@ -44,8 +46,10 @@ public class LifeTimeSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String sql = "drop table if exists " + TAB_USER;
         String sql1 = "drop table if exists " + DYNAMIC_ARTICLE;
+        String friend_sql = "drop table if exists " + TABLE_FRIEND;
         db.execSQL(sql);
         db.execSQL(sql1);
+        db.execSQL(friend_sql);
 
         String sql2 = "create table " + TAB_USER
                 + "("
@@ -70,8 +74,15 @@ public class LifeTimeSQLiteOpenHelper extends SQLiteOpenHelper {
                 + "article_love_number INTEGER, "
                 + "article_comment_number INTEGER"
                 + ")";
+        String sql_friend = "create table " + TABLE_FRIEND
+                + "("
+                + "user_id INTEGER NOT NULL PRIMARY KEY, "
+                + "user_name VARCHAR(100) NOT NULL, "
+                + "user_headpicture VARCHAR(100) "
+                + ")";
         db.execSQL(sql2);
         db.execSQL(dynamic_article);
+        db.execSQL(sql_friend);
         LogUtils.d(TAG, dynamic_article);
 
 

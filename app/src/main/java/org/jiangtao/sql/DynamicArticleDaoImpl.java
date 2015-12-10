@@ -95,6 +95,88 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
         return articleAllDynamics;
     }
 
+    /**
+     * 根据评论排序
+     *
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ArrayList<ArticleAllDynamic> getDynamicArticleByComment() throws Exception {
+        ArrayList<ArticleAllDynamic> articleAllDynamics = new ArrayList<>();
+        SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
+        String sql = "select * from " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE + " ORDER BY article_comment_number DESC";
+        LogUtils.d(TAG, sql);
+        Cursor c = null;
+        c = db.rawQuery(sql, null);
+        if (c != null) {
+            while (c.moveToNext()) {
+                LogUtils.d(TAG, "进入查找");
+                ArticleAllDynamic dynamic = new ArticleAllDynamic();
+                dynamic.setUser_name(c.getString(c.getColumnIndex("user_name")));
+                dynamic.setUser_headpicture(c.getString(c.getColumnIndex("user_headpicture")));
+                dynamic.setArticle_id(c.getInt(c.getColumnIndex("article_id")));
+                dynamic.setArticle_user_id(c.getInt(c.getColumnIndex("article_user_id")));
+                dynamic.setArticle_time(c.getString(c.getColumnIndex("article_time")));
+                dynamic.setArticle_content(c.getString(c.getColumnIndex("article_content")));
+                dynamic.setArticle_image(c.getString(c.getColumnIndex("article_image")));
+                dynamic.setArticle_love_number(c.getInt(c.getColumnIndex("article_love_number")));
+                dynamic.setArticle_comment_number(c.getInt(c.getColumnIndex("article_comment_number")));
+                articleAllDynamics.add(dynamic);
+                LogUtils.d(TAG, ">>>>>>>>>>>>>>>" + dynamic.toString());
+            }
+        }
+        if (c != null && !c.isClosed()) {
+            c.close();
+        }
+
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
+        return articleAllDynamics;
+    }
+
+    /**
+     * 根据喜欢排序
+     *
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ArrayList<ArticleAllDynamic> getDynamicArticleByLove() throws Exception {
+        ArrayList<ArticleAllDynamic> articleAllDynamics = new ArrayList<>();
+        SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
+        String sql = "select * from " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE + " ORDER BY article_love_number DESC";
+        LogUtils.d(TAG, sql);
+        Cursor c = null;
+        c = db.rawQuery(sql, null);
+        if (c != null) {
+            while (c.moveToNext()) {
+                LogUtils.d(TAG, "进入查找");
+                ArticleAllDynamic dynamic = new ArticleAllDynamic();
+                dynamic.setUser_name(c.getString(c.getColumnIndex("user_name")));
+                dynamic.setUser_headpicture(c.getString(c.getColumnIndex("user_headpicture")));
+                dynamic.setArticle_id(c.getInt(c.getColumnIndex("article_id")));
+                dynamic.setArticle_user_id(c.getInt(c.getColumnIndex("article_user_id")));
+                dynamic.setArticle_time(c.getString(c.getColumnIndex("article_time")));
+                dynamic.setArticle_content(c.getString(c.getColumnIndex("article_content")));
+                dynamic.setArticle_image(c.getString(c.getColumnIndex("article_image")));
+                dynamic.setArticle_love_number(c.getInt(c.getColumnIndex("article_love_number")));
+                dynamic.setArticle_comment_number(c.getInt(c.getColumnIndex("article_comment_number")));
+                articleAllDynamics.add(dynamic);
+                LogUtils.d(TAG, ">>>>>>>>>>>>>>>" + dynamic.toString());
+            }
+        }
+        if (c != null && !c.isClosed()) {
+            c.close();
+        }
+
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
+        return articleAllDynamics;
+    }
+
     @Override
     public int getMaxDynamicArticleID() throws Exception {
         SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getReadableDatabase();
@@ -118,7 +200,9 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
     public ArrayList<ArticleAllDynamic> getDynamicArticleFromID(int user_id) throws Exception {
         ArrayList<ArticleAllDynamic> dynamics = new ArrayList<>();
         SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
-        String sql = "select * from " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE + " where article_user_id=" + user_id;
+        String sql = "select * from " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE +
+                " where article_user_id=" + user_id +
+                " order by article_id desc";
         LogUtils.d(TAG, sql);
         Cursor c = db.rawQuery(sql, null);
         while (c.moveToNext()) {
@@ -171,5 +255,43 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
         }
         db.setTransactionSuccessful();
         db.endTransaction();
+        db.close();
+    }
+
+    /**
+     * 查询朋友的文章
+     *
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ArrayList<ArticleAllDynamic> getFriendArticle() throws Exception {
+        ArrayList<ArticleAllDynamic> dynamics = new ArrayList<>();
+        SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
+        String sql = "select * from " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE +
+                "," + LifeTimeSQLiteOpenHelper.TABLE_FRIEND + " where article_user_id= user_id order by article_id desc";
+        LogUtils.d(TAG, sql);
+        Cursor c = db.rawQuery(sql, null);
+        while (c.moveToNext()) {
+            ArticleAllDynamic dynamic = new ArticleAllDynamic();
+            dynamic.setUser_name(c.getString(c.getColumnIndex("user_name")));
+            dynamic.setUser_headpicture(c.getString(c.getColumnIndex("user_headpicture")));
+            dynamic.setArticle_id(c.getInt(c.getColumnIndex("article_id")));
+            dynamic.setArticle_user_id(c.getInt(c.getColumnIndex("article_user_id")));
+            dynamic.setArticle_content(c.getString(c.getColumnIndex("article_content")));
+            dynamic.setArticle_image(c.getString(c.getColumnIndex("article_image")));
+            dynamic.setArticle_time(c.getString(c.getColumnIndex("article_time")));
+            dynamic.setArticle_comment_number(c.getInt(c.getColumnIndex("article_comment_number")));
+            dynamic.setArticle_love_number(c.getInt(c.getColumnIndex("article_love_number")));
+            dynamics.add(dynamic);
+        }
+        if (c != null && !c.isClosed()) {
+            c.close();
+        }
+
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
+        return dynamics;
     }
 }

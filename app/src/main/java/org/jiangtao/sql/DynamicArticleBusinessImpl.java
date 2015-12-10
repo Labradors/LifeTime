@@ -41,4 +41,19 @@ public class DynamicArticleBusinessImpl implements DynamicArticleBusiness {
     public void updateArticle(ArrayList<ArticleAllDynamic> articleAllDynamics) throws Exception {
         dynamicArticleDao.updateDynamic(articleAllDynamics);
     }
+
+    @Override
+    public ArrayList<ArticleAllDynamic> getFriendArticle() throws Exception {
+        return dynamicArticleDao.getFriendArticle();
+    }
+
+    @Override
+    public ArrayList<ArticleAllDynamic> getDynamicArticleByComment() throws Exception {
+        return dynamicArticleDao.getDynamicArticleByComment();
+    }
+
+    @Override
+    public ArrayList<ArticleAllDynamic> getDynamicArticleByLove() throws Exception {
+        return dynamicArticleDao.getDynamicArticleByLove();
+    }
 }

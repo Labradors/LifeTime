@@ -2,6 +2,7 @@ package org.jiangtao.fragment;
 
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
@@ -28,9 +29,14 @@ public class FriendFragment extends android.support.v4.app.Fragment {
     private List<String> mListTitle;
     private android.support.v4.app.Fragment mFriendFragment;
     private android.support.v4.app.Fragment mFriendInfoFragment;
+    private Context mContext;
 
     public FriendFragment() {
 
+    }
+
+    public FriendFragment(Context context) {
+        mContext = context;
     }
 
 
@@ -61,8 +67,8 @@ public class FriendFragment extends android.support.v4.app.Fragment {
      * 初始化list
      */
     private void initViewList() {
-        mFriendFragment = new DynamicFriendFragment();
-        mFriendInfoFragment = new DynamicInfoFragment();
+        mFriendFragment = new DynamicFriendFragment(mContext);
+        mFriendInfoFragment = new DynamicInfoFragment(mContext);
         mListFragment = new ArrayList<>();
         mListFragment.add(mFriendFragment);
         mListFragment.add(mFriendInfoFragment);

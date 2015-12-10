@@ -212,7 +212,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     private void initFragment() {
         mHomePageFragment = new HomePageFragment(this);
         mMessageFragment = new MessageFragment();
-        mFriendFragment = new FriendFragment();
+        mFriendFragment = new FriendFragment(this);
         mPersonalFragment = new PersonalFragment(this);
         fragments[0] = mHomePageFragment;
         fragments[1] = mFriendFragment;
@@ -352,47 +352,49 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         /**
          * 当用户登陆成功后，更新数据
          */
-        switch (resultCode) {
-            case Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE: {
-                boolean flag = data.getBooleanExtra("flag", false);
-                LogUtils.d(TAG, "<<________------" + flag);
-                try {
-                    business = new UserBusinessImpl(this);
-                    if (flag) {
-                        /**
-                         * 发送信号给personalfragment
-                         * 把图片和用户名名换掉
-                         */
-                        User user = null;
-                        user = business.selectUser(LifeApplication.user_email);
-                        LogUtils.d(TAG, "查看是否取出文件" + user.toString());
-                        if (user != null) {
-                            LogUtils.d(TAG, "---------" + user.toString());
-                            mHeadTextView.setText(user.getUser_name());
-                            if (user.getUser_headpicture() != null) {
-                                /**
-                                 * 将地址转化为bitmap
-                                 */
-                                Bitmap bitmap = BitmapUtils.getBitmap(ConstantValues.saveImageUri +
-                                        LifeApplication.user_name + ".png");
-                                mHeadImageView.setImageBitmap(bitmap);
-                                updateNavigationView();
+        if (requestCode == Code.REQUESTCODE_UPDATEUSER_INFORMATION) {
+            switch (resultCode) {
+                case Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE: {
+                    boolean flag = data.getBooleanExtra("flag", false);
+                    LogUtils.d(TAG, "<<________------" + flag);
+                    try {
+                        business = new UserBusinessImpl(this);
+                        if (flag) {
+                            /**
+                             * 发送信号给personalfragment
+                             * 把图片和用户名名换掉
+                             */
+                            User user = null;
+                            user = business.selectUser(LifeApplication.user_email);
+                            LogUtils.d(TAG, "查看是否取出文件" + user.toString());
+                            if (user != null) {
+                                LogUtils.d(TAG, "---------" + user.toString());
+                                mHeadTextView.setText(user.getUser_name());
+                                if (user.getUser_headpicture() != null) {
+                                    /**
+                                     * 将地址转化为bitmap
+                                     */
+                                    Bitmap bitmap = BitmapUtils.getBitmap(ConstantValues.saveImageUri +
+                                            LifeApplication.user_name + ".png");
+                                    mHeadImageView.setImageBitmap(bitmap);
+                                    updateNavigationView();
+                                }
                             }
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    fragmentCallback.onMainAction(flag);
+                    getSupportFragmentManager().beginTransaction()
+                            .show(fragments[3])
+                            .hide(fragments[1])
+                            .hide(fragments[2])
+                            .hide(fragments[0])
+                            .commitAllowingStateLoss();
+                    break;
                 }
-                fragmentCallback.onMainAction(flag);
-                getSupportFragmentManager().beginTransaction()
-                        .show(fragments[3])
-                        .hide(fragments[1])
-                        .hide(fragments[2])
-                        .hide(fragments[0])
-                        .commitAllowingStateLoss();
-                break;
-            }
 
+            }
         }
         if (requestCode == Code.REQUEST_OPEN_WRITEDYNAMIC) {
             if (resultCode == Code.RESULTCODE_RETRUN_INDEX) {
