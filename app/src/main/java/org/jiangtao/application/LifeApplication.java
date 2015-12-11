@@ -22,6 +22,8 @@ import org.jiangtao.utils.LogUtils;
 
 import java.io.File;
 
+import cn.sharesdk.framework.ShareSDK;
+
 /**
  * Created by mr-jiang on 15-11-13.
  * 全局application
@@ -140,6 +142,7 @@ public class LifeApplication extends Application {
     public void onCreate() {
         super.onCreate();
         lifeApplication = this;
+        ShareSDK.initSDK(this);
         mOkHttpClient = new OkHttpClient();
         picasso = getPicasso();
         hasNetWork = isNetworkAvailable();

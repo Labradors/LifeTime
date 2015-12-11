@@ -10,8 +10,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
-import org.jiangtao.networkutils.WelcomeLoadPicture;
 import org.jiangtao.application.LifeApplication;
+import org.jiangtao.networkutils.WelcomeLoadPicture;
 import org.jiangtao.utils.ConstantValues;
 
 /**

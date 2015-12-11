@@ -50,6 +50,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             super.handleMessage(msg);
             if (msg.what == 0x111) {
                 mDialog.dismiss();
+//                new Intent(LoginActivity.this, IndexActivity.class);
+                LogUtils.d(TAG, "什么情况");
+                Intent intent = getIntent();
+                intent.putExtra("flag", true);
+                LoginActivity.this.setResult(Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE, intent);
+                finish();
             }
         }
     };
@@ -186,17 +192,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 if (bitmap != null) {
                                     BitmapUtils.savePhotoToSDCard(ConstantValues.saveImageUri,
                                             user.getUser_name() + ".png", bitmap);
-
                                     try {
                                         userBusiness.insertUser(user);
                                         LogUtils.d(TAG, ">>><<<<" + user.toString());
-                                        Intent intent = new Intent(LoginActivity.this, IndexActivity.class);
-                                        intent.putExtra("flag", true);
                                         Message msg = new Message();
-                                        msg.what = 111;
+                                        msg.what = 0x111;
                                         msg.obj = "true";
                                         handler.sendMessage(msg);
-                                        setResult(Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE, intent);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -213,5 +215,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 }
