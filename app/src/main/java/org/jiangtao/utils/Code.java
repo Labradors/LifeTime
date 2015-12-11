@@ -10,6 +10,8 @@ public class Code {
     public final static int RESULLTCODE_LOGINSUCCESS_NOPICTURE = 0x556;
     //跳转到注册界面所用的请求码
     public final static int REQUESTCODE_INDEXACTIVITY_TO_LOGINACTIVITY = 0x124;
+    //跳转到注册界面
+    public final static int REQUESTCODE_LOGINACTIVITY_TO_REGISTERACTIVITY = 0x124;
     //更新用户信息请求吗
     public final static int REQUESTCODE_UPDATEUSER_INFORMATION = 0x124;
     /**

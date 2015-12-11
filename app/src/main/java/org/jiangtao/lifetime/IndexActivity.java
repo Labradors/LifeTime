@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.sharesdk.framework.ShareSDK;
+
 /**
  * 主页
  */
@@ -352,7 +354,8 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         /**
          * 当用户登陆成功后，更新数据
          */
-        if (requestCode == Code.REQUESTCODE_UPDATEUSER_INFORMATION) {
+        if (requestCode == Code.REQUESTCODE_INDEXACTIVITY_TO_LOGINACTIVITY) {
+            LogUtils.d(TAG, "登陆成功");
             switch (resultCode) {
                 case Code.RESULLTCODE_LOGINSUCCESS_NOPICTURE: {
                     boolean flag = data.getBooleanExtra("flag", false);
@@ -437,6 +440,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.nav_exit: {
                 finish();
+                ShareSDK.stopSDK(this);
                 break;
             }
         }
@@ -486,6 +490,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                 };
                 timer.schedule(task, 2000);
             } else {
+                ShareSDK.stopSDK(this);
                 finish();
                 System.exit(0);
             }

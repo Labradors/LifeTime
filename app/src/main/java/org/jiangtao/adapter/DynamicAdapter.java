@@ -3,6 +3,7 @@ package org.jiangtao.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +15,16 @@ import android.widget.Toast;
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.ArticleAllDynamic;
 import org.jiangtao.lifetime.CommentActivity;
+import org.jiangtao.lifetime.ImageActivity;
 import org.jiangtao.lifetime.R;
 import org.jiangtao.lifetime.UserHomePageActivity;
+import org.jiangtao.utils.BitmapUtils;
 import org.jiangtao.utils.ConstantValues;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static org.jiangtao.lifetime.R.id.dynamic_textview_userName;
@@ -68,11 +72,69 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                         openComment(position);
                         break;
                     }
+                    case R.id.dynamic_love_listview: {
+                        new AsyncTask<Integer, Void, Void>() {
+
+                            @Override
+                            protected Void doInBackground(Integer... params) {
+                                int position = params[0];
+                                try {
+                                    BitmapUtils.savePhotoToSDCard(ConstantValues.
+                                                    saveImageUri, mList.get(position).getArticle_id() + ".png",
+                                            LifeApplication.picasso.load(ConstantValues.getArticleImageUrl +
+                                                    mList.get(position).getArticle_image()).get());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                return null;
+                            }
+                        }.execute(position);
+                        showShare(position);
+                        break;
+                    }
+                    case R.id.dynamic_imageview: {
+                        Intent intent = new Intent(mContext, ImageActivity.class);
+                        intent.putExtra("image_address", mList.get(position).getArticle_image());
+                        mContext.startActivity(intent);
+                    }
                 }
             }
         });
         return holder;
     }
+
+
+    private void showShare(int position) {
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle(mContext.getString(R.string.share));
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        oks.setTitleUrl("https://github.com/BosCattle/LifeTime");
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText(mList.get(position).getArticle_content());
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        oks.setImagePath(ConstantValues.saveImageUri + mList.get(position).
+                getArticle_image() + ".png");//确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("http://sharesdk.cn");
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(mContext.getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("http://sharesdk.cn");
+        // 启动分享GUI
+        oks.show(mContext);
+    }
+
+    /**
+     * 保存图片到本地
+     */
+
 
     /**
      * 打开评论界面
@@ -97,7 +159,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.mUserNameTextView.setText(mList.get(position).getUser_name());
         holder.mTimeTextView.setText((mList.get(position).getArticle_time()));
         if (LifeApplication.hasNetWork) {
-
             LifeApplication.picasso.load(ConstantValues.getArticleImageUrl +
                     mList.get(position).getArticle_image()).
                     into(holder.mArticleImageView);
@@ -133,6 +194,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         intent.putExtra("user_id", article_user_id);
         mContext.startActivity(intent);
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public CircleImageView mHeadImageCircleImageView;
         public TextView mUserNameTextView;

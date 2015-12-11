@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -140,8 +141,9 @@ public class RegisterActivity extends AppCompatActivity {
                                                     @Override
                                                     public void run() {
                                                         mDialogs.dismiss();
+                                                        Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_LONG).show();
                                                         Intent intent = new Intent(RegisterActivity.this,
-                                                                LoginActivity.class);
+                                                                IndexActivity.class);
                                                         intent.putExtra("id", id);
                                                         startActivity(intent);
                                                     }
@@ -290,5 +292,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }.start();
     }
+
 
 }

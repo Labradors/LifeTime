@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:gesture-image="http://schemas.polites.com/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.jiangtao.lifetime.ImageActivity"
+    android:background="#000000">
+
+
+    <com.polites.android.GestureImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        gesture-image:max-scale="10.0"
+        gesture-image:min-scale="0.1"
+        gesture-image:strict="false"
+        android:clickable="true"
+        android:layout_gravity="center"
+        />
+
+
+</LinearLayout>

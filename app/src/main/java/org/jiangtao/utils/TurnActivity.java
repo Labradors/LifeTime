@@ -26,9 +26,14 @@ public class TurnActivity {
         context.startActivity(intent);
     }
 
+    /**
+     * 跳转到注册界面请求
+     *
+     * @param activity
+     */
     public static void turnRegisterActivity(AppCompatActivity activity) {
         Intent intent = new Intent(activity, RegisterActivity.class);
-        activity.startActivityForResult(intent, Code.REQUESTCODE_INDEXACTIVITY_TO_LOGINACTIVITY);
+        activity.startActivityForResult(intent, Code.REQUESTCODE_LOGINACTIVITY_TO_REGISTERACTIVITY);
     }
 
     /**

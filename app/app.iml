@@ -90,6 +90,7 @@
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="gestureimageview" level="project" />
     <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="circleimageview-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="okio-1.2.0" level="project" />
@@ -106,5 +107,6 @@
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.2.3" level="project" />
     <orderEntry type="library" exported="" name="floatingactionbutton-1.10.1" level="project" />
+    <orderEntry type="module" module-name="onekeyshare" exported="" />
   </component>
 </module>

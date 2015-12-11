@@ -177,6 +177,7 @@ public class UserHomePageActivity extends AppCompatActivity {
                                 R.string.article_network_error, Toast.LENGTH_LONG).show();
                     }
                 } else {
+                    LogUtils.d(TAG,"为什么");
                     TurnActivity.turnLoginActivity(UserHomePageActivity.this);
                 }
             }

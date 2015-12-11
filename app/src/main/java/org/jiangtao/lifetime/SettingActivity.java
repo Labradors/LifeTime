@@ -50,7 +50,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void fragmentsListInit() {
-        Fragment userInformationSettingFragment = new UserInfoSettingFragment();
+        Fragment userInformationSettingFragment = new UserInfoSettingFragment(this);
         Fragment appSettingFragment = new AppSettingFragment();
         fragmentsList = new ArrayList<>();
         fragmentsList.add(userInformationSettingFragment);

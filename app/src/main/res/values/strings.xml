@@ -178,5 +178,7 @@
     <string name="title_activity_comment">CommentActivity</string>
     <string name="comment_edittext">评论</string>
     <string name="send_comment">发送</string>
+    <string name="share">分享</string>
+    <string name="title_activity_image">ImageActivity</string>
 
 </resources>

@@ -1,13 +1,15 @@
 package org.jiangtao.fragment;
 
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.jiangtao.lifetime.R;
+import org.jiangtao.sql.UserBusinessImpl;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,9 +17,9 @@ import org.jiangtao.lifetime.R;
  */
 public class UserInfoSettingFragment extends android.support.v4.app.Fragment {
 
-
-    public UserInfoSettingFragment() {
-        // Required empty public constructor
+    private UserBusinessImpl business;
+    public UserInfoSettingFragment(Context context) {
+    business=new UserBusinessImpl(context);
     }
 
 

@@ -31,4 +31,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    compile project(':onekeyshare')
 }
