@@ -56,4 +56,14 @@ public class DynamicArticleBusinessImpl implements DynamicArticleBusiness {
     public ArrayList<ArticleAllDynamic> getDynamicArticleByLove() throws Exception {
         return dynamicArticleDao.getDynamicArticleByLove();
     }
+
+    @Override
+    public boolean deleteArticleFromArticleID(int article_id) throws Exception {
+        return dynamicArticleDao.deleteArticleFromArticleID(article_id);
+    }
+
+    @Override
+    public ArrayList<String> getGallery(int user_id) throws Exception {
+        return dynamicArticleDao.getGallery(user_id);
+    }
 }

@@ -39,7 +39,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="@string/messagepage_aboutme" />
+                android:text="@string/messagepage_comment"
+                android:id="@+id/messagepage_comment"
+                android:clickable="true"
+                android:onClick="messageOnClik"/>
         </LinearLayout>
 
         <LinearLayout
@@ -53,7 +56,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="@string/messagepage_recommended" />
+                android:text="@string/messagepage_love"
+                android:id="@+id/messagepage_love"
+                android:clickable="true"
+                android:onClick="messageOnClik"/>
 
             <View
                 android:layout_width="match_parent"
@@ -66,7 +72,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="@string/messagepage_myfriends" />
+                android:text="@string/messagepage_share"
+                android:id="@+id/messagepage_share"
+                android:clickable="true"
+                android:onClick="messageOnClik"/>
 
             <View
                 android:layout_width="match_parent"
@@ -76,13 +85,13 @@
                 android:background="#B8B8B8" />
 
             <TextView
-                android:id="@+id/message_tv_mydynamic"
+                android:id="@+id/messagepage_drafts"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:clickable="true"
                 android:gravity="center"
                 android:onClick="messageOnClik"
-                android:text="@string/messagepage_mydynamic" />
+                android:text="@string/messagepage_drafts" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,7 +104,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="@string/messagepage_likes" />
+                android:text="@string/messagepage_gallery"
+                android:id="@+id/messagepage_gallery"
+                android:clickable="true"
+                android:onClick="messageOnClik"/>
         </LinearLayout>
     </LinearLayout>
 

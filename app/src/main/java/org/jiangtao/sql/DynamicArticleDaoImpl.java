@@ -196,6 +196,13 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
         return id;
     }
 
+    /**
+     * 根据用户ID获取文章
+     *
+     * @param user_id
+     * @return
+     * @throws Exception
+     */
     @Override
     public ArrayList<ArticleAllDynamic> getDynamicArticleFromID(int user_id) throws Exception {
         ArrayList<ArticleAllDynamic> dynamics = new ArrayList<>();
@@ -293,5 +300,47 @@ public class DynamicArticleDaoImpl implements DynamicArticleDao {
             db.close();
         }
         return dynamics;
+    }
+
+    /**
+     * 根据用户ID
+     *
+     * @param user_id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public ArrayList<String> getGallery(int user_id) throws Exception {
+        ArrayList<String> mlists = new ArrayList<>();
+        SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
+        String sql = "select article_image from " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE
+                + " where article_user_id = " + user_id;
+        LogUtils.d(TAG, sql);
+        Cursor c = db.rawQuery(sql, null);
+        while (c.moveToNext()) {
+            mlists.add(c.getString(c.getColumnIndex("article_image")));
+        }
+        if (c != null && !c.isClosed()) {
+            c.close();
+        }
+
+        if (db != null && db.isOpen()) {
+            db.close();
+        }
+        return mlists;
+    }
+
+    @Override
+    public boolean deleteArticleFromArticleID(int article_id) {
+        SQLiteDatabase db = lifeTimeSQLiteOpenHelper.getWritableDatabase();
+        try {
+            db.beginTransaction();
+            String sql = "delete from " + LifeTimeSQLiteOpenHelper.DYNAMIC_ARTICLE + " where article_id=" + article_id;
+            db.execSQL(sql);
+            LogUtils.d(TAG, sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

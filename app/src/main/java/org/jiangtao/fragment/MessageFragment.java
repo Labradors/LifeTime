@@ -1,8 +1,8 @@
 package org.jiangtao.fragment;
 
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +11,11 @@ import org.jiangtao.lifetime.R;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 个人消息界面
  */
 public class MessageFragment extends android.support.v4.app.Fragment {
 
+    private View mView;
 
     public MessageFragment() {
     }
@@ -22,7 +24,9 @@ public class MessageFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        mView = inflater.inflate(R.layout.fragment_message, container, false);
+
+        return mView;
     }
 
 

@@ -23,4 +23,8 @@ public interface DynamicArticleDao {
     public void updateDynamic(ArrayList<ArticleAllDynamic> articleAllDynamics) throws Exception;
 
     public ArrayList<ArticleAllDynamic> getFriendArticle() throws Exception;
+
+    public ArrayList<String> getGallery(int user_id) throws Exception;
+
+    public boolean deleteArticleFromArticleID(int article_id);
 }

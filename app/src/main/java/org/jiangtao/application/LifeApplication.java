@@ -64,7 +64,6 @@ public class LifeApplication extends Application {
         picasso = new Picasso.Builder(getApplicationContext())
                 .downloader(new OkHttpDownloader(new File(ConstantValues.saveCacheUri)))
                 .memoryCache(lruCache).build();
-        picasso.setIndicatorsEnabled(true);
         return picasso;
     }
 
