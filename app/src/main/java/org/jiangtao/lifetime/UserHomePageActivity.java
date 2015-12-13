@@ -25,7 +25,6 @@ import org.jiangtao.sql.DynamicArticleDaoImpl;
 import org.jiangtao.sql.FriendBusinessImpl;
 import org.jiangtao.utils.ConstantValues;
 import org.jiangtao.utils.LogUtils;
-import org.jiangtao.utils.TurnActivity;
 
 import java.util.ArrayList;
 
@@ -177,8 +176,8 @@ public class UserHomePageActivity extends AppCompatActivity {
                                 R.string.article_network_error, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    LogUtils.d(TAG,"为什么");
-                    TurnActivity.turnLoginActivity(UserHomePageActivity.this);
+                    Toast.makeText(UserHomePageActivity.this, R.string.no_login,Toast.LENGTH_LONG).show();
+
                 }
             }
         });

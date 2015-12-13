@@ -16,8 +16,7 @@
             android:id="@+id/imageview_fragment_love"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/not_network"/>
+            android:scaleType="fitXY"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/love_recycleview"

@@ -16,7 +16,7 @@
     <application
         android:name="org.jiangtao.application.LifeApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/lifetime"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
@@ -90,6 +90,13 @@
             android:name=".ImageActivity"
             android:label="@string/title_activity_image"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".GalleryActivity"
+            android:label="@string/title_activity_gallery"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".HomePageActivity">
         </activity>
     </application>
 

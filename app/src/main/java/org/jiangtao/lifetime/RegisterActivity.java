@@ -240,7 +240,8 @@ public class RegisterActivity extends AppCompatActivity {
         if (flag == 1) {
             getEditTextValue();
             if (mUserName != null && mPassWord != null && mRepeatPassWord != null
-                    && mEmail != null) {
+                    && mEmail != null && mUserName != "" && mPassWord != "" && mRepeatPassWord != ""
+                    && mEmail != "") {
                 if (ValidateEmailAndNumber.isEmail(mEmail)) {
 
                     if (ValidateEmailAndNumber.isCommonValue(mPassWord, mRepeatPassWord)) {
@@ -257,16 +258,13 @@ public class RegisterActivity extends AppCompatActivity {
                             .show();
                     flag = 1;
                 }
+            } else {
+                Snackbar.make(container, R.string.input_not_null, Snackbar.LENGTH_SHORT)
+                        .show();
+                flag = 1;
             }
         }
         return false;
-    }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        finish();
     }
 
     /**

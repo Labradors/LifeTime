@@ -24,7 +24,8 @@
         app:headerLayout="@layout/layout_header"
         app:itemIconTint="@android:color/holo_blue_bright"
         app:itemTextColor="@android:color/holo_blue_light"
-        app:menu="@menu/layout_menu" />
+        app:menu="@menu/layout_menu"
+        android:clickable="true"/>
 
 
 </android.support.v4.widget.DrawerLayout>

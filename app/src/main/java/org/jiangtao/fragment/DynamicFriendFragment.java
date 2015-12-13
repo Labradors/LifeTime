@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.jiangtao.adapter.FriendAdapter;
 import org.jiangtao.application.LifeApplication;
@@ -23,7 +24,6 @@ import org.jiangtao.lifetime.R;
 import org.jiangtao.networkutils.ObtainFriend;
 import org.jiangtao.sql.FriendBusinessImpl;
 import org.jiangtao.utils.LogUtils;
-import org.jiangtao.utils.TurnActivity;
 
 import java.util.ArrayList;
 
@@ -62,7 +62,7 @@ public class DynamicFriendFragment extends android.support.v4.app.Fragment imple
                 case 0x224: {
                     mFriendAdapter.notifyDataSetChanged();
                     mSwipeRefreshLayout.setRefreshing(false);
-                    TurnActivity.turnLoginActivity(mContext);
+                    Toast.makeText(mContext, R.string.no_login,Toast.LENGTH_LONG).show();
                     break;
                 }
             }

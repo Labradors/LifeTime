@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -22,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.User;
@@ -149,7 +149,7 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     if (LifeApplication.isLogin) {
                         TurnActivity.turnWrietDynamicActivity(IndexActivity.this);
                     } else {
-                        TurnActivity.turnLoginActivity(IndexActivity.this);
+                        Toast.makeText(IndexActivity.this, R.string.no_login, Toast.LENGTH_LONG).show();
                     }
                     break;
                 case R.id.pup_btn_writenote:
@@ -203,9 +203,10 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
      * 对actionabr的操作
      */
     private void manageActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setDefaultDisplayHomeAsUpEnabled(true);
     }
 
     /**
@@ -333,12 +334,36 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
 
     public void messageOnClik(View v) {
         switch (v.getId()) {
-            case R.id.message_tv_mycollection:
-                TurnActivity.turnMyCollectionActivity(IndexActivity.this);
+            case R.id.messagepage_gallery: {
+                if (LifeApplication.isLogin) {
+                    Intent intent = new Intent(IndexActivity.this, GalleryActivity.class);
+                    startActivity(intent);
+                } else {
+                    TurnActivity.turnLoginActivity(IndexActivity.this);
+                }
                 break;
-            case R.id.message_tv_mydynamic:
-                TurnActivity.turnMyDynamicActivity(IndexActivity.this);
+            }
+            case R.id.messagepage_drafts: {
+
                 break;
+            }
+            case R.id.messagepage_share: {
+
+                break;
+            }
+            case R.id.messagepage_love: {
+
+                break;
+            }
+            case R.id.messagepage_comment: {
+
+                break;
+            }
+            case R.id.message_tv_mycollection: {
+
+                break;
+            }
+
         }
     }
 
@@ -421,8 +446,12 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_index: {
-                Intent intent = new Intent(IndexActivity.this, DynamicActivity.class);
-                startActivity(intent);
+                if (LifeApplication.isLogin) {
+                    Intent intent = new Intent(IndexActivity.this, HomePageActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(IndexActivity.this, R.string.no_login, Toast.LENGTH_LONG).show();
+                }
                 break;
             }
             case R.id.nav_attention: {
@@ -498,4 +527,18 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         return true;
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.home) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

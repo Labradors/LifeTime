@@ -29,10 +29,10 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
         mWelcomeImageView = (ImageView) findViewById(R.id.iv_welcome_activity_welcome);
         hideActionBar();
-        if (LifeApplication.hasNetWork) {
+        if (LifeApplication.getInstance().isNetworkAvailable()) {
             updateImageView();
         } else {
-            mWelcomeImageView.setImageResource(R.drawable.welcome);
+            mWelcomeImageView.setImageResource(R.drawable.t);
         }
         init();
 

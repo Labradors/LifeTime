@@ -15,12 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.jiangtao.adapter.DynamicAdapter;
+import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.ArticleAllDynamic;
 import org.jiangtao.lifetime.R;
 import org.jiangtao.sql.DynamicArticleBusinessImpl;
-import org.jiangtao.utils.LogUtils;
 
 import java.util.ArrayList;
 
@@ -88,8 +89,13 @@ public class DynamicInfoFragment extends android.support.v4.app.Fragment impleme
 
     private void requestSqliteData() {
         mSwipeRefreshLayout.setColorScheme(android.R.color.holo_blue_light);
-        mSwipeRefreshLayout.setRefreshing(true);
-       new ObtainFriendArticle().execute();
+        if (LifeApplication.isLogin) {
+            mSwipeRefreshLayout.setRefreshing(true);
+            new ObtainFriendArticle().execute();
+        }else {
+            Toast.makeText(mContext, R.string.no_login,Toast.LENGTH_LONG).show();
+            mHandler.sendEmptyMessage(0x112);
+        }
     }
 
     private void controlsInit() {
@@ -109,7 +115,6 @@ public class DynamicInfoFragment extends android.support.v4.app.Fragment impleme
     @Override
     public void onRefresh() {
         requestSqliteData();
-        LogUtils.d(TAG, "你好啊 啊啊啊  ");
     }
 
     /**

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.ArticleAllDynamic;
 import org.jiangtao.lifetime.CommentActivity;
+import org.jiangtao.lifetime.HomePageActivity;
 import org.jiangtao.lifetime.ImageActivity;
 import org.jiangtao.lifetime.R;
 import org.jiangtao.lifetime.UserHomePageActivity;
@@ -64,7 +65,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             public void onItemClicked(View view, int position) {
                 switch (view.getId()) {
                     case R.id.profile_image_listview: {
-                        Toast.makeText(view.getContext(), position + "=====", Toast.LENGTH_LONG).show();
                         openHomePage(position);
                         break;
                     }
@@ -189,10 +189,21 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
      * @param position
      */
     public void openHomePage(int position) {
-        Intent intent = new Intent(mContext, UserHomePageActivity.class);
-        int article_user_id = mList.get(position).getArticle_user_id();
-        intent.putExtra("user_id", article_user_id);
-        mContext.startActivity(intent);
+        if (LifeApplication.getInstance().isNetworkAvailable()) {
+         if (mList.get(position).getArticle_user_id()==LifeApplication.user_id){
+             Intent intent = new Intent(mContext, HomePageActivity.class);
+             mContext.startActivity(intent);
+         }else {
+             Intent intent = new Intent(mContext, UserHomePageActivity.class);
+             int article_user_id = mList.get(position).getArticle_user_id();
+             intent.putExtra("user_id", article_user_id);
+             mContext.startActivity(intent);
+         }
+        }
+        else {
+            Toast.makeText(mContext, R.string.article_network_error,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

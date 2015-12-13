@@ -26,5 +26,9 @@ public interface DynamicArticleBusiness {
 
     public ArrayList<ArticleAllDynamic> getDynamicArticleByLove() throws Exception;
 
+    public ArrayList<String> getGallery(int user_id) throws Exception;
+
+    public boolean deleteArticleFromArticleID(int article_id) throws Exception;
+
 
 }

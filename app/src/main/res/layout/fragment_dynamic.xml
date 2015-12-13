@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:src="@drawable/not_network"/>
+           />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/dynamic_recycleview"
