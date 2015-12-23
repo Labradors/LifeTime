@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":sharesdk" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="com.wrapp.floatlabelededittext" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":ZXing" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="com.wrapp.floatlabelededittext" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
-        <option name="GRADLE_PROJECT_PATH" value=":sharesdk" />
+        <option name="GRADLE_PROJECT_PATH" value=":ZXing" />
       </configuration>
     </facet>
     <facet type="android" name="Android">
@@ -65,7 +65,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/annotations" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
@@ -80,23 +79,6 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="MobCommons" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-QQ-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="MobTools" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-QZone-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Email-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Twitter-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Core-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Facebook-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-ShortMessage-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-SinaWeibo-2.6.5" level="project" />
+    <orderEntry type="library" exported="" name="zxing" level="project" />
   </component>
 </module>
