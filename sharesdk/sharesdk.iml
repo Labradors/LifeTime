@@ -81,8 +81,8 @@
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.6.5" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-2.6.5" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="MobCommons" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.6.5" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-TencentWeibo-2.6.5" level="project" />

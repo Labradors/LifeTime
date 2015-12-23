@@ -1,1 +1,2 @@
-include ':app', ':sharesdk', ':onekeyshare'
+include ':sharesdk', ':onekeyshare', ':app', ':'
+include ':ZXing'

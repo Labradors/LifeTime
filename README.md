@@ -19,6 +19,7 @@ A android client about life record .
 ## Enter user index
 ### Error
 1. get the position is sure after enter user index.
+2.明天完成收藏，照相机照相上传文章。
 
 
 

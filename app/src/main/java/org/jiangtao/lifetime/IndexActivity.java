@@ -3,6 +3,7 @@ package org.jiangtao.lifetime;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
@@ -22,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.zxing.activity.CaptureActivity;
 
 import org.jiangtao.application.LifeApplication;
 import org.jiangtao.bean.User;
@@ -143,8 +146,11 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                     Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(camera, Activity.DEFAULT_KEYS_DIALER);
                     break;
-                case R.id.pup_btn_richscan:
+                case R.id.pup_btn_richscan: {
+                    Intent startScan = new Intent(IndexActivity.this, CaptureActivity.class);
+                    startActivityForResult(startScan, 0);
                     break;
+                }
                 case R.id.pup_btn_writedynamic:
                     if (LifeApplication.isLogin) {
                         TurnActivity.turnWrietDynamicActivity(IndexActivity.this);
@@ -264,8 +270,9 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
              */
             case R.id.ibtn_activity_index_pupopwindow: {
                 menuWindow = new Popupwindow(IndexActivity.this, itemsOnClick);
+                //设置layout在PopupWindow中显示的位置
                 menuWindow.showAtLocation(IndexActivity.this.findViewById(R.id.ibtn_activity_index_pupopwindow),
-                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
             }
 
@@ -433,6 +440,12 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
                         .hide(fragments[3])
                         .commitAllowingStateLoss();
             }
+        }
+        if (resultCode == RESULT_OK) {
+            String url = data.getExtras().getString("result");
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         }
     }
 
